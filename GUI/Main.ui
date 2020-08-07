@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>746</width>
-    <height>585</height>
+    <width>800</width>
+    <height>600</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="TAB_Pedido">
      <attribute name="title">
@@ -264,7 +264,7 @@
       <property name="geometry">
        <rect>
         <x>660</x>
-        <y>10</y>
+        <y>60</y>
         <width>111</width>
         <height>31</height>
        </rect>
@@ -277,7 +277,7 @@
       <property name="geometry">
        <rect>
         <x>660</x>
-        <y>50</y>
+        <y>90</y>
         <width>111</width>
         <height>31</height>
        </rect>
@@ -290,7 +290,7 @@
       <property name="geometry">
        <rect>
         <x>660</x>
-        <y>90</y>
+        <y>120</y>
         <width>111</width>
         <height>31</height>
        </rect>
@@ -536,6 +536,19 @@
        <bool>true</bool>
       </property>
      </widget>
+     <widget class="QPushButton" name="PBT_Novo">
+      <property name="geometry">
+       <rect>
+        <x>660</x>
+        <y>30</y>
+        <width>111</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Novo</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="TAB_Estoque">
      <attribute name="title">
@@ -736,7 +749,7 @@
      <widget class="QPushButton" name="PBT_EditarCNTR">
       <property name="geometry">
        <rect>
-        <x>560</x>
+        <x>580</x>
         <y>40</y>
         <width>91</width>
         <height>31</height>
@@ -749,7 +762,7 @@
      <widget class="QPushButton" name="PBT_IncluirCNTR">
       <property name="geometry">
        <rect>
-        <x>450</x>
+        <x>490</x>
         <y>40</y>
         <width>91</width>
         <height>31</height>
