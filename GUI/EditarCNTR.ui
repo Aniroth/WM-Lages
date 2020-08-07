@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>WINDOW_EditarCNTR</class>
+ <widget class="QDialog" name="WINDOW_EditarCNTR">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>389</width>
+    <height>156</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Editar Container</string>
+  </property>
+  <widget class="QLabel" name="LBL_Armador">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>10</y>
+     <width>111</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Armador</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="LBL_Pedido">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>10</y>
+     <width>111</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Pedido</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="CBX_Armador">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>30</y>
+     <width>111</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>HSUD</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>MSC</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>MAERSK</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>CMA CGM</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>HAPAG LLOYD</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>COSCO</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>MERCOSUL</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>ONE</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>ZIM</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>YML</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>FR MEYERS</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLabel" name="LBL_Tara">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>110</y>
+     <width>111</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Tara</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="TXB_Unidade">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>30</y>
+     <width>113</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="LBL_Unidade">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>111</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Container</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="LBL_BKfantasma">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>60</y>
+     <width>111</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Booking Fantasma</string>
+   </property>
+  </widget>
+  <widget class="QDateEdit" name="DATE_Coleta">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>130</y>
+     <width>110</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="calendarPopup">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="SBX_Tara">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>130</y>
+     <width>111</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="LBL_BKreal">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>60</y>
+     <width>111</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Booking Real</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="TXB_BKFantasma">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>80</y>
+     <width>113</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="TXB_BKReal">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>80</y>
+     <width>113</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="TXB_Pedido">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>30</y>
+     <width>113</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="LBL_Colete">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>110</y>
+     <width>111</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Data de Coleta</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="PBT_Gravar">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>70</y>
+     <width>111</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Gravar</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="PBT_Cancelar">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>120</y>
+     <width>111</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Cancelar</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
