@@ -14,15 +14,28 @@ class DataBaseConnection:
     def SavePedido(self, pedido):
         self.OpenDB()
 
-        cntrsSTR = None
-        for cntr in pedido.cntrs:
-            cntrsSTR += cntr
-
-        data = (pedido.numero, 0, pedido.booking, pedido.status, 
+        dataStream = (pedido.numero, 1, pedido.booking, pedido.status, 
                 pedido.cabotagem, pedido.expurgo, pedido.armador, 
                 pedido.fabrica, pedido.porto, pedido.DLfabrica, pedido.DLporto,
-                cntrsSTR, pedido.terminal, pedido.janelaInicio, pedido.janelaFim)
+                pedido.janelaInicio, pedido.janelaFim, pedido.cntrs, pedido.terminal)
         
-        self.cursor.execute("INSERT OR REPLACE INTO Pedidos VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", data)
+        print (dataStream)
+
+        self.cursor.execute("INSERT OR REPLACE INTO Pedidos VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", dataStream)
         self.conn.commit()
+
         self.CloseDB()
+    
+    def FillPedidoSearch(self, keySearch, valueSeach):
+        self.OpenDB()
+
+        self.cursor.execute("""
+                            SELECT pedido, booking, status, deadlinePorto FROM Pedidos
+                            WHERE """ + str(keySearch) + " LIKE ?"
+                            , ('%' + str(valueSeach) + '%',))
+        
+
+        result = self.cursor.fetchall()
+        self.CloseDB()
+        return result
+

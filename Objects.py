@@ -1,8 +1,8 @@
 class Pedido(object):
 
     def __init__(self, _pedido, _booking, _status, _cabotagem, _Expurgo, _armador, 
-                _fabrica, _porto, _DLfabrica, _DLporto, _cntrs = [], _terminal = None,
-                _janelaInicio = None, _janelaFim = None):
+                _fabrica, _porto, _DLfabrica, _DLporto, _janelaInicio, _janelaFim,
+                _cntrs = [], _terminal = None,):
         
         self.numero = _pedido
         self.status = _status

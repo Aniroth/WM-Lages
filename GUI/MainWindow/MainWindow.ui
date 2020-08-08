@@ -24,7 +24,7 @@
     <item>
      <widget class="QTabWidget" name="abas">
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="TAB_Pedido">
        <property name="sizePolicy">
@@ -723,19 +723,6 @@
           </property>
          </widget>
         </item>
-        <item row="6" column="0">
-         <widget class="QLabel" name="LBL_Armador">
-          <property name="maximumSize">
-           <size>
-            <width>110</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Armador</string>
-          </property>
-         </widget>
-        </item>
         <item row="9" column="10">
          <widget class="QPushButton" name="PBT_Novo">
           <property name="sizePolicy">
@@ -758,6 +745,31 @@
           </property>
           <property name="text">
            <string>Novo</string>
+          </property>
+         </widget>
+        </item>
+        <item row="9" column="8">
+         <widget class="QPushButton" name="PBT_Buscar">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>110</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>110</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Buscar</string>
           </property>
          </widget>
         </item>
@@ -786,8 +798,8 @@
           </property>
          </widget>
         </item>
-        <item row="9" column="8">
-         <widget class="QPushButton" name="PBT_Buscar">
+        <item row="5" column="4">
+         <widget class="QCheckBox" name="CHB_Cabotagem">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -797,7 +809,7 @@
           <property name="minimumSize">
            <size>
             <width>110</width>
-            <height>30</height>
+            <height>0</height>
            </size>
           </property>
           <property name="maximumSize">
@@ -807,7 +819,7 @@
            </size>
           </property>
           <property name="text">
-           <string>Buscar</string>
+           <string>Cabotagem</string>
           </property>
          </widget>
         </item>
@@ -861,20 +873,8 @@
           </property>
          </widget>
         </item>
-        <item row="5" column="4">
-         <widget class="QCheckBox" name="CHB_Cabotagem">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>110</width>
-            <height>0</height>
-           </size>
-          </property>
+        <item row="6" column="0">
+         <widget class="QLabel" name="LBL_Armador">
           <property name="maximumSize">
            <size>
             <width>110</width>
@@ -882,7 +882,7 @@
            </size>
           </property>
           <property name="text">
-           <string>Cabotagem</string>
+           <string>Armador</string>
           </property>
          </widget>
         </item>

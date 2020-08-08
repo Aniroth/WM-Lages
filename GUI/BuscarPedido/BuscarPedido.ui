@@ -37,26 +37,26 @@
    </property>
    <item>
     <property name="text">
-     <string>Pedido</string>
+     <string>pedido</string>
     </property>
    </item>
    <item>
     <property name="text">
-     <string>Booking</string>
+     <string>booking</string>
     </property>
    </item>
    <item>
     <property name="text">
-     <string>Container</string>
+     <string>status</string>
     </property>
    </item>
    <item>
     <property name="text">
-     <string>Armador</string>
+     <string>deadlinePorto</string>
     </property>
    </item>
   </widget>
-  <widget class="QTableWidget" name="tableWidget">
+  <widget class="QTableWidget" name="TABLE_BuscarPedido">
    <property name="geometry">
     <rect>
      <x>10</x>
