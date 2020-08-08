@@ -24,7 +24,7 @@
     <item>
      <widget class="QTabWidget" name="abas">
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="TAB_Pedido">
        <property name="sizePolicy">
@@ -228,7 +228,7 @@
            </size>
           </property>
           <property name="text">
-           <string>Origem</string>
+           <string>Fábrica</string>
           </property>
          </widget>
         </item>
@@ -347,7 +347,7 @@
            </size>
           </property>
           <property name="text">
-           <string>Destino</string>
+           <string>Porto</string>
           </property>
          </widget>
         </item>
