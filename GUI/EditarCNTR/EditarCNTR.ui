@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>WINDOW_EditarCNTR</class>
- <widget class="QDialog" name="WINDOW_EditarCNTR">
+ <class>DIALOG_EditarCNTR</class>
+ <widget class="QDialog" name="DIALOG_EditarCNTR">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>389</width>
-    <height>156</height>
+    <width>400</width>
+    <height>173</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -259,6 +259,17 @@
    </property>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>TXB_Unidade</tabstop>
+  <tabstop>TXB_BKReal</tabstop>
+  <tabstop>TXB_BKFantasma</tabstop>
+  <tabstop>DATE_Coleta</tabstop>
+  <tabstop>SBX_Tara</tabstop>
+  <tabstop>CBX_Armador</tabstop>
+  <tabstop>TXB_Pedido</tabstop>
+  <tabstop>PBT_Gravar</tabstop>
+  <tabstop>PBT_Cancelar</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

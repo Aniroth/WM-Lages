@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DIALOG_EditarViagem</class>
+ <widget class="QDialog" name="DIALOG_EditarViagem">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>540</width>
+    <height>230</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle">
+   <string>Editar Viagem</string>
+  </property>
+  <widget class="QLabel" name="LBL_TipoViagem">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>20</y>
+     <width>121</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Tipo de Viagem</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="CBX_TipoViagem">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>40</y>
+     <width>121</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>Coleta de Vázio</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Unitização Fábrica</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Transferência Porto</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Frete Morto</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QComboBox" name="CBX_Origem">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>100</y>
+     <width>121</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>Coleta de Vázio</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Unitização Fábrica</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Transferência Porto</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Frete Morto</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLabel" name="LBL_Origem">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>80</y>
+     <width>121</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Origem</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="CBX_Destino">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>100</y>
+     <width>121</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>Coleta de Vázio</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Unitização Fábrica</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Transferência Porto</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Frete Morto</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLabel" name="LBL_Destino">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>80</y>
+     <width>121</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Destino</string>
+   </property>
+  </widget>
+  <widget class="QDateEdit" name="DATE_Inicio">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>100</y>
+     <width>121</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="LBL_Inicio">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>80</y>
+     <width>121</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Início</string>
+   </property>
+  </widget>
+  <widget class="QDateEdit" name="DATE_Fim">
+   <property name="geometry">
+    <rect>
+     <x>400</x>
+     <y>100</y>
+     <width>121</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="LBL_Origem_3">
+   <property name="geometry">
+    <rect>
+     <x>400</x>
+     <y>80</y>
+     <width>121</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Fim</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="LBL_CPF">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>140</y>
+     <width>121</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>CPF</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>160</y>
+     <width>121</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit_2">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>160</y>
+     <width>251</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="LBL_Motorista">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>140</y>
+     <width>121</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Motorista</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit_3">
+   <property name="geometry">
+    <rect>
+     <x>400</x>
+     <y>160</y>
+     <width>61</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="LBL_Cavalo">
+   <property name="geometry">
+    <rect>
+     <x>400</x>
+     <y>140</y>
+     <width>61</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Placa Cavalo</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="LBL_Carreta">
+   <property name="geometry">
+    <rect>
+     <x>470</x>
+     <y>140</y>
+     <width>71</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Placa Carreta</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit_4">
+   <property name="geometry">
+    <rect>
+     <x>470</x>
+     <y>160</y>
+     <width>61</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="CHB_Spot">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>40</y>
+     <width>111</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Carga Spot</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="PBT_Gravar">
+   <property name="geometry">
+    <rect>
+     <x>460</x>
+     <y>192</y>
+     <width>75</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Gravar</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="PBT_Cancelar">
+   <property name="geometry">
+    <rect>
+     <x>380</x>
+     <y>192</y>
+     <width>75</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Cancelar</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
