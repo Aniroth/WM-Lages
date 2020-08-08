@@ -1,12 +1,12 @@
-import sys
+from PyQt5.QtWidgets import QApplication
+from LogicGUI import MainWindow
 
-from LogicMainWindow import Logic_MainWindow
-from Pedidos import Pedido
+import sys
 
 def main():
     app = QApplication(sys.argv)
     app.setStyle('Fusion')
-    form = Logic_MainWindow()
+    form = MainWindow()
     form.showMaximized()
     app.exec_()
 

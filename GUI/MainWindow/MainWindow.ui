@@ -24,7 +24,7 @@
     <item>
      <widget class="QTabWidget" name="abas">
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="TAB_Pedido">
        <property name="sizePolicy">
@@ -1692,23 +1692,44 @@
  </widget>
  <tabstops>
   <tabstop>TXB_Pedido</tabstop>
+  <tabstop>TXB_Booking</tabstop>
   <tabstop>DATE_DL_Fabrica</tabstop>
   <tabstop>DATE_DL_Porto</tabstop>
   <tabstop>DATE_InicioJanela</tabstop>
   <tabstop>DATE_FimJanela</tabstop>
-  <tabstop>CBX_Fabrica</tabstop>
-  <tabstop>CBX_Porto</tabstop>
   <tabstop>CBX_Armador</tabstop>
   <tabstop>CBX_TerminalVazio</tabstop>
   <tabstop>SBX_QtdeCntr</tabstop>
+  <tabstop>CBX_Fabrica</tabstop>
+  <tabstop>CBX_Porto</tabstop>
+  <tabstop>CHB_Cabotagem</tabstop>
+  <tabstop>CHB_Expurgo</tabstop>
   <tabstop>CBX_Status</tabstop>
+  <tabstop>PBT_Excluir</tabstop>
+  <tabstop>PBT_Buscar</tabstop>
+  <tabstop>PBT_Salvar</tabstop>
+  <tabstop>PBT_Novo</tabstop>
   <tabstop>TABLE_Status</tabstop>
+  <tabstop>abas</tabstop>
   <tabstop>TXB_BK</tabstop>
   <tabstop>TXB_CNTR</tabstop>
   <tabstop>CBX_ArmadorEstoque</tabstop>
-  <tabstop>TABLE_Estoque</tabstop>
-  <tabstop>PBT_AplicarFiltro</tabstop>
+  <tabstop>PBT_IncluirCNTR</tabstop>
+  <tabstop>PBT_ExcluirCNTR</tabstop>
   <tabstop>PBT_EditarCNTR</tabstop>
+  <tabstop>PBT_AplicarFiltro</tabstop>
+  <tabstop>TABLE_Estoque</tabstop>
+  <tabstop>TXB_SelecionarCNTR</tabstop>
+  <tabstop>PBT_SelecionarCNTR</tabstop>
+  <tabstop>TXB_BookingViagem</tabstop>
+  <tabstop>TXB_TaraViagem</tabstop>
+  <tabstop>TXB_ArmadorViagem</tabstop>
+  <tabstop>DATE_InicioViagem</tabstop>
+  <tabstop>DATE_FimViagem</tabstop>
+  <tabstop>PBT_ExcluirViagem</tabstop>
+  <tabstop>PBT_NovaViagem</tabstop>
+  <tabstop>PBT_EditarViagem</tabstop>
+  <tabstop>TABLE_Viagens</tabstop>
  </tabstops>
  <resources/>
  <connections/>

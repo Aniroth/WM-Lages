@@ -1,17 +1,28 @@
 from typing import TypeVar
-import Pedidos
-import CNTRs
-import Viagens
+from Objects import *
 import sqlite3
 
-def SavePedido(pedido):
+class DataBaseConnection:
 
-    for cntr in pedido.cntrs:
-        cntrsSTR += cntr
-
-    data = (pedido.numero, 0, pedido.booking, pedido.status, cntrsSTR, 
-            pedido.cabotagem, pedido.expurgo, pedido.armador, pedido.armador, 
-            pedido.origem, pedido.destino, pedido.DLfabrica, pedido.DLporto,
-            pedido.janelaInicio, pedido.janelaFim)
+    def OpenDB(self):
+        self.conn = sqlite3.connect('BancoDeDados\\Banco de Dados.db')
+        self.cursor = self.conn.cursor()
     
-    print (data)
+    def CloseDB(self):
+        self.conn.close()
+
+    def SavePedido(self, pedido):
+        self.OpenDB()
+
+        cntrsSTR = None
+        for cntr in pedido.cntrs:
+            cntrsSTR += cntr
+
+        data = (pedido.numero, 0, pedido.booking, pedido.status, 
+                pedido.cabotagem, pedido.expurgo, pedido.armador, 
+                pedido.fabrica, pedido.porto, pedido.DLfabrica, pedido.DLporto,
+                cntrsSTR, pedido.terminal, pedido.janelaInicio, pedido.janelaFim)
+        
+        self.cursor.execute("INSERT OR REPLACE INTO Pedidos VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", data)
+        self.conn.commit()
+        self.CloseDB()
