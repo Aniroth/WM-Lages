@@ -10,7 +10,7 @@ class Logic_MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setupConnections(self)
 
     def setupConnections(self, MainWindow):
-        MainWindow.PBT_Novo.clicked.connect(self.ClickTeste)
+        MainWindow.PBT_Salvar.clicked.connect(self.SalvarPedido)
     
-    def ClickTeste(self):
+    def SalvarPedido(self):
         print("TESTE")
