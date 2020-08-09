@@ -1,7 +1,7 @@
-from typing import TypeVar
 from Objects import *
 import sqlite3
 
+#SINGLETON#
 class DataBaseConnectionMeta(type):
     _instances = {}
 
@@ -45,10 +45,6 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
         self.cursor.execute("INSERT OR REPLACE INTO Pedidos VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", dataStream)
         self.conn.commit()
 
-    """def __init__(self, _cntr, _status, _booking, 
-                _tara, _armador, _terminal, _dataColeta, 
-                _freeTime, _obs = '', _expurgo = 0):"""
-
     def SaveCNTR(self, CNTR):
 
         if not (self.isDBopened):
@@ -86,8 +82,21 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
         dataStream = self.cursor.fetchone()
 
         return dataStream
-
     
+    def OpenCNTR(self, cntr):
+        
+        if not (self.isDBopened):
+            self.OpenDB()
+
+        self.cursor.execute("""
+                            SELECT * FROM CNTRs
+                            WHERE cntr = ?
+                            """, (str(cntr),))
+        
+        dataStream = self.cursor.fetchone()
+
+        return dataStream
+
     def GetCNTRs(self, booking):
         
         if not (self.isDBopened):
