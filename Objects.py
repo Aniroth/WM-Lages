@@ -2,7 +2,7 @@ class Pedido(object):
 
     def __init__(self, _pedido, _booking, _status, _cabotagem, _Expurgo, _armador, 
                 _fabrica, _porto, _DLfabrica, _DLporto, _janelaInicio, _janelaFim,
-                _cntrs = [], _terminal = None,):
+                _cntrs = '', _terminal = ''):
         
         self.numero = _pedido
         self.status = _status
@@ -22,7 +22,7 @@ class Pedido(object):
 class CNTR(object):
 
     def __init__(self, _cntr, _status, _bookingFantasma, 
-                _tara, _bookingReal = None, _pesoBruto = None, _viagens = []):
+                _tara, _bookingReal = '', _pesoBruto = 0, _viagens = []):
 
         self.numero = _cntr
         self.status = _status

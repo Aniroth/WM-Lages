@@ -24,7 +24,7 @@
     <item>
      <widget class="QTabWidget" name="abas">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="TAB_Pedido">
        <property name="sizePolicy">
@@ -1110,7 +1110,29 @@
           </item>
          </widget>
         </item>
-        <item row="1" column="7">
+        <item row="1" column="1">
+         <widget class="QLineEdit" name="TXB_CNTR">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>110</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>110</width>
+            <height>16777215</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="3">
          <widget class="QPushButton" name="PBT_AplicarFiltro">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -1135,73 +1157,7 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="1">
-         <widget class="QLineEdit" name="TXB_CNTR">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>110</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>110</width>
-            <height>16777215</height>
-           </size>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="4">
-         <widget class="QPushButton" name="PBT_IncluirCNTR">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>110</width>
-            <height>30</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>110</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Incluir</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="5">
-         <widget class="QPushButton" name="PBT_ExcluirCNTR">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>110</width>
-            <height>30</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Excluir</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="6">
+        <item row="1" column="7">
          <widget class="QPushButton" name="PBT_EditarCNTR">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -1223,6 +1179,50 @@
           </property>
           <property name="text">
            <string>Editar CNTR</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="6">
+         <widget class="QPushButton" name="PBT_ExcluirCNTR">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>110</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Excluir</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="5">
+         <widget class="QPushButton" name="PBT_IncluirCNTR">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>110</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>110</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Incluir</string>
           </property>
          </widget>
         </item>
@@ -1714,10 +1714,6 @@
   <tabstop>TXB_BK</tabstop>
   <tabstop>TXB_CNTR</tabstop>
   <tabstop>CBX_ArmadorEstoque</tabstop>
-  <tabstop>PBT_IncluirCNTR</tabstop>
-  <tabstop>PBT_ExcluirCNTR</tabstop>
-  <tabstop>PBT_EditarCNTR</tabstop>
-  <tabstop>PBT_AplicarFiltro</tabstop>
   <tabstop>TABLE_Estoque</tabstop>
   <tabstop>TXB_SelecionarCNTR</tabstop>
   <tabstop>PBT_SelecionarCNTR</tabstop>

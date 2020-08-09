@@ -16,7 +16,7 @@
   <widget class="QLabel" name="LBL_Armador">
    <property name="geometry">
     <rect>
-     <x>270</x>
+     <x>140</x>
      <y>10</y>
      <width>111</width>
      <height>16</height>
@@ -26,23 +26,10 @@
     <string>Armador</string>
    </property>
   </widget>
-  <widget class="QLabel" name="LBL_Pedido">
-   <property name="geometry">
-    <rect>
-     <x>140</x>
-     <y>10</y>
-     <width>111</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Pedido</string>
-   </property>
-  </widget>
   <widget class="QComboBox" name="CBX_Armador">
    <property name="geometry">
     <rect>
-     <x>270</x>
+     <x>140</x>
      <y>30</y>
      <width>111</width>
      <height>22</height>
@@ -175,6 +162,9 @@
      <height>22</height>
     </rect>
    </property>
+   <property name="maximum">
+    <number>5000</number>
+   </property>
   </widget>
   <widget class="QLabel" name="LBL_BKreal">
    <property name="geometry">
@@ -204,16 +194,6 @@
     <rect>
      <x>10</x>
      <y>80</y>
-     <width>113</width>
-     <height>20</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="TXB_Pedido">
-   <property name="geometry">
-    <rect>
-     <x>140</x>
-     <y>30</y>
      <width>113</width>
      <height>20</height>
     </rect>
@@ -258,6 +238,59 @@
     <string>Cancelar</string>
    </property>
   </widget>
+  <widget class="QComboBox" name="CBX_Status">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>30</y>
+     <width>111</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>Vazio</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Em Trânsito Fábricas</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Unitizado</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Em Expurgo</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Em Trânsito Porto</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Finalizado</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLabel" name="LBL_Status">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>10</y>
+     <width>111</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Status</string>
+   </property>
+  </widget>
  </widget>
  <tabstops>
   <tabstop>TXB_Unidade</tabstop>
@@ -266,7 +299,6 @@
   <tabstop>DATE_Coleta</tabstop>
   <tabstop>SBX_Tara</tabstop>
   <tabstop>CBX_Armador</tabstop>
-  <tabstop>TXB_Pedido</tabstop>
   <tabstop>PBT_Gravar</tabstop>
   <tabstop>PBT_Cancelar</tabstop>
  </tabstops>
