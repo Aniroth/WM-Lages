@@ -25,6 +25,20 @@ class DataBaseConnection:
         self.conn.commit()
 
         self.CloseDB()
+
+    def OpenPendido(self, pedido):
+        self.OpenDB()
+
+        self.cursor.execute("""
+                            SELECT * FROM Pedidos
+                            WHERE pedido = ?
+                            """, (str(pedido),))
+        
+        dataStream = self.cursor.fetchone()
+
+        self.CloseDB()
+        return dataStream
+
     
     def FillPedidoSearch(self, keySearch, valueSeach):
         self.OpenDB()
@@ -34,8 +48,7 @@ class DataBaseConnection:
                             WHERE """ + str(keySearch) + " LIKE ?"
                             , ('%' + str(valueSeach) + '%',))
         
-
         result = self.cursor.fetchall()
+
         self.CloseDB()
         return result
-

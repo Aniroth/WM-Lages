@@ -2,7 +2,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QTableWidgetItem
 
-"""GUI Drawners imports"""
+"""GUI Draw imports"""
 from GUI.MainWindow.DrawMainWindow import Ui_MainWindow
 from GUI.BuscarPedido.DrawBuscarPedido import Ui_DIALOG_BuscaPedido
 
@@ -17,9 +17,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.setupConnections()
         self.dataBase = DataBaseConnection()
+        self.NovoPedido()
 
     def setupConnections(self):
         self.PBT_Salvar.clicked.connect(self.SalvarPedido)
+        self.PBT_Novo.clicked.connect(self.NovoPedido)
         self.PBT_Buscar.clicked.connect(self.ShowBuscarPedido)
 
     def SalvarPedido(self):
@@ -44,12 +46,49 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         
         self.dataBase.SavePedido(novoPedido)
     
-    def CarregarPedido(self, numeroPedido):
-        return 'a'
+    def CarregarPedido(self, _numeroPedido):
+        datastream = self.dataBase.OpenPendido(str(_numeroPedido))
+
+        self.TXB_Pedido.setText(str(datastream[0]))
+        self.TXB_Booking.setText(str(datastream[2]))
+        self.CBX_Status.setCurrentText(str(datastream[3]))
+        self.CHB_Cabotagem.setChecked(bool(datastream[4]))
+        self.CHB_Expurgo.setChecked(bool(datastream[5]))
+        self.CBX_Armador.setCurrentText(str(datastream[6]))
+        self.CBX_Fabrica.setCurrentText(str(datastream[7]))
+        self.CBX_Porto.setCurrentText(str(datastream[8]))
+        self.DATE_DL_Fabrica.setDate(self.GetDate(datastream[9]))
+        self.DATE_DL_Porto.setDate(self.GetDate(datastream[10]))
+        self.DATE_InicioJanela.setDate(self.GetDate(datastream[11]))
+        self.DATE_FimJanela.setDate(self.GetDate(datastream[12]))
+        self.CBX_TerminalVazio.setCurrentText(str(datastream[14]))
 
     def ShowBuscarPedido(self):
         self.buscarPedidoDialog = BuscarPedidoDialog(self)
         self.buscarPedidoDialog.show()
+    
+    def NovoPedido(self):
+
+        today = QtCore.QDate.currentDate()
+
+        self.TXB_Pedido.setText("")
+        self.TXB_Booking.setText("")
+        self.CBX_Status.currentIndex = 0
+        self.CHB_Cabotagem.setChecked(False)
+        self.CHB_Expurgo.setChecked(False)
+        self.CBX_Armador.currentIndex = 0
+        self.CBX_Fabrica.currentIndex = 0
+        self.CBX_Porto.currentIndex = 0
+        self.DATE_DL_Fabrica.setDate(today)
+        self.DATE_DL_Porto.setDate(today)
+        self.DATE_InicioJanela.setDate(today)
+        self.DATE_FimJanela.setDate(today)
+        self.CBX_TerminalVazio.currentIndex = 0
+
+    def GetDate(self, sTime):
+        tempDate = str(sTime).split('/')
+        date = QtCore.QDate(int(tempDate[2]), int(tempDate[1]), int(tempDate[0]))
+        return date
 
 class BuscarPedidoDialog(QtWidgets.QDialog, Ui_DIALOG_BuscaPedido):
     def __init__(self, _parentWindow, parent=None):
@@ -58,6 +97,7 @@ class BuscarPedidoDialog(QtWidgets.QDialog, Ui_DIALOG_BuscaPedido):
         self.setupUi(self)
         self.setupConnections()
         self.dataBase = DataBaseConnection()
+        self.FillTable()
     
     def setupConnections(self):
         self.TXB_Busca.editingFinished.connect(self.FillTable)
@@ -75,6 +115,8 @@ class BuscarPedidoDialog(QtWidgets.QDialog, Ui_DIALOG_BuscaPedido):
 
         self.TABLE_BuscarPedido.setRowCount(len(dataStream))
         self.TABLE_BuscarPedido.setColumnCount(len(dataStream[0]))
+        columnNames = ['Pedido', 'Booking', 'Status', 'DeadLine']
+        self.TABLE_BuscarPedido.setHorizontalHeaderLabels(columnNames)
 
         for row in range(len(dataStream)):
 
@@ -84,7 +126,7 @@ class BuscarPedidoDialog(QtWidgets.QDialog, Ui_DIALOG_BuscaPedido):
     
     def SelecionarPedido(self):
         index = (self.TABLE_BuscarPedido.selectionModel().currentIndex())
-        value = index.sibling(index.row(), index.column()).data()
+        value = index.sibling(index.row(), 0).data()
+        
         self.parentWindow.CarregarPedido(value)
-        print(value)
-        self.destroy()
+        self.hide()
