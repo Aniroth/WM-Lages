@@ -24,7 +24,7 @@
     <item>
      <widget class="QTabWidget" name="abas">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="TAB_Pedido">
        <property name="sizePolicy">
@@ -855,11 +855,6 @@
           </column>
           <column>
            <property name="text">
-            <string>Cabotagem</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
             <string>CPF</string>
            </property>
           </column>
@@ -883,43 +878,6 @@
             <string>OBS</string>
            </property>
           </column>
-         </widget>
-        </item>
-        <item row="1" column="2">
-         <widget class="QComboBox" name="CBX_ArmadorEstoque">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>110</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>110</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <item>
-           <property name="text">
-            <string>A Diposição</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Unitizado</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Finalizado</string>
-           </property>
-          </item>
          </widget>
         </item>
         <item row="1" column="1">
@@ -1036,6 +994,63 @@
           <property name="text">
            <string>Incluir</string>
           </property>
+         </widget>
+        </item>
+        <item row="1" column="2">
+         <widget class="QComboBox" name="CBX_StatusEstoque">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>110</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>110</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <item>
+           <property name="text">
+            <string/>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Vázio</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Em Trânsito Fábricas</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Unitizado</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Em Expurgo</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Em Trânsito Porto</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Finalizado</string>
+           </property>
+          </item>
          </widget>
         </item>
        </layout>
@@ -1517,7 +1532,7 @@
   <tabstop>abas</tabstop>
   <tabstop>TXB_BK</tabstop>
   <tabstop>TXB_CNTR</tabstop>
-  <tabstop>CBX_ArmadorEstoque</tabstop>
+  <tabstop>CBX_StatusEstoque</tabstop>
   <tabstop>TABLE_Estoque</tabstop>
   <tabstop>TXB_SelecionarCNTR</tabstop>
   <tabstop>PBT_SelecionarCNTR</tabstop>

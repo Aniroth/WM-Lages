@@ -268,7 +268,7 @@
     <string>Status</string>
    </property>
   </widget>
-  <widget class="QComboBox" name="CBX_Armador_2">
+  <widget class="QComboBox" name="CBX_TerminalVazio">
    <property name="geometry">
     <rect>
      <x>140</x>

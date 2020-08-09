@@ -29,46 +29,49 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
             self.OpenDB()
 
         dataStream = (
-                      pedido.numero, 
+                      pedido.pedido, 
                       1, 
                       pedido.booking, 
                       pedido.status, 
                       pedido.cabotagem, 
-                      pedido.expurgo, 
-                      pedido.armador, 
                       pedido.fabrica, 
                       pedido.porto, 
                       pedido.DLfabrica, 
                       pedido.DLporto,
                       pedido.janelaInicio, 
-                      pedido.janelaFim, 
-                      pedido.cntrs, 
-                      pedido.terminal
+                      pedido.janelaFim,
                       )
 
-        self.cursor.execute("INSERT OR REPLACE INTO Pedidos VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", dataStream)
+        self.cursor.execute("INSERT OR REPLACE INTO Pedidos VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", dataStream)
         self.conn.commit()
-    
+
+    """def __init__(self, _cntr, _status, _booking, 
+                _tara, _armador, _terminal, _dataColeta, 
+                _freeTime, _obs = '', _expurgo = 0):"""
+
     def SaveCNTR(self, CNTR):
 
         if not (self.isDBopened):
             self.OpenDB()
 
         dataStream = (
-                      CNTR.numero,
+                      CNTR.cntr,
                       0,
                       CNTR.status,
-                      CNTR.bookingFantasma,
+                      CNTR.booking,
                       CNTR.tara,
-                      CNTR.bookingReal,
-                      CNTR.viagens
+                      CNTR.armador,
+                      CNTR.terminal,
+                      CNTR.dataColeta,
+                      CNTR.freeTime,
+                      CNTR.obs,
+                      CNTR.expurgo
                      )
         
-        self.cursor.execute("INSERT OR REPLACE INTO CNTRs VALUES (?, ?, ?, ?, ?, ?, ?)", dataStream)
+        self.cursor.execute("INSERT OR REPLACE INTO CNTRs VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", dataStream)
         self.conn.commit()
 
-        if not (CNTR.bookingReal == ''):
-            self.InsertCNTRinPedido(CNTR)
+        self.InsertCNTRinPedido(CNTR)
 
     def OpenPendido(self, pedido):
         
@@ -124,24 +127,27 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
         if not (self.isDBopened):
             self.OpenDB()
 
-        self.cursor.execute("""
-                            SELECT cntrs FROM Pedidos
-                            WHERE booking = ?
-                            """, (str(CNTR.bookingReal),))
-        
-        cntrResult = self.cursor.fetchone()
-        cntr = cntrResult[0]
+        try:
+            self.cursor.execute("""
+                                SELECT cntrs FROM Pedidos
+                                WHERE booking = ?
+                                """, (str(CNTR.bookingReal),))
+            
+            cntrResult = self.cursor.fetchone()
+            cntr = cntrResult[0]
 
-        if not (cntr == 'NULL_CNTR'):
-            cntr += ' - '
-        else:
-            cntr = ''
+            if not (cntr == 'NULL_CNTR'):
+                cntr += ' - '
+            else:
+                cntr = ''
 
-        self.cursor.execute("""
-                            UPDATE Pedidos 
-                            SET cntrs = ? WHERE booking = ?
-                            """, (str(cntr + CNTR.numero), str(CNTR.bookingReal),))
-        self.conn.commit()
+            self.cursor.execute("""
+                                UPDATE Pedidos 
+                                SET cntrs = ? WHERE booking = ?
+                                """, (str(cntr + CNTR.numero), str(CNTR.bookingReal),))
+            self.conn.commit()
+        except:
+            return              #GAMBIARRA
 
     def FillPedidoSearch(self, keySearch, valueSeach):
         
@@ -149,7 +155,8 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
             self.OpenDB()
 
         self.cursor.execute("""
-                            SELECT pedido, booking, status, deadlinePorto FROM Pedidos
+                            SELECT pedido, booking, status, deadlinePorto 
+                            FROM Pedidos
                             WHERE """ + str(keySearch) + " LIKE ?"
                             , ('%' + str(valueSeach) + '%',))
         
@@ -157,15 +164,40 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
 
         return result
     
-    def FillCNTRTable(self, booking, cntr, status):
+    def FillPedidoTable(self, booking):   #FALTA COMBINAR COM VIAGENS
         
         if not (self.isDBopened):
             self.OpenDB()
 
         self.cursor.execute("""
-                            SELECT pedido, booking, status, deadlinePorto FROM Pedidos
-                            WHERE """ + str(keySearch) + " LIKE ?"
-                            , ('%' + str(valueSeach) + '%',))
+                            SELECT cntr, status, tara, terminal, armador
+                            FROM CNTRs 
+                            WHERE booking = ?
+                            """
+                            , (str(booking),))
+        
+        result = self.cursor.fetchall()
+
+        return result
+    
+    def FillCNTRTable(self, booking, cntr, status):   #FALTA COMBINAR COM VIAGENS
+        
+        if not (self.isDBopened):
+            self.OpenDB()
+
+        if (booking == '' and cntr == '' and status ==''):    
+            self.cursor.execute("""
+                                SELECT cntr, booking, status, freetime, armador, terminal, tara, expurgo
+                                FROM CNTRs 
+                                """)
+
+        else:
+            self.cursor.execute("""
+                                SELECT cntr, booking, status, freetime, armador, terminal, tara, expurgo
+                                FROM CNTRs 
+                                WHERE (booking = ? OR cntr = ? OR status = ?)
+                                """
+                                , (str(booking), str(cntr), str(status),))
         
         result = self.cursor.fetchall()
 

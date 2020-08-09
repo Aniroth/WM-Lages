@@ -10,8 +10,6 @@ def main():
     form = MainWindow()
     form.showMaximized()
     app.exec_()
-    dataBase = DataBaseConnection()
-    app.lastWindowClosed.connect(dataBase.CloseDB(dataBase))
 
 if __name__ == '__main__':
     main()
