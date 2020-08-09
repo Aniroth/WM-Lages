@@ -9,6 +9,7 @@ from GUI.EditarCNTR.DrawEditarCNTR import Ui_DIALOG_EditarCNTR
 from GUI.EditarViagem.DrawEditarViagem import Ui_DIALOG_EditarViagem
 
 from DataBase import *
+from DateTools import *
 from Objects import *
 
 import sys
@@ -19,6 +20,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.setupConnections()
         self.dataBase = DataBaseConnection()
+        self.dateTools = DateTolls()
         self.NovoPedido()
         self.FillCNTRTable()
 
@@ -28,6 +30,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.PBT_Buscar.clicked.connect(self.ShowBuscarPedido)
         self.PBT_IncluirCNTR.clicked.connect(self.ShowEditarCNTR)
         self.PBT_AplicarFiltro.clicked.connect(self.FillCNTRTable)
+        self.PBT_EditarCNTR.clicked.connect(lambda: self.ShowEditarCNTR(False))
 
     def SalvarPedido(self):
 
@@ -52,24 +55,23 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.CHB_Cabotagem.setChecked(bool(datastream[4]))
         self.CBX_Fabrica.setCurrentText(str(datastream[5]))
         self.CBX_Porto.setCurrentText(str(datastream[6]))
-        self.DATE_DL_Fabrica.setDate(self.GetDate(datastream[7]))
-        self.DATE_DL_Porto.setDate(self.GetDate(datastream[8]))
-        self.DATE_InicioJanela.setDate(self.GetDate(datastream[9]))
-        self.DATE_FimJanela.setDate(self.GetDate(datastream[10]))
+        self.DATE_DL_Fabrica.setDate(self.dateTools.GetDate(datastream[7]))
+        self.DATE_DL_Porto.setDate(self.dateTools.GetDate(datastream[8]))
+        self.DATE_InicioJanela.setDate(self.dateTools.GetDate(datastream[9]))
+        self.DATE_FimJanela.setDate(self.dateTools.GetDate(datastream[10]))
         self.FillPedidoTable(str(datastream[2]))
     
     def NovoPedido(self):
-        today = QtCore.QDate.currentDate()
         self.TXB_Pedido.setText("")
         self.TXB_Booking.setText("")
         self.CBX_Status.currentIndex = 0
         self.CHB_Cabotagem.setChecked(False)
         self.CBX_Fabrica.currentIndex = 0
         self.CBX_Porto.currentIndex = 0
-        self.DATE_DL_Fabrica.setDate(today)
-        self.DATE_DL_Porto.setDate(today)
-        self.DATE_InicioJanela.setDate(today)
-        self.DATE_FimJanela.setDate(today)
+        self.DATE_DL_Fabrica.setDate(self.dateTools.today)
+        self.DATE_DL_Porto.setDate(self.dateTools.today)
+        self.DATE_InicioJanela.setDate(self.dateTools.today)
+        self.DATE_FimJanela.setDate(self.dateTools.today)
         self.FillPedidoTable('')
 
     def FillPedidoTable(self, booking):
@@ -110,23 +112,29 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.buscarPedidoDialog = BuscarPedidoDialog(self)
         self.buscarPedidoDialog.show()
 
-    def ShowEditarCNTR(self):
-        self.editarCNTRDIalog = EditarCNTRDialog(self)
+    def ShowEditarCNTR(self, isNew = True):
+        if (isNew):
+            self.editarCNTRDIalog = EditarCNTRDialog(self)
+        else:
+            index = (self.TABLE_Estoque.selectionModel().currentIndex())
+            value = index.sibling(index.row(), 0).data()
+            self.editarCNTRDIalog = EditarCNTRDialog(self, value)
+        
         self.editarCNTRDIalog.show()
 
-    def GetDate(self, sTime):
-        tempDate = str(sTime).split('/')
-        date = QtCore.QDate(int(tempDate[2]), int(tempDate[1]), int(tempDate[0]))
-        return date
-
 class EditarCNTRDialog(QtWidgets.QDialog, Ui_DIALOG_EditarCNTR):
-    def __init__(self, _parentWindow, parent = None):
+    def __init__(self, _parentWindow, cntr = None, parent = None):
         super(EditarCNTRDialog, self).__init__(parent)
         self.parentWindow = _parentWindow
         self.dataBase = DataBaseConnection()
+        self.dateTools = DateTolls()
         self.setupUi(self)
         self.setupConnections()
-    
+
+        if not (cntr == None):
+            self.OpenCNTR(cntr)
+
+
     def setupConnections(self):
         self.PBT_Gravar.clicked.connect(self.SalvarCNTR)
         self.PBT_Cancelar.clicked.connect(self.Fechar)
@@ -148,6 +156,17 @@ class EditarCNTRDialog(QtWidgets.QDialog, Ui_DIALOG_EditarCNTR):
         self.dataBase.SaveCNTR(novoCNTR)
         self.parentWindow.FillCNTRTable()
         self.Fechar()
+    
+    def OpenCNTR(self, cntr):
+        dataStream = self.dataBase.OpenCNTR(cntr)
+        self.TXB_Unidade.setText(dataStream[0])
+        self.CBX_Status.setCurrentText(dataStream[2])
+        self.TXB_Booking.setText(dataStream[3])
+        self.SBX_Tara.setValue(dataStream[4])
+        self.CBX_Armador.setCurrentText(dataStream[5])
+        self.CBX_TerminalVazio.setCurrentText(dataStream[6])
+        self.DATE_Coleta.setDate(self.dateTools.GetDate(dataStream[7]))
+        self.CHB_Expurgo.setChecked(bool(dataStream[10]))
     
     def Fechar(self):
 
