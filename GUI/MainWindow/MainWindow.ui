@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1920</width>
-    <height>1080</height>
+    <width>1336</width>
+    <height>720</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,7 +24,7 @@
     <item>
      <widget class="QTabWidget" name="abas">
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="TAB_Pedido">
        <property name="sizePolicy">
@@ -55,38 +55,8 @@
         <property name="verticalSpacing">
          <number>5</number>
         </property>
-        <item row="12" column="0" colspan="11">
-         <widget class="QTableWidget" name="TABLE_Status">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <row>
-           <property name="text">
-            <string>1</string>
-           </property>
-          </row>
-          <row>
-           <property name="text">
-            <string>2</string>
-           </property>
-          </row>
-          <column>
-           <property name="text">
-            <string>Container</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Status</string>
-           </property>
-          </column>
-         </widget>
-        </item>
-        <item row="8" column="2">
-         <widget class="QSpinBox" name="SBX_QtdeCntr">
+        <item row="5" column="4">
+         <widget class="QCheckBox" name="CHB_Cabotagem">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -104,6 +74,9 @@
             <width>110</width>
             <height>16777215</height>
            </size>
+          </property>
+          <property name="text">
+           <string>Cabotagem</string>
           </property>
          </widget>
         </item>
@@ -144,29 +117,74 @@
           </item>
          </widget>
         </item>
-        <item row="0" column="3">
-         <widget class="QLabel" name="LBL_Fabrica">
+        <item row="10" column="0" colspan="11">
+         <widget class="QTableWidget" name="TABLE_Status">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="minimumSize">
-           <size>
-            <width>110</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>110</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Fábrica</string>
-          </property>
+          <row>
+           <property name="text">
+            <string>1</string>
+           </property>
+          </row>
+          <row>
+           <property name="text">
+            <string>2</string>
+           </property>
+          </row>
+          <column>
+           <property name="text">
+            <string>Container</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Status</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Tara</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Terminal</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Armador</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>CPF</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Motorista</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Placa Cavalo</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Placa Carreta</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Expurgo</string>
+           </property>
+          </column>
          </widget>
         </item>
         <item row="1" column="2">
@@ -219,27 +237,8 @@
           </property>
          </widget>
         </item>
-        <item row="0" column="0">
-         <widget class="QLabel" name="LBL_Pedido">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>110</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Número do Pedido</string>
-          </property>
-         </widget>
-        </item>
-        <item row="6" column="2">
-         <widget class="QLabel" name="LBL_QtdeCntr">
+        <item row="0" column="3">
+         <widget class="QLabel" name="LBL_Fabrica">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -259,7 +258,48 @@
            </size>
           </property>
           <property name="text">
-           <string>Quantidade</string>
+           <string>Fábrica</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="LBL_Pedido">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>110</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Número do Pedido</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="LBL_Booking">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>110</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::NoFrame</enum>
+          </property>
+          <property name="text">
+           <string>Booking</string>
           </property>
          </widget>
         </item>
@@ -313,76 +353,6 @@
           </property>
          </widget>
         </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="LBL_Booking">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>110</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="frameShape">
-           <enum>QFrame::NoFrame</enum>
-          </property>
-          <property name="text">
-           <string>Booking</string>
-          </property>
-         </widget>
-        </item>
-        <item row="8" column="1">
-         <widget class="QComboBox" name="CBX_TerminalVazio">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>110</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>110</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <item>
-           <property name="text">
-            <string>ATM</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Rogério Phillip-ITJ</string>
-           </property>
-          </item>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLineEdit" name="TXB_Pedido">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>110</width>
-            <height>16777215</height>
-           </size>
-          </property>
-         </widget>
-        </item>
         <item row="5" column="1">
          <widget class="QDateEdit" name="DATE_DL_Porto">
           <property name="sizePolicy">
@@ -408,8 +378,24 @@
           </property>
          </widget>
         </item>
-        <item row="8" column="0">
-         <widget class="QComboBox" name="CBX_Armador">
+        <item row="1" column="0">
+         <widget class="QLineEdit" name="TXB_Pedido">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>110</width>
+            <height>16777215</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="4">
+         <widget class="QComboBox" name="CBX_Status">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -430,57 +416,27 @@
           </property>
           <item>
            <property name="text">
-            <string>HSUD</string>
+            <string>Aberto</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>MSC</string>
+            <string>Em Coleta</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>MAERSK</string>
+            <string>Em Unitização</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>CMA CGM</string>
+            <string>Em Envio Porto</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>HAPAG LLOYD</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>COSCO</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>MERCOSUL</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>ONE</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>ZIM</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>YML</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>FR MEYERS</string>
+            <string>Finalizado</string>
            </property>
           </item>
          </widget>
@@ -547,53 +503,6 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="4">
-         <widget class="QComboBox" name="CBX_Status">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>110</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>110</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <item>
-           <property name="text">
-            <string>Aberto</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Em Coleta</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Em Unitização</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Em Envio Porto</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Finalizado</string>
-           </property>
-          </item>
-         </widget>
-        </item>
         <item row="0" column="1">
          <widget class="QLabel" name="LBL_DL_Fabrica">
           <property name="sizePolicy">
@@ -610,25 +519,6 @@
           </property>
           <property name="text">
            <string>Deadline da Fábrica</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="1">
-         <widget class="QLabel" name="LBL_DL_Porto">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>110</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Deadline do Porto</string>
           </property>
          </widget>
         </item>
@@ -657,22 +547,25 @@
           </property>
          </widget>
         </item>
-        <item row="6" column="1">
-         <widget class="QLabel" name="LBL_TerminalVazio">
+        <item row="5" column="0">
+         <widget class="QLineEdit" name="TXB_Booking">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="minimumSize">
+           <size>
+            <width>110</width>
+            <height>0</height>
+           </size>
+          </property>
           <property name="maximumSize">
            <size>
             <width>110</width>
             <height>16777215</height>
            </size>
-          </property>
-          <property name="text">
-           <string>Terminal Vazio</string>
           </property>
          </widget>
         </item>
@@ -701,19 +594,13 @@
           </property>
          </widget>
         </item>
-        <item row="5" column="0">
-         <widget class="QLineEdit" name="TXB_Booking">
+        <item row="3" column="1">
+         <widget class="QLabel" name="LBL_DL_Porto">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>110</width>
-            <height>0</height>
-           </size>
           </property>
           <property name="maximumSize">
            <size>
@@ -721,9 +608,12 @@
             <height>16777215</height>
            </size>
           </property>
+          <property name="text">
+           <string>Deadline do Porto</string>
+          </property>
          </widget>
         </item>
-        <item row="9" column="10">
+        <item row="5" column="10">
          <widget class="QPushButton" name="PBT_Novo">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -748,32 +638,7 @@
           </property>
          </widget>
         </item>
-        <item row="9" column="8">
-         <widget class="QPushButton" name="PBT_Buscar">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>110</width>
-            <height>30</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>110</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Buscar</string>
-          </property>
-         </widget>
-        </item>
-        <item row="9" column="9">
+        <item row="5" column="9">
          <widget class="QPushButton" name="PBT_Salvar">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -798,8 +663,8 @@
           </property>
          </widget>
         </item>
-        <item row="5" column="4">
-         <widget class="QCheckBox" name="CHB_Cabotagem">
+        <item row="5" column="8">
+         <widget class="QPushButton" name="PBT_Buscar">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -809,7 +674,7 @@
           <property name="minimumSize">
            <size>
             <width>110</width>
-            <height>0</height>
+            <height>30</height>
            </size>
           </property>
           <property name="maximumSize">
@@ -819,11 +684,11 @@
            </size>
           </property>
           <property name="text">
-           <string>Cabotagem</string>
+           <string>Buscar</string>
           </property>
          </widget>
         </item>
-        <item row="9" column="7">
+        <item row="5" column="7">
          <widget class="QPushButton" name="PBT_Excluir">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -845,44 +710,6 @@
           </property>
           <property name="text">
            <string>Excluir</string>
-          </property>
-         </widget>
-        </item>
-        <item row="6" column="4">
-         <widget class="QCheckBox" name="CHB_Expurgo">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>110</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>110</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Expurgo</string>
-          </property>
-         </widget>
-        </item>
-        <item row="6" column="0">
-         <widget class="QLabel" name="LBL_Armador">
-          <property name="maximumSize">
-           <size>
-            <width>110</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Armador</string>
           </property>
          </widget>
         </item>
@@ -986,71 +813,6 @@
         </item>
         <item row="2" column="0" colspan="8">
          <widget class="QTableWidget" name="TABLE_Estoque">
-          <row>
-           <property name="text">
-            <string>1</string>
-           </property>
-          </row>
-          <row>
-           <property name="text">
-            <string>2</string>
-           </property>
-          </row>
-          <row>
-           <property name="text">
-            <string>3</string>
-           </property>
-          </row>
-          <row>
-           <property name="text">
-            <string>4</string>
-           </property>
-          </row>
-          <row>
-           <property name="text">
-            <string>5</string>
-           </property>
-          </row>
-          <row>
-           <property name="text">
-            <string>6</string>
-           </property>
-          </row>
-          <row>
-           <property name="text">
-            <string>7</string>
-           </property>
-          </row>
-          <row>
-           <property name="text">
-            <string>8</string>
-           </property>
-          </row>
-          <row>
-           <property name="text">
-            <string>9</string>
-           </property>
-          </row>
-          <row>
-           <property name="text">
-            <string>10</string>
-           </property>
-          </row>
-          <row>
-           <property name="text">
-            <string>11</string>
-           </property>
-          </row>
-          <row>
-           <property name="text">
-            <string>12</string>
-           </property>
-          </row>
-          <column>
-           <property name="text">
-            <string>Booking</string>
-           </property>
-          </column>
           <column>
            <property name="text">
             <string>CNTR</string>
@@ -1058,7 +820,12 @@
           </column>
           <column>
            <property name="text">
-            <string>OBS</string>
+            <string>Booking</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Status</string>
            </property>
           </column>
           <column>
@@ -1068,7 +835,52 @@
           </column>
           <column>
            <property name="text">
-            <string>Status</string>
+            <string>Armador</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Terminal</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Tara</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Expurgo</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Cabotagem</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>CPF</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Motorista</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Placa Cavalo</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Placa Carreta</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>OBS</string>
            </property>
           </column>
          </widget>
@@ -1563,7 +1375,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1920</width>
+     <width>1336</width>
      <height>21</height>
     </rect>
    </property>
@@ -1697,18 +1509,10 @@
   <tabstop>DATE_DL_Porto</tabstop>
   <tabstop>DATE_InicioJanela</tabstop>
   <tabstop>DATE_FimJanela</tabstop>
-  <tabstop>CBX_Armador</tabstop>
-  <tabstop>CBX_TerminalVazio</tabstop>
-  <tabstop>SBX_QtdeCntr</tabstop>
   <tabstop>CBX_Fabrica</tabstop>
   <tabstop>CBX_Porto</tabstop>
   <tabstop>CHB_Cabotagem</tabstop>
-  <tabstop>CHB_Expurgo</tabstop>
   <tabstop>CBX_Status</tabstop>
-  <tabstop>PBT_Excluir</tabstop>
-  <tabstop>PBT_Buscar</tabstop>
-  <tabstop>PBT_Salvar</tabstop>
-  <tabstop>PBT_Novo</tabstop>
   <tabstop>TABLE_Status</tabstop>
   <tabstop>abas</tabstop>
   <tabstop>TXB_BK</tabstop>

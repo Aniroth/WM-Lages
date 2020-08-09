@@ -43,7 +43,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                             self.DATE_DL_Porto.text(),
                             self.DATE_InicioJanela.text(),
                             self.DATE_FimJanela.text(),
-                            self.dataBase.GetCNTRs(self.TXB_Booking.text()),
                             self.CBX_TerminalVazio.currentText())
         
         self.dataBase.SavePedido(novoPedido)
@@ -102,17 +101,17 @@ class EditarCNTRDialog(QtWidgets.QDialog, Ui_DIALOG_EditarCNTR):
         self.setupConnections()
     
     def setupConnections(self):
-        self.PBT_Gravar.clicked.connect(self.NovoCNTR)
+        self.PBT_Gravar.clicked.connect(self.SalvarCNTR)
         self.PBT_Cancelar.clicked.connect(self.Fechar)
 
-    def NovoCNTR(self):
+    def SalvarCNTR(self):
         
         novoCNTR = CNTR(
                         self.TXB_Unidade.text(),
                         self.CBX_Status.currentIndex(),
                         self.TXB_BKFantasma.text(),
                         self.SBX_Tara.text(),
-                        self.TXB_BKReal.text()
+                        self.TXB_BKReal.text(),
                         )
         
         self.dataBase.SaveCNTR(novoCNTR)
@@ -144,11 +143,6 @@ class BuscarPedidoDialog(QtWidgets.QDialog, Ui_DIALOG_BuscaPedido):
             error_dialog = QtWidgets.QErrorMessage()
             error_dialog.showMessage('Oh no!')
             return
-
-        self.TABLE_BuscarPedido.setRowCount(len(dataStream))
-        self.TABLE_BuscarPedido.setColumnCount(len(dataStream[0]))
-        columnNames = ['Pedido', 'Booking', 'Status', 'DeadLine']
-        self.TABLE_BuscarPedido.setHorizontalHeaderLabels(columnNames)
 
         for row in range(len(dataStream)):
 

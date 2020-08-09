@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>173</height>
+    <height>212</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -94,8 +94,8 @@
   <widget class="QLabel" name="LBL_Tara">
    <property name="geometry">
     <rect>
-     <x>140</x>
-     <y>110</y>
+     <x>10</x>
+     <y>160</y>
      <width>111</width>
      <height>16</height>
     </rect>
@@ -127,19 +127,6 @@
     <string>Container</string>
    </property>
   </widget>
-  <widget class="QLabel" name="LBL_BKfantasma">
-   <property name="geometry">
-    <rect>
-     <x>140</x>
-     <y>60</y>
-     <width>111</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Booking Fantasma</string>
-   </property>
-  </widget>
   <widget class="QDateEdit" name="DATE_Coleta">
    <property name="geometry">
     <rect>
@@ -156,8 +143,8 @@
   <widget class="QSpinBox" name="SBX_Tara">
    <property name="geometry">
     <rect>
-     <x>140</x>
-     <y>130</y>
+     <x>10</x>
+     <y>180</y>
      <width>111</width>
      <height>22</height>
     </rect>
@@ -166,7 +153,7 @@
     <number>5000</number>
    </property>
   </widget>
-  <widget class="QLabel" name="LBL_BKreal">
+  <widget class="QLabel" name="LBL_Booking">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -176,20 +163,10 @@
     </rect>
    </property>
    <property name="text">
-    <string>Booking Real</string>
+    <string>Booking</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="TXB_BKFantasma">
-   <property name="geometry">
-    <rect>
-     <x>140</x>
-     <y>80</y>
-     <width>113</width>
-     <height>20</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="TXB_BKReal">
+  <widget class="QLineEdit" name="TXB_Booking">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -215,8 +192,8 @@
   <widget class="QPushButton" name="PBT_Gravar">
    <property name="geometry">
     <rect>
-     <x>270</x>
-     <y>70</y>
+     <x>280</x>
+     <y>140</y>
      <width>111</width>
      <height>31</height>
     </rect>
@@ -228,8 +205,8 @@
   <widget class="QPushButton" name="PBT_Cancelar">
    <property name="geometry">
     <rect>
-     <x>270</x>
-     <y>120</y>
+     <x>280</x>
+     <y>170</y>
      <width>111</width>
      <height>31</height>
     </rect>
@@ -241,8 +218,8 @@
   <widget class="QComboBox" name="CBX_Status">
    <property name="geometry">
     <rect>
-     <x>270</x>
-     <y>30</y>
+     <x>140</x>
+     <y>130</y>
      <width>111</width>
      <height>22</height>
     </rect>
@@ -281,8 +258,8 @@
   <widget class="QLabel" name="LBL_Status">
    <property name="geometry">
     <rect>
-     <x>270</x>
-     <y>10</y>
+     <x>140</x>
+     <y>110</y>
      <width>111</width>
      <height>16</height>
     </rect>
@@ -291,11 +268,66 @@
     <string>Status</string>
    </property>
   </widget>
+  <widget class="QComboBox" name="CBX_Armador_2">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>80</y>
+     <width>111</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>Rogério Phillip ITJ</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Rogério Phillip NVT</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>ATM</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Conlog</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLabel" name="LBL_TerminalVazio">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>60</y>
+     <width>111</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Terminal Vázio</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="CHB_Expurgo">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>180</y>
+     <width>111</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Expurgo</string>
+   </property>
+  </widget>
  </widget>
  <tabstops>
   <tabstop>TXB_Unidade</tabstop>
-  <tabstop>TXB_BKReal</tabstop>
-  <tabstop>TXB_BKFantasma</tabstop>
+  <tabstop>TXB_Booking</tabstop>
   <tabstop>DATE_Coleta</tabstop>
   <tabstop>SBX_Tara</tabstop>
   <tabstop>CBX_Armador</tabstop>

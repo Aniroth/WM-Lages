@@ -1,8 +1,9 @@
 class Pedido(object):
 
-    def __init__(self, _pedido, _booking, _status, _cabotagem, _Expurgo, _armador, 
-                _fabrica, _porto, _DLfabrica, _DLporto, _janelaInicio, _janelaFim,
-                _cntrs = '', _terminal = ''):
+    def __init__(self, _pedido, _booking, _status, 
+                _cabotagem, _Expurgo, _armador,_fabrica, 
+                _porto, _DLfabrica, _DLporto, _janelaInicio, 
+                _janelaFim, _terminal = ''):
         
         self.numero = _pedido
         self.status = _status
@@ -12,7 +13,6 @@ class Pedido(object):
         self.porto = _porto
         self.DLfabrica = _DLfabrica
         self.DLporto = _DLporto
-        self.cntrs = _cntrs
         self.terminal = _terminal
         self.janelaInicio = _janelaInicio
         self.janelaFim = _janelaFim
@@ -21,23 +21,23 @@ class Pedido(object):
 
 class CNTR(object):
 
-    def __init__(self, _cntr, _status, _bookingFantasma, 
-                _tara, _bookingReal = '', _pesoBruto = 0, _viagens = []):
+    def __init__(self, _cntr, _status, _booking, 
+                _tara, _freeTime, _obs):
 
         self.numero = _cntr
         self.status = _status
-        self.bookingFantasma = _bookingFantasma
         self.tara = _tara
-        self.bookingReal = _bookingReal
-        self.pesoBruto = _pesoBruto
-        self.viagens = _viagens
+        self.booking = _booking
+        self.freeTime = _freeTime
+        self.obs = _obs
 
 class Viagem(object):
 
-    def __init__(self, _ID, _tipoViagem, _inicio, _fim, _origem, 
+    def __init__(self, _ID, _cntr, _tipoViagem, _inicio, _fim, _origem, 
                 _destino, _CPF, _motorista, _cavalo, _carreta):
         
         self.ID = _ID
+        self.cntr = _cntr
         self.tipoViagem = _tipoViagem
         self.inicio = _inicio
         self.fim = _fim

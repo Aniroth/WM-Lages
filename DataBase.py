@@ -54,22 +54,17 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
         if not (self.isDBopened):
             self.OpenDB()
 
-        viagens = ''
-        for i in CNTR.viagens:
-            viagens += i + ' - '
-
         dataStream = (
                       CNTR.numero,
-                      1,
+                      0,
                       CNTR.status,
                       CNTR.bookingFantasma,
                       CNTR.tara,
                       CNTR.bookingReal,
-                      CNTR.pesoBruto,
-                      viagens
+                      CNTR.viagens
                      )
         
-        self.cursor.execute("INSERT OR REPLACE INTO CNTRs VALUES (?, ?, ?, ?, ?, ?, ?, ?)", dataStream)
+        self.cursor.execute("INSERT OR REPLACE INTO CNTRs VALUES (?, ?, ?, ?, ?, ?, ?)", dataStream)
         self.conn.commit()
 
         if not (CNTR.bookingReal == ''):
@@ -106,6 +101,23 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
             return 'NULL_CNTR'
         else:
             return result[0]
+    
+    def GetViagens(self, cntr):
+
+        if not (self.isDBopened):
+            self.OpenDB()
+        
+        self.cursor.execute("""
+                            SELECT ID FROM Viagens
+                            WHERE cntr = ?
+                            """, (str(cntr),))
+        
+        result = self.cursor.fetchone()
+
+        if (result == None):
+            return 'NULL_VIAGEM'
+        else:
+            return result[0]
 
     def InsertCNTRinPedido(self, CNTR):
         
@@ -132,6 +144,20 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
         self.conn.commit()
 
     def FillPedidoSearch(self, keySearch, valueSeach):
+        
+        if not (self.isDBopened):
+            self.OpenDB()
+
+        self.cursor.execute("""
+                            SELECT pedido, booking, status, deadlinePorto FROM Pedidos
+                            WHERE """ + str(keySearch) + " LIKE ?"
+                            , ('%' + str(valueSeach) + '%',))
+        
+        result = self.cursor.fetchall()
+
+        return result
+    
+    def FillCNTRTable(self, booking, cntr, status):
         
         if not (self.isDBopened):
             self.OpenDB()
