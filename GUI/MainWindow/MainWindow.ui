@@ -24,7 +24,7 @@
     <item>
      <widget class="QTabWidget" name="abas">
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="TAB_Pedido">
        <property name="sizePolicy">
@@ -124,6 +124,15 @@
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="editTriggers">
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
+          <property name="textElideMode">
+           <enum>Qt::ElideLeft</enum>
+          </property>
+          <property name="sortingEnabled">
+           <bool>true</bool>
           </property>
           <row>
            <property name="text">
@@ -813,6 +822,12 @@
         </item>
         <item row="2" column="0" colspan="8">
          <widget class="QTableWidget" name="TABLE_Estoque">
+          <property name="editTriggers">
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
+          <property name="sortingEnabled">
+           <bool>true</bool>
+          </property>
           <column>
            <property name="text">
             <string>CNTR</string>
@@ -1115,7 +1130,14 @@
          </widget>
         </item>
         <item row="19" column="0" colspan="10">
-         <widget class="QTableWidget" name="TABLE_Viagens"/>
+         <widget class="QTableWidget" name="TABLE_Viagens">
+          <property name="editTriggers">
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
+          <property name="sortingEnabled">
+           <bool>true</bool>
+          </property>
+         </widget>
         </item>
         <item row="5" column="1">
          <widget class="QPushButton" name="PBT_SelecionarCNTR">
