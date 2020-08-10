@@ -184,7 +184,6 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
     #endregion
 
     #region ListsSetup
-
     def GetArmadores(self):
 
         if not (self.isDBopened):

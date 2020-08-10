@@ -40,8 +40,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.CBX_Porto.clear()
         self.CBX_Status.clear()
         self.CBX_StatusEstoque.clear()
-
-        print(list(self.dataBase.GetFabricas()))
         self.CBX_Fabrica.addItems(self.dataBase.GetFabricas())
         self.CBX_Porto.addItems(list(self.dataBase.GetPortos()))
         self.CBX_Status.addItems(list(self.dataBase.GetStatusPedido()))
