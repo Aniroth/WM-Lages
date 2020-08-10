@@ -41,26 +41,6 @@
      <height>22</height>
     </rect>
    </property>
-   <item>
-    <property name="text">
-     <string>Coleta de Vázio</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>Unitização Fábrica</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>Transferência Porto</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>Frete Morto</string>
-    </property>
-   </item>
   </widget>
   <widget class="QComboBox" name="CBX_Origem">
    <property name="geometry">
@@ -71,26 +51,6 @@
      <height>22</height>
     </rect>
    </property>
-   <item>
-    <property name="text">
-     <string>Coleta de Vázio</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>Unitização Fábrica</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>Transferência Porto</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>Frete Morto</string>
-    </property>
-   </item>
   </widget>
   <widget class="QLabel" name="LBL_Origem">
    <property name="geometry">
@@ -114,26 +74,6 @@
      <height>22</height>
     </rect>
    </property>
-   <item>
-    <property name="text">
-     <string>Coleta de Vázio</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>Unitização Fábrica</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>Transferência Porto</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>Frete Morto</string>
-    </property>
-   </item>
   </widget>
   <widget class="QLabel" name="LBL_Destino">
    <property name="geometry">
@@ -181,7 +121,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QLabel" name="LBL_Origem_3">
+  <widget class="QLabel" name="LBL_Fim">
    <property name="geometry">
     <rect>
      <x>400</x>
@@ -207,7 +147,7 @@
     <string>CPF</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit">
+  <widget class="QLineEdit" name="TXB_CPF">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -217,7 +157,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit_2">
+  <widget class="QLineEdit" name="TXB_Motorista">
    <property name="geometry">
     <rect>
      <x>140</x>
@@ -240,7 +180,7 @@
     <string>Motorista</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit_3">
+  <widget class="QLineEdit" name="TXB_Cavalo">
    <property name="geometry">
     <rect>
      <x>400</x>
@@ -276,7 +216,7 @@
     <string>Placa Carreta</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit_4">
+  <widget class="QLineEdit" name="TXB_Carreta">
    <property name="geometry">
     <rect>
      <x>470</x>
@@ -289,7 +229,7 @@
   <widget class="QCheckBox" name="CHB_Spot">
    <property name="geometry">
     <rect>
-     <x>140</x>
+     <x>270</x>
      <y>40</y>
      <width>111</width>
      <height>21</height>
@@ -323,6 +263,29 @@
    </property>
    <property name="text">
     <string>Cancelar</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="TXB_CNTR">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>40</y>
+     <width>121</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="LBL_CNTR">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>20</y>
+     <width>121</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Container</string>
    </property>
   </widget>
  </widget>

@@ -14,6 +14,7 @@ class DataBaseConnectionMeta(type):
 class DataBaseConnection(metaclass=DataBaseConnectionMeta):
 
     isDBopened = False
+    
 
     def OpenDB(self):
         self.conn = sqlite3.connect('BancoDeDados\\Banco de Dados.db')
@@ -23,6 +24,7 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
     def CloseDB(self):
         self.conn.close()
 
+    #region SaveQueries
     def SavePedido(self, pedido):
         
         if not (self.isDBopened):
@@ -66,9 +68,9 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
         
         self.cursor.execute("INSERT OR REPLACE INTO CNTRs VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", dataStream)
         self.conn.commit()
+    #endregion
 
-        self.InsertCNTRinPedido(CNTR)
-
+    #region LoadQueries
     def OpenPendido(self, pedido):
         
         if not (self.isDBopened):
@@ -96,68 +98,36 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
         dataStream = self.cursor.fetchone()
 
         return dataStream
+    #endregion
 
-    def GetCNTRs(self, booking):
+    #region DeleteQueries
+    def DeletePedido(self, pedido):
         
         if not (self.isDBopened):
             self.OpenDB()
         
         self.cursor.execute("""
-                            SELECT cntrs FROM Pedidos
-                            WHERE booking = ?
-                            """, (str(booking),))
+                            DELETE FROM Pedidos
+                            WHERE pedido = ?
+                            """, (str(pedido),))
         
-        result = self.cursor.fetchone()
-
-        if (result == None):
-            return 'NULL_CNTR'
-        else:
-            return result[0]
+        self.conn.commit()
     
-    def GetViagens(self, cntr):
-
+    def DeleteCNTR(self, cntr):
+        
         if not (self.isDBopened):
             self.OpenDB()
         
         self.cursor.execute("""
-                            SELECT ID FROM Viagens
-                            WHERE cntr = ?
+                            DELETE FROM CNTRs
+                            WHERE cntr= ?
                             """, (str(cntr),))
         
-        result = self.cursor.fetchone()
+        self.conn.commit()
 
-        if (result == None):
-            return 'NULL_VIAGEM'
-        else:
-            return result[0]
+    #endregion
 
-    def InsertCNTRinPedido(self, CNTR):
-        
-        if not (self.isDBopened):
-            self.OpenDB()
-
-        try:
-            self.cursor.execute("""
-                                SELECT cntrs FROM Pedidos
-                                WHERE booking = ?
-                                """, (str(CNTR.bookingReal),))
-            
-            cntrResult = self.cursor.fetchone()
-            cntr = cntrResult[0]
-
-            if not (cntr == 'NULL_CNTR'):
-                cntr += ' - '
-            else:
-                cntr = ''
-
-            self.cursor.execute("""
-                                UPDATE Pedidos 
-                                SET cntrs = ? WHERE booking = ?
-                                """, (str(cntr + CNTR.numero), str(CNTR.bookingReal),))
-            self.conn.commit()
-        except:
-            return              #GAMBIARRA
-
+    #region FillQueries
     def FillPedidoSearch(self, keySearch, valueSeach):
         
         if not (self.isDBopened):
@@ -211,3 +181,155 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
         result = self.cursor.fetchall()
 
         return result
+    #endregion
+
+    #region ListsSetup
+
+    def GetArmadores(self):
+
+        if not (self.isDBopened):
+            self.OpenDB()
+        
+        self.cursor.execute("SELECT * FROM _Armadores ORDER BY armador")
+        result = self.cursor.fetchall()
+        data = []
+        for i in range(len(result)):
+            data.append(str(result[i][0]))
+
+        return data
+    
+    def GetFabricas(self):
+
+        if not (self.isDBopened):
+            self.OpenDB()
+        
+        self.cursor.execute("SELECT * FROM _Fabricas ORDER BY fabrica")
+        result = self.cursor.fetchall()
+        data = []
+        for i in range(len(result)):
+            data.append(str(result[i][0]))
+
+        return data
+    
+    def GetPortos(self):
+
+        if not (self.isDBopened):
+            self.OpenDB()
+        
+        self.cursor.execute("SELECT * FROM _Portos ORDER BY porto")
+        result = self.cursor.fetchall()
+        data = []
+        for i in range(len(result)):
+            data.append(str(result[i][0]))
+
+        return data
+    
+    def GetStatusCNTR(self):
+
+        if not (self.isDBopened):
+            self.OpenDB()
+        
+        self.cursor.execute("SELECT * FROM _StatusCNTR ORDER BY status")
+        result = self.cursor.fetchall()
+        data = []
+        for i in range(len(result)):
+            data.append(str(result[i][0]))
+
+        return data
+    
+    def GetStatusPedido(self):
+
+        if not (self.isDBopened):
+            self.OpenDB()
+        
+        self.cursor.execute("SELECT * FROM _StatusPedido ORDER BY status")
+        result = self.cursor.fetchall()
+        data = []
+        for i in range(len(result)):
+            data.append(str(result[i][0]))
+
+        return data
+    
+    def GetStatusViagem(self):
+
+        if not (self.isDBopened):
+            self.OpenDB()
+        
+        self.cursor.execute("SELECT * FROM _StatusViagem ORDER BY status")
+        result = self.cursor.fetchall()
+        data = []
+        for i in range(len(result)):
+            data.append(str(result[i][0]))
+
+        return data
+    
+    def GetTerminais(self):
+
+        if not (self.isDBopened):
+            self.OpenDB()
+        
+        self.cursor.execute("SELECT * FROM _Terminais ORDER BY terminal")
+        result = self.cursor.fetchall()
+        data = []
+        for i in range(len(result)):
+            data.append(str(result[i][0]))
+
+        return data
+
+    def GetTipoViagem(self):
+
+        if not (self.isDBopened):
+            self.OpenDB()
+        
+        self.cursor.execute("SELECT * FROM _TipoViagem ORDER BY tipo")
+        result = self.cursor.fetchall()
+        data = []
+        for i in range(len(result)):
+            data.append(str(result[i][0]))
+
+        return data
+
+    def GetCPF(self):
+
+        if not (self.isDBopened):
+            self.OpenDB()
+        
+        self.cursor.execute("SELECT CPF FROM _BancoConjunto ORDER BY CPF")
+        result = self.cursor.fetchall()
+        data = []
+        for i in range(len(result)):
+            data.append(str(result[i][0]))
+
+        return data
+    
+    def GetMotorista(self, cpf):
+
+        if not (self.isDBopened):
+            self.OpenDB()
+        
+        self.cursor.execute("SELECT motorista FROM _BancoConjunto WHERE CPF = ?",
+                            (str(cpf),))
+        
+        return self.cursor.fetchone()
+    
+    def GetCavalo(self, cpf):
+
+        if not (self.isDBopened):
+            self.OpenDB()
+        
+        self.cursor.execute("SELECT placaCavalo FROM _BancoConjunto WHERE CPF = ?",
+                            (str(cpf),))
+        
+        return self.cursor.fetchone()
+    
+    def GetCarreta(self, cpf):
+
+        if not (self.isDBopened):
+            self.OpenDB()
+        
+        self.cursor.execute("SELECT placaCarreta FROM _BancoConjunto WHERE CPF = ?",
+                            (str(cpf),))
+        
+        return self.cursor.fetchone()
+
+    #endregion

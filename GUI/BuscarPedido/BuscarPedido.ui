@@ -37,22 +37,12 @@
    </property>
    <item>
     <property name="text">
-     <string>pedido</string>
+     <string>Pedido</string>
     </property>
    </item>
    <item>
     <property name="text">
-     <string>booking</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>status</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>deadlinePorto</string>
+     <string>Booking</string>
     </property>
    </item>
   </widget>
@@ -64,6 +54,12 @@
      <width>401</width>
      <height>321</height>
     </rect>
+   </property>
+   <property name="editTriggers">
+    <set>QAbstractItemView::NoEditTriggers</set>
+   </property>
+   <property name="sortingEnabled">
+    <bool>true</bool>
    </property>
    <column>
     <property name="text">

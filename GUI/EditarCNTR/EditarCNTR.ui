@@ -35,61 +35,6 @@
      <height>22</height>
     </rect>
    </property>
-   <item>
-    <property name="text">
-     <string>HSUD</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>MSC</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>MAERSK</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>CMA CGM</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>HAPAG LLOYD</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>COSCO</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>MERCOSUL</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>ONE</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>ZIM</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>YML</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>FR MEYERS</string>
-    </property>
-   </item>
   </widget>
   <widget class="QLabel" name="LBL_Tara">
    <property name="geometry">
@@ -224,36 +169,6 @@
      <height>22</height>
     </rect>
    </property>
-   <item>
-    <property name="text">
-     <string>Vazio</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>Em Trânsito Fábricas</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>Unitizado</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>Em Expurgo</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>Em Trânsito Porto</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>Finalizado</string>
-    </property>
-   </item>
   </widget>
   <widget class="QLabel" name="LBL_Status">
    <property name="geometry">
@@ -277,26 +192,6 @@
      <height>22</height>
     </rect>
    </property>
-   <item>
-    <property name="text">
-     <string>Rogério Phillip ITJ</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>Rogério Phillip NVT</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>ATM</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>Conlog</string>
-    </property>
-   </item>
   </widget>
   <widget class="QLabel" name="LBL_TerminalVazio">
    <property name="geometry">
