@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
+    <width>391</width>
     <height>212</height>
    </rect>
   </property>
@@ -97,6 +97,12 @@
    <property name="maximum">
     <number>5000</number>
    </property>
+   <property name="singleStep">
+    <number>10</number>
+   </property>
+   <property name="value">
+    <number>3800</number>
+   </property>
   </widget>
   <widget class="QLabel" name="LBL_Booking">
    <property name="geometry">
@@ -137,8 +143,8 @@
   <widget class="QPushButton" name="PBT_Gravar">
    <property name="geometry">
     <rect>
-     <x>280</x>
-     <y>140</y>
+     <x>270</x>
+     <y>130</y>
      <width>111</width>
      <height>31</height>
     </rect>
@@ -150,7 +156,7 @@
   <widget class="QPushButton" name="PBT_Cancelar">
    <property name="geometry">
     <rect>
-     <x>280</x>
+     <x>270</x>
      <y>170</y>
      <width>111</width>
      <height>31</height>
@@ -217,6 +223,29 @@
    </property>
    <property name="text">
     <string>Expurgo</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="TXB_Oferta">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>30</y>
+     <width>113</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="LBL_Oferta">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>10</y>
+     <width>111</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Oferta</string>
    </property>
   </widget>
  </widget>

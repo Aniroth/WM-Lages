@@ -54,8 +54,29 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     #region SaveCalls
     def SalvarBooking(self):
-        ### FALTA FAZER ###
-        return
+        booking = Booking(self.TXB_Booking.text(),
+                          'Aberto',
+                          self.CHB_Cabotagem.isChecked(),
+                          self.CBX_Fabrica.currentText(),
+                          self.CBX_Porto.currentText(),
+                          self.DATE_DL_Fabrica.text(),
+                          self.DATE_DL_Porto.text(),
+                          self.DATE_InicioJanela.text(),
+                          self.DATE_FimJanela.text(),
+                          self.SBX_QtdePedido.text())
+
+        ofertas = []
+
+        for i in range(self.TABLE_Status.rowCount()):
+            ID = self.TABLE_Status.item(i, 0).text()
+            oferta = self.TABLE_Status.item(i, 1).text()
+            ofertas.append(Oferta(self.TXB_Booking.text(),
+                                  oferta,
+                                  ID       
+                                  ))
+
+        self.dataBase.SaveBooking(booking)
+        self.dataBase.SaveOfertas(ofertas)
     #endregion
 
     #region LoadCalls
@@ -99,7 +120,17 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
             for col in range(len(dataStream[row])):
                 
-                self.TABLE_Status.setItem(row, col, QTableWidgetItem(str(dataStream[row][col])))
+                itemText = dataStream[row][col]
+                if (itemText == 'None'):
+                    itemText = ''
+                elif (itemText == 1):
+                    itemText = 'Sim'
+                elif (itemText == 0):
+                    itemText = 'Não'
+                else:
+                    itemText = str(itemText)
+
+                self.TABLE_Status.setItem(row, col, QTableWidgetItem(itemText))
     
     def FillCNTRTable(self):
 
@@ -117,8 +148,18 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         for row in range(len(dataStream)):
 
             for col in range(len(dataStream[row])):
+                
+                itemText = dataStream[row][col]
+                if (itemText == 'None'):
+                    itemText = ''
+                elif (itemText == 1):
+                    itemText = 'Sim'
+                elif (itemText == 0):
+                    itemText = 'Não'
+                else:
+                    itemText = str(itemText)
 
-                self.TABLE_Estoque.setItem(row, col, QTableWidgetItem(str(dataStream[row][col])))
+                self.TABLE_Estoque.setItem(row, col, QTableWidgetItem(itemText))
     
     def FillViagensTable(self):
 
@@ -138,8 +179,18 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         for row in range(len(dataStream)):
 
             for col in range(len(dataStream[row])):
+                
+                itemText = dataStream[row][col]
+                if (itemText == 'None'):
+                    itemText = ''
+                elif (itemText == 1):
+                    itemText = 'Sim'
+                elif (itemText == 0):
+                    itemText = 'Não'
+                else:
+                    itemText = str(itemText)
 
-                self.TABLE_Viagens.setItem(row, col, QTableWidgetItem(str(dataStream[row][col])))
+                self.TABLE_Viagens.setItem(row, col, QTableWidgetItem(itemText))
     #endregion
 
     #region ShowCalls
@@ -164,6 +215,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def ShowEditarViagem(self, isNew):
         if (isNew):
             self.editarViagemDialog = EditarViagemDialog(self)
+        else:
+            index = (self.TABLE_Viagens.selectionModel().currentIndex())
+            value = index.sibling(index.row(), 0).data()
+            self.editarViagemDialog = EditarViagemDialog(self, value)
         
         self.editarViagemDialog.show()
     #endregion
@@ -171,8 +226,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def AllowEdit(self):
 
         index = (self.TABLE_Status.selectionModel().currentIndex())
-        print(index.column)
-        if (index.column == 2):
+
+        if (index.column() == 1):
             self.TABLE_Status.setEditTriggers(QtWidgets.QAbstractItemView.DoubleClicked)
         else:
             self.TABLE_Status.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
@@ -262,7 +317,8 @@ class EditarCNTRDialog(QtWidgets.QDialog, Ui_DIALOG_EditarCNTR):
                         self.DATE_Coleta.text(),
                         20,                                            #GAMBIARRA
                         '',
-                        int(self.CHB_Expurgo.isChecked())
+                        int(self.CHB_Expurgo.isChecked()),
+                        self.TXB_Oferta.text()
                         )
         
         self.dataBase.SaveCNTR(novoCNTR)
@@ -273,14 +329,15 @@ class EditarCNTRDialog(QtWidgets.QDialog, Ui_DIALOG_EditarCNTR):
     #region LoadCalls
     def OpenCNTR(self, cntr):
         dataStream = self.dataBase.OpenCNTR(cntr)
-        self.TXB_Unidade.setText(dataStream[0])
-        self.CBX_Status.setCurrentText(dataStream[2])
-        self.TXB_Booking.setText(dataStream[3])
-        self.SBX_Tara.setValue(dataStream[4])
-        self.CBX_Armador.setCurrentText(dataStream[5])
-        self.CBX_TerminalVazio.setCurrentText(dataStream[6])
-        self.DATE_Coleta.setDate(self.dateTools.GetDate(dataStream[7]))
-        self.CHB_Expurgo.setChecked(bool(dataStream[10]))
+        self.TXB_Unidade.setText(dataStream[1])
+        self.TXB_Oferta.setText(dataStream)
+        self.CBX_Status.setCurrentText(dataStream[3])
+        self.TXB_Booking.setText(dataStream[4])
+        self.SBX_Tara.setValue(dataStream[5])
+        self.CBX_Armador.setCurrentText(dataStream[6])
+        self.CBX_TerminalVazio.setCurrentText(dataStream[7])
+        self.DATE_Coleta.setDate(self.dateTools.GetDate(dataStream[8]))
+        self.CHB_Expurgo.setChecked(bool(dataStream[11]))
     #endregion
 
 class BuscarBookingDialog(QtWidgets.QDialog, Ui_DIALOG_BuscaPedido):
@@ -323,7 +380,7 @@ class BuscarBookingDialog(QtWidgets.QDialog, Ui_DIALOG_BuscaPedido):
     #endregion
 
 class EditarViagemDialog(QtWidgets.QDialog, Ui_DIALOG_EditarViagem):
-    def __init__(self, _parentWindow, viagem = None, parent=None):
+    def __init__(self, _parentWindow, _viagem = None, parent=None):
         super(EditarViagemDialog, self).__init__(parent)
         self.dataBase = DataBaseConnection()
         self.dateTools = DateTolls()
@@ -331,8 +388,9 @@ class EditarViagemDialog(QtWidgets.QDialog, Ui_DIALOG_EditarViagem):
         self.setupUi(self)
         self.setupConnections()
         self.setupComboBox()
+        self.viagem = _viagem
 
-        if (viagem == None):
+        if (self.viagem == None):
             self.DATE_Fim.setDate(self.dateTools.today)
             self.DATE_Inicio.setDate(self.dateTools.today)
 
@@ -380,9 +438,23 @@ class EditarViagemDialog(QtWidgets.QDialog, Ui_DIALOG_EditarViagem):
                             self.CBX_Motorista.currentText(),
                             self.CBX_Cavalo.currentText(),
                             self.CBX_Carreta.currentText(),
-                            int(self.CHB_Spot.isChecked()))
+                            int(self.CHB_Spot.isChecked()),
+                            self.viagem)
         
         self.dataBase.SaveViagem(NovaViagem)
         self.parentWindow.FillViagensTable()
         self.Fechar()
 
+    def OpenViagem(self):
+        dataStream = self.dataBase.OpenViagem(self.viagem)
+        self.TXB_CNTR.setText(str(dataStream[3]))
+        self.CBX_TipoViagem.setCurrentIndex(str(dataStream[4]))
+        self.DATE_Inicio.setDate(self.dateTools.GetDate(str(dataStream[5])))
+        self.DATE_Fim.setDate(self.dateTools.GetDate(str(dataStream[6])))
+        self.CBX_Origem.currentText(str(dataStream[7]))
+        self.CBX_Destino.currentText(str(dataStream[8]))
+        self.TXB_CPF.text(str(dataStream[9]))
+        self.CBX_Motorista.currentText(str(dataStream[10]))
+        self.CBX_Cavalo.currentText(str(dataStream[11]))
+        self.CBX_Carreta.currentText(str(dataStream[12]))
+        self.CHB_Spot.setChecked(bool(dataStream[13]))

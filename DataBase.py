@@ -16,7 +16,7 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
     conn = sqlite3.connect('BancoDeDados\\Banco de Dados.db')
     cursor = conn.cursor()
 
-    #region SaveQueries
+    #region NewCalls
     def NewOferta(self, oferta, qtde):
 
         dataStream = []
@@ -29,7 +29,20 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
         
         self.cursor.executemany("INSERT INTO Ofertas VALUES (?, ?, ?)", dataStream)
         self.conn.commit()
-    
+    #endregion
+
+    #region SaveQueries    
+    def SaveOfertas(self, ofertas):
+        
+        dataStream = []
+        for i in range(len(ofertas)):
+            dataStream.append((ofertas[i].ID,
+                               ofertas[i].oferta,
+                               ofertas[i].booking))
+        
+        self.cursor.executemany("INSERT OR REPLACE INTO Ofertas VALUES (?, ?, ?)", dataStream)
+        self.conn.commit()
+
     def SaveBooking(self, booking):
 
         dataStream = ( 
@@ -52,8 +65,9 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
     def SaveCNTR(self, CNTR):
 
         dataStream = (
-                      CNTR.cntr,
                       0,
+                      CNTR.cntr,
+                      CNTR.oferta,
                       CNTR.status,
                       CNTR.booking,
                       CNTR.tara,
@@ -65,14 +79,14 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
                       CNTR.expurgo
                      )
         
-        self.cursor.execute("INSERT OR REPLACE INTO CNTRs VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", dataStream)
+        self.cursor.execute("INSERT OR REPLACE INTO CNTRs VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", dataStream)
         self.conn.commit()
         
     def SaveViagem(self, Viagem):
 
         dataStream = (
-                      None,
                       0,
+                      Viagem.ID,
                       Viagem.status,
                       Viagem.cntr,
                       Viagem.tipoViagem,
@@ -110,6 +124,17 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
                             SELECT * FROM CNTRs
                             WHERE cntr = ?
                             """, (str(cntr),))
+        
+        dataStream = self.cursor.fetchone()
+
+        return dataStream
+    
+    def OpenViagem(self, viagem):
+        
+        self.cursor.execute("""
+                            SELECT * FROM Viagens
+                            WHERE ID = ?
+                            """, (str(viagem),))
         
         dataStream = self.cursor.fetchone()
 
@@ -199,7 +224,7 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
                                 CNTRs.obs
                             FROM 
                                 CNTRs
-                            INNER JOIN Viagens on Viagens.cntr = CNTRs.cntr 
+                            LEFT JOIN Viagens on Viagens.cntr = CNTRs.cntr 
                             WHERE (CNTRs.booking LIKE ? AND CNTRs.cntr LIKE ? AND CNTRs.status LIKE ?)
                             """
                             , ('%' + str(booking) + '%', '%' + str(cntr) + '%', '%' + str(status) + '%',))
@@ -220,12 +245,13 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
                                     Viagens.dataInicio,
                                     Viagens.dataFim,
                                     Viagens.cpfMotorista,
+                                    Viagens.nomeMotorista,
                                     Viagens.placaCavalo,
                                     Viagens.placaCarreta,
                                     Viagens.spot
                                 FROM 
                                     CNTRs
-                                INNER JOIN Viagens on Viagens.cntr = CNTRs.cntr
+                                LEFT JOIN Viagens on Viagens.cntr = CNTRs.cntr
                                 WHERE (CNTRs.booking LIKE ? AND CNTRs.cntr LIKE ? AND Viagens.status LIKE ?)
                                 """
                                 , ('%' + str(booking) + '%', '%' + str(cntr) + '%', '%' + str(status) + '%',))  
@@ -245,7 +271,7 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
                                     Viagens.spot
                                 FROM 
                                     CNTRs
-                                INNER JOIN Viagens on Viagens.cntr = CNTRs.cntr
+                                LEFT JOIN Viagens on Viagens.cntr = CNTRs.cntr
                                 WHERE (CNTRs.booking LIKE ? AND CNTRs.cntr LIKE ? AND Viagens.status LIKE ? AND Viagens.dataInicio LIKE ?)
                                 """
                                 , ('%' + str(booking) + '%', '%' + str(cntr) + '%', '%' + str(status) + '%', '%' + str(data) + '%',))  
