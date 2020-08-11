@@ -88,7 +88,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.CBX_Fabrica.setCurrentText(str(datastream[4]))
         self.CBX_Porto.setCurrentText(str(datastream[5]))
         self.DATE_DL_Fabrica.setDate(self.dateTools.GetDate(datastream[6]))
-        self.DATE_DL_Porto.setDate(self.dateTools.GetDate(datastream[8]))
+        self.DATE_DL_Porto.setDate(self.dateTools.GetDate(datastream[7]))
         self.DATE_InicioJanela.setDate(self.dateTools.GetDate(datastream[8]))
         self.DATE_FimJanela.setDate(self.dateTools.GetDate(datastream[9]))
         self.FillBookingTable(str(datastream[1]))
@@ -332,7 +332,7 @@ class EditarCNTRDialog(QtWidgets.QDialog, Ui_DIALOG_EditarCNTR):
     def OpenCNTR(self, cntr):
         dataStream = self.dataBase.OpenCNTR(cntr)
         self.TXB_Unidade.setText(dataStream[1])
-        self.TXB_Oferta.setText(dataStream)
+        self.TXB_Oferta.setText(str(dataStream[2]))
         self.CBX_Status.setCurrentText(dataStream[3])
         self.TXB_Booking.setText(dataStream[4])
         self.SBX_Tara.setValue(dataStream[5])
