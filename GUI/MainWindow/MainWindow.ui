@@ -986,7 +986,7 @@
        </attribute>
        <layout class="QGridLayout" name="gridLayout_3">
         <item row="5" column="0">
-         <widget class="QLineEdit" name="TXB_SelecionarCNTR">
+         <widget class="QLineEdit" name="TXB_CNTRViagem">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -998,6 +998,25 @@
             <width>110</width>
             <height>16777215</height>
            </size>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="LBL_CNTRViagem">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>110</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>CNTR</string>
           </property>
          </widget>
         </item>
@@ -1020,54 +1039,6 @@
           </property>
          </widget>
         </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="LBL_SelecionarCNTR">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>110</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Selecionar CNTR</string>
-          </property>
-         </widget>
-        </item>
-        <item row="19" column="0" colspan="10">
-         <widget class="QTableWidget" name="TABLE_Viagens">
-          <property name="editTriggers">
-           <set>QAbstractItemView::NoEditTriggers</set>
-          </property>
-          <property name="sortingEnabled">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="1">
-         <widget class="QPushButton" name="PBT_SelecionarCNTR">
-          <property name="minimumSize">
-           <size>
-            <width>110</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>110</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Selecionar</string>
-          </property>
-         </widget>
-        </item>
         <item row="7" column="0">
          <widget class="QLineEdit" name="TXB_BookingViagem">
           <property name="sizePolicy">
@@ -1084,32 +1055,116 @@
           </property>
          </widget>
         </item>
-        <item row="6" column="1">
-         <widget class="QLabel" name="LBL_TaraViagem">
+        <item row="19" column="0" colspan="9">
+         <widget class="QTableWidget" name="TABLE_Viagens">
+          <property name="editTriggers">
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
+          <property name="sortingEnabled">
+           <bool>true</bool>
+          </property>
+          <column>
+           <property name="text">
+            <string>ID</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Status</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Booking</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>CNTR</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Início</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Fim</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>CPF</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Motorista</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Placa Cavalo</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Placa Carreta</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>SPOT</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+        <item row="7" column="2">
+         <widget class="QCheckBox" name="CHB_SelectALL">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="maximumSize">
+          <property name="minimumSize">
            <size>
-            <width>110</width>
-            <height>16777215</height>
+            <width>120</width>
+            <height>0</height>
            </size>
           </property>
           <property name="text">
-           <string>Tara</string>
+           <string>Qualquer Data</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+          <property name="tristate">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QLabel" name="LBL_StatusViagem">
+          <property name="text">
+           <string>Status</string>
           </property>
          </widget>
         </item>
         <item row="7" column="1">
-         <widget class="QLineEdit" name="TXB_TaraViagem">
+         <widget class="QDateEdit" name="DATE_DataViagem">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>110</width>
+            <height>0</height>
+           </size>
           </property>
           <property name="maximumSize">
            <size>
@@ -1117,15 +1172,24 @@
             <height>16777215</height>
            </size>
           </property>
+          <property name="calendarPopup">
+           <bool>true</bool>
+          </property>
          </widget>
         </item>
-        <item row="6" column="2">
-         <widget class="QLabel" name="LBL_ArmadorViagem">
+        <item row="6" column="1">
+         <widget class="QLabel" name="LBL_DataViagem">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>110</width>
+            <height>0</height>
+           </size>
           </property>
           <property name="maximumSize">
            <size>
@@ -1134,32 +1198,16 @@
            </size>
           </property>
           <property name="text">
-           <string>Armador</string>
+           <string>Data</string>
           </property>
          </widget>
         </item>
-        <item row="7" column="2">
-         <widget class="QLineEdit" name="TXB_ArmadorViagem">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>110</width>
-            <height>16777215</height>
-           </size>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="9">
+        <item row="7" column="6">
          <widget class="QPushButton" name="PBT_ExcluirViagem">
           <property name="minimumSize">
            <size>
             <width>110</width>
-            <height>0</height>
+            <height>30</height>
            </size>
           </property>
           <property name="maximumSize">
@@ -1173,12 +1221,15 @@
           </property>
          </widget>
         </item>
-        <item row="8" column="9">
+        <item row="5" column="1">
+         <widget class="QComboBox" name="CBX_StatusViagem"/>
+        </item>
+        <item row="7" column="8">
          <widget class="QPushButton" name="PBT_NovaViagem">
           <property name="minimumSize">
            <size>
             <width>110</width>
-            <height>0</height>
+            <height>30</height>
            </size>
           </property>
           <property name="maximumSize">
@@ -1192,12 +1243,12 @@
           </property>
          </widget>
         </item>
-        <item row="9" column="9">
+        <item row="7" column="7">
          <widget class="QPushButton" name="PBT_EditarViagem">
           <property name="minimumSize">
            <size>
             <width>110</width>
-            <height>0</height>
+            <height>30</height>
            </size>
           </property>
           <property name="maximumSize">
@@ -1211,8 +1262,8 @@
           </property>
          </widget>
         </item>
-        <item row="8" column="0">
-         <widget class="QLabel" name="LBL_InicioViagem">
+        <item row="7" column="3">
+         <widget class="QPushButton" name="PBT_FiltroViagem">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -1221,93 +1272,12 @@
           </property>
           <property name="minimumSize">
            <size>
-            <width>110</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>110</width>
-            <height>16777215</height>
+            <width>0</width>
+            <height>30</height>
            </size>
           </property>
           <property name="text">
-           <string>Inicio da Janela</string>
-          </property>
-         </widget>
-        </item>
-        <item row="9" column="0">
-         <widget class="QDateEdit" name="DATE_InicioViagem">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>110</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>110</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="calendarPopup">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="8" column="1">
-         <widget class="QLabel" name="LBL_FimViagem">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>110</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>110</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Fim da Janela</string>
-          </property>
-         </widget>
-        </item>
-        <item row="9" column="1">
-         <widget class="QDateEdit" name="DATE_FimViagem">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>110</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>110</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="calendarPopup">
-           <bool>true</bool>
+           <string>Aplicar Filtros</string>
           </property>
          </widget>
         </item>
@@ -1461,21 +1431,12 @@
   <tabstop>CHB_Cabotagem</tabstop>
   <tabstop>CBX_Status</tabstop>
   <tabstop>TABLE_Status</tabstop>
-  <tabstop>abas</tabstop>
   <tabstop>TXB_BK</tabstop>
   <tabstop>TXB_CNTR</tabstop>
   <tabstop>CBX_StatusEstoque</tabstop>
   <tabstop>TABLE_Estoque</tabstop>
-  <tabstop>TXB_SelecionarCNTR</tabstop>
-  <tabstop>PBT_SelecionarCNTR</tabstop>
+  <tabstop>TXB_CNTRViagem</tabstop>
   <tabstop>TXB_BookingViagem</tabstop>
-  <tabstop>TXB_TaraViagem</tabstop>
-  <tabstop>TXB_ArmadorViagem</tabstop>
-  <tabstop>DATE_InicioViagem</tabstop>
-  <tabstop>DATE_FimViagem</tabstop>
-  <tabstop>PBT_ExcluirViagem</tabstop>
-  <tabstop>PBT_NovaViagem</tabstop>
-  <tabstop>PBT_EditarViagem</tabstop>
   <tabstop>TABLE_Viagens</tabstop>
  </tabstops>
  <resources/>

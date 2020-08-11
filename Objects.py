@@ -34,11 +34,12 @@ class CNTR(object):
 
 class Viagem(object):
 
-    def __init__(self, _ID, _cntr, _tipoViagem, 
+    def __init__(self, _ID, _status, _cntr, _tipoViagem, 
                 _inicio, _fim, _origem, _destino, 
-                _CPF, _motorista, _cavalo, _carreta):
+                _CPF, _motorista, _cavalo, _carreta, _spot):
         
         self.ID = _ID
+        self.status = _status
         self.cntr = _cntr
         self.tipoViagem = _tipoViagem
         self.inicio = _inicio
@@ -49,3 +50,4 @@ class Viagem(object):
         self.motorista = _motorista
         self.cavalo = _cavalo
         self.carreta = _carreta
+        self.spot = _spot

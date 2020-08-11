@@ -68,6 +68,31 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
         
         self.cursor.execute("INSERT OR REPLACE INTO CNTRs VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", dataStream)
         self.conn.commit()
+        
+    def SaveViagem(self, Viagem):
+                
+        if not (self.isDBopened):
+            self.OpenDB()
+
+        dataStream = (
+                      Viagem.ID,
+                      0,
+                      Viagem.status,
+                      Viagem.cntr,
+                      Viagem.tipoViagem,
+                      Viagem.inicio,
+                      Viagem.fim,
+                      Viagem.origem,
+                      Viagem.destino,
+                      Viagem.CPF,
+                      Viagem.motorista,
+                      Viagem.cavalo,
+                      Viagem.carreta,
+                      Viagem.spot
+                      )
+
+        self.cursor.execute("INSERT OR REPLACE INTO Pedidos VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, )", dataStream)
+        self.conn.commit()
     #endregion
 
     #region LoadQueries
@@ -164,23 +189,65 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
         if not (self.isDBopened):
             self.OpenDB()
 
-        if (booking == '' and cntr == '' and status ==''):    
-            self.cursor.execute("""
-                                SELECT cntr, booking, status, freetime, armador, terminal, tara, expurgo
-                                FROM CNTRs 
-                                """)
-
-        else:
-            self.cursor.execute("""
-                                SELECT cntr, booking, status, freetime, armador, terminal, tara, expurgo
-                                FROM CNTRs 
-                                WHERE (booking = ? OR cntr = ? OR status = ?)
-                                """
-                                , (str(booking), str(cntr), str(status),))
+        self.cursor.execute("""
+                            SELECT cntr, booking, status, freetime, armador, terminal, tara, expurgo
+                            FROM CNTRs 
+                            WHERE (booking LIKE ? AND cntr LIKE ? AND status LIKE ?)
+                            """
+                            , ('%' + str(booking) + '%', '%' + str(cntr) + '%', '%' + str(status) + '%',))
         
         result = self.cursor.fetchall()
 
         return result
+    
+    def FillViagensTable(self, cntr, booking, status, data, anyDate):
+
+        if not (self.isDBopened):
+            self.OpenDB()
+
+        if (anyDate):
+            self.cursor.execute("""
+                                SELECT 
+                                    Viagens.ID,
+                                    Viagens.status,
+                                    CNTRs.booking,
+                                    CNTRs.cntr,
+                                    Viagens.dataInicio,
+                                    Viagens.dataFim,
+                                    Viagens.cpfMotorista,
+                                    Viagens.placaCavalo,
+                                    Viagens.placaCarreta,
+                                    Viagens.spot
+                                FROM 
+                                    CNTRs
+                                INNER JOIN Viagens on Viagens.cntr = CNTRs.cntr
+                                WHERE (CNTRs.booking LIKE ? AND CNTRs.cntr LIKE ? AND Viagens.status LIKE ?)
+                                """
+                                , ('%' + str(booking) + '%', '%' + str(cntr) + '%', '%' + str(status) + '%',))  
+        
+        else:
+            self.cursor.execute("""
+                                SELECT 
+                                    Viagens.ID,
+                                    Viagens.status,
+                                    CNTRs.booking,
+                                    CNTRs.cntr,
+                                    Viagens.dataInicio,
+                                    Viagens.dataFim,
+                                    Viagens.cpfMotorista,
+                                    Viagens.placaCavalo,
+                                    Viagens.placaCarreta,
+                                    Viagens.spot
+                                FROM 
+                                    CNTRs
+                                INNER JOIN Viagens on Viagens.cntr = CNTRs.cntr
+                                WHERE (CNTRs.booking LIKE ? AND CNTRs.cntr LIKE ? AND Viagens.status LIKE ? AND Viagens.dataInicio LIKE ?)
+                                """
+                                , ('%' + str(booking) + '%', '%' + str(cntr) + '%', '%' + str(status) + '%', '%' + str(data) + '%',))  
+        
+        result = self.cursor.fetchall()
+        return result
+    
     #endregion
 
     #region ListsSetup
@@ -228,7 +295,7 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
         if not (self.isDBopened):
             self.OpenDB()
         
-        self.cursor.execute("SELECT * FROM _StatusCNTR ORDER BY status")
+        self.cursor.execute("SELECT * FROM _StatusCNTR")
         result = self.cursor.fetchall()
         data = []
         for i in range(len(result)):
@@ -241,7 +308,7 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
         if not (self.isDBopened):
             self.OpenDB()
         
-        self.cursor.execute("SELECT * FROM _StatusPedido ORDER BY status")
+        self.cursor.execute("SELECT * FROM _StatusPedido")
         result = self.cursor.fetchall()
         data = []
         for i in range(len(result)):
@@ -301,34 +368,61 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
 
         return data
     
-    def GetMotorista(self, cpf):
+    def GetMotorista(self, cpf = ''):
 
         if not (self.isDBopened):
             self.OpenDB()
         
-        self.cursor.execute("SELECT motorista FROM _BancoConjunto WHERE CPF = ?",
-                            (str(cpf),))
-        
-        return self.cursor.fetchone()
+        if (cpf == ''):
+            self.cursor.execute("SELECT motorista FROM _BancoConjunto")            
+            result = self.cursor.fetchall()
+            data = []
+            for i in range(len(result)):
+                data.append(str(result[i][0]))
+
+            return data
+        else:
+            self.cursor.execute("SELECT motorista FROM _BancoConjunto WHERE CPF = ?",
+                                (str(cpf),))
+            result = self.cursor.fetchone()
+            return result[0]
     
-    def GetCavalo(self, cpf):
+    def GetCavalo(self, cpf = ''):
 
         if not (self.isDBopened):
             self.OpenDB()
         
-        self.cursor.execute("SELECT placaCavalo FROM _BancoConjunto WHERE CPF = ?",
-                            (str(cpf),))
-        
-        return self.cursor.fetchone()
+        if (cpf == ''):
+            self.cursor.execute("SELECT placaCavalo FROM _BancoConjunto")            
+            result = self.cursor.fetchall()
+            data = []
+            for i in range(len(result)):
+                data.append(str(result[i][0]))
+
+            return data
+        else:
+            self.cursor.execute("SELECT placaCavalo FROM _BancoConjunto WHERE CPF = ?",
+                                (str(cpf),))
+            result = self.cursor.fetchone()
+            return result[0]
     
-    def GetCarreta(self, cpf):
+    def GetCarreta(self, cpf = ''):
 
         if not (self.isDBopened):
             self.OpenDB()
         
-        self.cursor.execute("SELECT placaCarreta FROM _BancoConjunto WHERE CPF = ?",
-                            (str(cpf),))
-        
-        return self.cursor.fetchone()
+        if (cpf == ''):
+            self.cursor.execute("SELECT placaCarreta FROM _BancoConjunto")
+            result = self.cursor.fetchall()
+            data = []
+            for i in range(len(result)):
+                data.append(str(result[i][0]))
+
+            return data
+        else:
+            self.cursor.execute("SELECT placaCarreta FROM _BancoConjunto WHERE CPF = ?",
+                                (str(cpf),))
+            result = self.cursor.fetchone()
+            return result[0]
 
     #endregion
