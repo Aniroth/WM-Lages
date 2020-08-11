@@ -75,7 +75,7 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
             self.OpenDB()
 
         dataStream = (
-                      Viagem.ID,
+                      None,
                       0,
                       Viagem.status,
                       Viagem.cntr,
@@ -91,7 +91,7 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
                       Viagem.spot
                       )
 
-        self.cursor.execute("INSERT OR REPLACE INTO Pedidos VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, )", dataStream)
+        self.cursor.execute("INSERT OR REPLACE INTO Viagens VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", dataStream)
         self.conn.commit()
     #endregion
 
@@ -168,14 +168,26 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
 
         return result
     
-    def FillPedidoTable(self, booking):   #FALTA COMBINAR COM VIAGENS
+    def FillBookingTable(self, booking):
         
         if not (self.isDBopened):
             self.OpenDB()
 
         self.cursor.execute("""
-                            SELECT cntr, status, tara, terminal, armador
-                            FROM CNTRs 
+                            SELECT 
+                                CNTRs.cntr, 
+                                CNTRs.status, 
+                                CNTRs.tara, 
+                                CNTRs.terminal, 
+                                CNTRs.armador,
+                                Viagens.cpfMotorista,
+                                Viagens.nomeMotorista,
+                                Viagens.placaCavalo,
+                                Viagens.placaCarreta,
+                                CNTRs.expurgo
+                            FROM 
+                                CNTRs
+                            INNER JOIN Viagens ON Viagens.cntr = CNTRs.cntr
                             WHERE booking = ?
                             """
                             , (str(booking),))
@@ -184,15 +196,30 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
 
         return result
     
-    def FillCNTRTable(self, booking, cntr, status):   #FALTA COMBINAR COM VIAGENS
+    def FillCNTRTable(self, booking, cntr, status):
         
         if not (self.isDBopened):
             self.OpenDB()
 
         self.cursor.execute("""
-                            SELECT cntr, booking, status, freetime, armador, terminal, tara, expurgo
-                            FROM CNTRs 
-                            WHERE (booking LIKE ? AND cntr LIKE ? AND status LIKE ?)
+                            SELECT 
+                                CNTRs.cntr, 
+                                CNTRs.booking, 
+                                CNTRs.status, 
+                                CNTRs.freetime, 
+                                CNTRs.armador, 
+                                CNTRs.terminal, 
+                                CNTRs.tara, 
+                                CNTRs.expurgo,
+                                Viagens.cpfMotorista,
+                                Viagens.nomeMotorista,
+                                Viagens.placaCavalo,
+                                Viagens.placaCarreta,
+                                CNTRs.obs
+                            FROM 
+                                CNTRs
+                            INNER JOIN Viagens on Viagens.cntr = CNTRs.cntr 
+                            WHERE (CNTRs.booking LIKE ? AND CNTRs.cntr LIKE ? AND CNTRs.status LIKE ?)
                             """
                             , ('%' + str(booking) + '%', '%' + str(cntr) + '%', '%' + str(status) + '%',))
         

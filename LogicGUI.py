@@ -22,14 +22,14 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.setupConnections()
         self.setupComboBox()
-        self.NovoPedido()
+        self.NovoBooking()
         self.DATE_DataViagem.setDate(self.dateTools.today)
         self.FillCNTRTable()
         self.FillViagensTable()
 
     def setupConnections(self):
-        self.PBT_Salvar.clicked.connect(self.SalvarPedido)
-        self.PBT_Novo.clicked.connect(self.NovoPedido)
+        self.PBT_Salvar.clicked.connect(self.SalvarBooking)
+        self.PBT_Novo.clicked.connect(self.NovoBooking)
         self.PBT_Buscar.clicked.connect(self.ShowBuscarPedido)
         self.PBT_Excluir.clicked.connect(self.ExcluirPedido)
         self.PBT_ExcluirCNTR.clicked.connect(self.ExcluirCNTR)
@@ -52,34 +52,15 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.CBX_StatusEstoque.setCurrentText('')
 
     #region NewCalls 
-    def NovoPedido(self):
-        self.TXB_Pedido.setText("")
-        self.TXB_Booking.setText("")
-        self.CBX_Status.currentIndex = 0
-        self.CHB_Cabotagem.setChecked(False)
-        self.CBX_Fabrica.currentIndex = 0
-        self.CBX_Porto.currentIndex = 0
-        self.DATE_DL_Fabrica.setDate(self.dateTools.today)
-        self.DATE_DL_Porto.setDate(self.dateTools.today)
-        self.DATE_InicioJanela.setDate(self.dateTools.today)
-        self.DATE_FimJanela.setDate(self.dateTools.today)
-        self.FillPedidoTable('')
+    def NovoBooking(self):
+### FALTA FAZER ###
+        return
     #endregion
 
     #region SaveCalls
-    def SalvarPedido(self):
-        novoPedido = Pedido(self.TXB_Pedido.text(),
-                            self.TXB_Booking.text(),
-                            self.CBX_Status.currentText(),
-                            int(self.CHB_Cabotagem.isChecked()),
-                            self.CBX_Fabrica.currentText(),
-                            self.CBX_Porto.currentText(),
-                            self.DATE_DL_Fabrica.text(),
-                            self.DATE_DL_Porto.text(),
-                            self.DATE_InicioJanela.text(),
-                            self.DATE_FimJanela.text(),)
-        
-        self.dataBase.SavePedido(novoPedido)
+    def SalvarBooking(self):
+### FALTA FAZER ###
+        return
     #endregion
 
     #region LoadCalls
@@ -95,13 +76,13 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.DATE_DL_Porto.setDate(self.dateTools.GetDate(datastream[8]))
         self.DATE_InicioJanela.setDate(self.dateTools.GetDate(datastream[9]))
         self.DATE_FimJanela.setDate(self.dateTools.GetDate(datastream[10]))
-        self.FillPedidoTable(str(datastream[2]))
+        self.FillBookingTable(str(datastream[2]))
     #endregion
 
     #region DeleteCalls
     def ExcluirPedido(self):
         self.dataBase.DeletePedido(self.TXB_Pedido.text())
-        self.NovoPedido()
+        self.NovoBooking()
     
     def ExcluirCNTR(self):
         index = (self.TABLE_Estoque.selectionModel().currentIndex())
@@ -111,10 +92,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     #endregion
 
     #region FillCalls
-    def FillPedidoTable(self, booking):
+    def FillBookingTable(self, booking):
         self.TABLE_Status.clear()
         
-        dataStream = self.dataBase.FillPedidoTable(booking)
+        dataStream = self.dataBase.FillBookingTable(booking)
 
         names = ['Container', 'Status', 'Tara', 'Terminal', 'Armador', 'CPF', 'Motorista', 'Placa Cavalo', 'Placa Carreta', 'Expurgo']
         self.TABLE_Status.setRowCount(len(dataStream))
@@ -308,6 +289,8 @@ class EditarViagemDialog(QtWidgets.QDialog, Ui_DIALOG_EditarViagem):
 
     def setupConnections(self):
         self.TXB_CPF.editingFinished.connect(self.AutoFillConjunto)
+        self.PBT_Gravar.clicked.connect(self.SaveViagem)
+        self.PBT_Cancelar.clicked.connect(self.Fechar)
     
     def setupComboBox(self):
         self.CBX_Carreta.clear()
@@ -327,12 +310,29 @@ class EditarViagemDialog(QtWidgets.QDialog, Ui_DIALOG_EditarViagem):
         self.CBX_StatusViagem.addItems(self.dataBase.GetStatusViagem())
         self.CBX_TipoViagem.addItems(self.dataBase.GetTipoViagem())
     
+    def Fechar(self):
+        self.hide()
+
     def AutoFillConjunto(self):
         cpf = self.TXB_CPF.text()
         self.CBX_Motorista.setCurrentText(self.dataBase.GetMotorista(cpf))
         self.CBX_Cavalo.setCurrentText(self.dataBase.GetCavalo(cpf))
         self.CBX_Carreta.setCurrentText(self.dataBase.GetCarreta(cpf))
 
-    #######MEXER AQUI###############
     def SaveViagem(self):
-        NovaViagem = Viagem()
+        NovaViagem = Viagem(self.CBX_StatusViagem.currentText(),
+                            self.TXB_CNTR.text(),
+                            self.CBX_TipoViagem.currentText(),
+                            self.DATE_Inicio.text(),
+                            self.DATE_Fim.text(),
+                            self.CBX_Origem.currentText(),
+                            self.CBX_Destino.currentText(),
+                            self.TXB_CPF.text(),
+                            self.CBX_Motorista.currentText(),
+                            self.CBX_Cavalo.currentText(),
+                            self.CBX_Carreta.currentText(),
+                            int(self.CHB_Spot.isChecked()))
+        
+        self.dataBase.SaveViagem(NovaViagem)
+        self.parentWindow.FillViagensTable()
+        self.Fechar()

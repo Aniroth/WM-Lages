@@ -26,7 +26,7 @@
       <property name="currentIndex">
        <number>0</number>
       </property>
-      <widget class="QWidget" name="TAB_Pedido">
+      <widget class="QWidget" name="TAB_Booking">
        <property name="sizePolicy">
         <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
          <horstretch>0</horstretch>
@@ -34,7 +34,7 @@
         </sizepolicy>
        </property>
        <attribute name="title">
-        <string>Pedido</string>
+        <string>Booking</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_2">
         <property name="leftMargin">
@@ -129,6 +129,11 @@
             <string>2</string>
            </property>
           </row>
+          <column>
+           <property name="text">
+            <string>Oferta</string>
+           </property>
+          </column>
           <column>
            <property name="text">
             <string>Container</string>
@@ -256,47 +261,6 @@
           </property>
          </widget>
         </item>
-        <item row="0" column="0">
-         <widget class="QLabel" name="LBL_Pedido">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>110</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Número do Pedido</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="LBL_Booking">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>110</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="frameShape">
-           <enum>QFrame::NoFrame</enum>
-          </property>
-          <property name="text">
-           <string>Booking</string>
-          </property>
-         </widget>
-        </item>
         <item row="3" column="3">
          <widget class="QLabel" name="LBL_Porto">
           <property name="sizePolicy">
@@ -369,22 +333,6 @@
           </property>
           <property name="calendarPopup">
            <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLineEdit" name="TXB_Pedido">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>110</width>
-            <height>16777215</height>
-           </size>
           </property>
          </widget>
         </item>
@@ -498,28 +446,6 @@
           </property>
           <property name="calendarPopup">
            <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="0">
-         <widget class="QLineEdit" name="TXB_Booking">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>110</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>110</width>
-            <height>16777215</height>
-           </size>
           </property>
          </widget>
         </item>
@@ -664,6 +590,70 @@
           </property>
           <property name="text">
            <string>Excluir</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="LBL_Booking">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>110</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::NoFrame</enum>
+          </property>
+          <property name="text">
+           <string>Booking</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLineEdit" name="TXB_Booking">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>110</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>110</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="frame">
+           <bool>true</bool>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="LBL_QtdePedido">
+          <property name="text">
+           <string>Quantidade</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0">
+         <widget class="QSpinBox" name="SBX_QtdePedido">
+          <property name="maximum">
+           <number>1000</number>
           </property>
          </widget>
         </item>
@@ -980,9 +970,9 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="TAB_Carregamento">
+      <widget class="QWidget" name="TAB_Viagens">
        <attribute name="title">
-        <string>Carregamento</string>
+        <string>Viagens</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_3">
         <item row="5" column="0">
@@ -1420,8 +1410,6 @@
   </action>
  </widget>
  <tabstops>
-  <tabstop>TXB_Pedido</tabstop>
-  <tabstop>TXB_Booking</tabstop>
   <tabstop>DATE_DL_Fabrica</tabstop>
   <tabstop>DATE_DL_Porto</tabstop>
   <tabstop>DATE_InicioJanela</tabstop>
