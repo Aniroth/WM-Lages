@@ -507,6 +507,19 @@
    </property>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>TXB_Booking</tabstop>
+  <tabstop>SBX_QtdePedido</tabstop>
+  <tabstop>CBX_Fabrica</tabstop>
+  <tabstop>CBX_Porto</tabstop>
+  <tabstop>DATE_DL_Fabrica</tabstop>
+  <tabstop>DATE_DL_Porto</tabstop>
+  <tabstop>DATE_InicioJanela</tabstop>
+  <tabstop>DATE_FimJanela</tabstop>
+  <tabstop>CHB_Cabotagem</tabstop>
+  <tabstop>PBT_Gravar</tabstop>
+  <tabstop>PBT_Cancelar</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

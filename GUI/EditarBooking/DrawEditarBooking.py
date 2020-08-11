@@ -183,6 +183,16 @@ class Ui_DIALOG_NovoBooking(object):
 
         self.retranslateUi(DIALOG_NovoBooking)
         QtCore.QMetaObject.connectSlotsByName(DIALOG_NovoBooking)
+        DIALOG_NovoBooking.setTabOrder(self.TXB_Booking, self.SBX_QtdePedido)
+        DIALOG_NovoBooking.setTabOrder(self.SBX_QtdePedido, self.CBX_Fabrica)
+        DIALOG_NovoBooking.setTabOrder(self.CBX_Fabrica, self.CBX_Porto)
+        DIALOG_NovoBooking.setTabOrder(self.CBX_Porto, self.DATE_DL_Fabrica)
+        DIALOG_NovoBooking.setTabOrder(self.DATE_DL_Fabrica, self.DATE_DL_Porto)
+        DIALOG_NovoBooking.setTabOrder(self.DATE_DL_Porto, self.DATE_InicioJanela)
+        DIALOG_NovoBooking.setTabOrder(self.DATE_InicioJanela, self.DATE_FimJanela)
+        DIALOG_NovoBooking.setTabOrder(self.DATE_FimJanela, self.CHB_Cabotagem)
+        DIALOG_NovoBooking.setTabOrder(self.CHB_Cabotagem, self.PBT_Gravar)
+        DIALOG_NovoBooking.setTabOrder(self.PBT_Gravar, self.PBT_Cancelar)
 
     def retranslateUi(self, DIALOG_NovoBooking):
         _translate = QtCore.QCoreApplication.translate

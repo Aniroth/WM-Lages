@@ -13,44 +13,43 @@ class DataBaseConnectionMeta(type):
 
 class DataBaseConnection(metaclass=DataBaseConnectionMeta):
 
-    isDBopened = False
-    
-
-    def OpenDB(self):
-        self.conn = sqlite3.connect('BancoDeDados\\Banco de Dados.db')
-        self.cursor = self.conn.cursor()
-        self.isDBopened = True
-    
-    def CloseDB(self):
-        self.conn.close()
+    conn = sqlite3.connect('BancoDeDados\\Banco de Dados.db')
+    cursor = conn.cursor()
 
     #region SaveQueries
-    def SavePedido(self, pedido):
-        
-        if not (self.isDBopened):
-            self.OpenDB()
+    def NewOferta(self, oferta, qtde):
 
-        dataStream = (
-                      pedido.pedido, 
+        dataStream = []
+        for i in range(qtde):
+            dataStream.append((
+                             None,
+                             oferta.oferta,
+                             oferta.booking
+                             ))
+        
+        self.cursor.executemany("INSERT INTO Ofertas VALUES (?, ?, ?)", dataStream)
+        self.conn.commit()
+    
+    def SaveBooking(self, booking):
+
+        dataStream = ( 
                       1, 
-                      pedido.booking, 
-                      pedido.status, 
-                      pedido.cabotagem, 
-                      pedido.fabrica, 
-                      pedido.porto, 
-                      pedido.DLfabrica, 
-                      pedido.DLporto,
-                      pedido.janelaInicio, 
-                      pedido.janelaFim,
+                      booking.booking, 
+                      booking.status, 
+                      booking.cabotagem, 
+                      booking.fabrica, 
+                      booking.porto, 
+                      booking.DLfabrica, 
+                      booking.DLporto,
+                      booking.janelaInicio, 
+                      booking.janelaFim,
+                      booking.qtde
                       )
 
-        self.cursor.execute("INSERT OR REPLACE INTO Pedidos VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", dataStream)
+        self.cursor.execute("INSERT OR REPLACE INTO Bookings VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", dataStream)
         self.conn.commit()
 
     def SaveCNTR(self, CNTR):
-
-        if not (self.isDBopened):
-            self.OpenDB()
 
         dataStream = (
                       CNTR.cntr,
@@ -70,9 +69,6 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
         self.conn.commit()
         
     def SaveViagem(self, Viagem):
-                
-        if not (self.isDBopened):
-            self.OpenDB()
 
         dataStream = (
                       None,
@@ -96,24 +92,19 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
     #endregion
 
     #region LoadQueries
-    def OpenPendido(self, pedido):
-        
-        if not (self.isDBopened):
-            self.OpenDB()
-
+    def OpenBooking(self, booking):
+    
         self.cursor.execute("""
-                            SELECT * FROM Pedidos
-                            WHERE pedido = ?
-                            """, (str(pedido),))
-        
+                            SELECT * FROM Bookings
+                            WHERE booking LIKE ?
+                            """, ('%' + str(booking) + '%',))            
+
+
         dataStream = self.cursor.fetchone()
 
         return dataStream
     
     def OpenCNTR(self, cntr):
-        
-        if not (self.isDBopened):
-            self.OpenDB()
 
         self.cursor.execute("""
                             SELECT * FROM CNTRs
@@ -126,22 +117,16 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
     #endregion
 
     #region DeleteQueries
-    def DeletePedido(self, pedido):
-        
-        if not (self.isDBopened):
-            self.OpenDB()
+    def DeleteBooking(self, booking):
         
         self.cursor.execute("""
-                            DELETE FROM Pedidos
-                            WHERE pedido = ?
-                            """, (str(pedido),))
+                            DELETE FROM Bookings
+                            WHERE booking = ?
+                            """, (str(booking),))
         
         self.conn.commit()
     
     def DeleteCNTR(self, cntr):
-        
-        if not (self.isDBopened):
-            self.OpenDB()
         
         self.cursor.execute("""
                             DELETE FROM CNTRs
@@ -153,15 +138,12 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
     #endregion
 
     #region FillQueries
-    def FillPedidoSearch(self, keySearch, valueSeach):
-        
-        if not (self.isDBopened):
-            self.OpenDB()
+    def FillBookingSearch(self, valueSeach):
 
         self.cursor.execute("""
-                            SELECT pedido, booking, status, deadlinePorto 
-                            FROM Pedidos
-                            WHERE """ + str(keySearch) + " LIKE ?"
+                            SELECT booking, status, deadlinePorto 
+                            FROM Bookings
+                            WHERE booking LIKE ?"""
                             , ('%' + str(valueSeach) + '%',))
         
         result = self.cursor.fetchall()
@@ -169,12 +151,11 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
         return result
     
     def FillBookingTable(self, booking):
-        
-        if not (self.isDBopened):
-            self.OpenDB()
 
         self.cursor.execute("""
-                            SELECT 
+                            SELECT
+                                Ofertas.ID,
+                                Ofertas.oferta,
                                 CNTRs.cntr, 
                                 CNTRs.status, 
                                 CNTRs.tara, 
@@ -186,9 +167,12 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
                                 Viagens.placaCarreta,
                                 CNTRs.expurgo
                             FROM 
-                                CNTRs
-                            INNER JOIN Viagens ON Viagens.cntr = CNTRs.cntr
-                            WHERE booking = ?
+                                Ofertas
+                            LEFT JOIN CNTRs ON CNTRs.oferta = Ofertas.oferta
+                            LEFT JOIN Viagens on CNTRs.cntr = Viagens.cntr
+                            WHERE Ofertas.booking = ?
+                            GROUP BY Ofertas.ID
+                            ORDER BY Ofertas.ID ASC
                             """
                             , (str(booking),))
         
@@ -197,9 +181,6 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
         return result
     
     def FillCNTRTable(self, booking, cntr, status):
-        
-        if not (self.isDBopened):
-            self.OpenDB()
 
         self.cursor.execute("""
                             SELECT 
@@ -228,9 +209,6 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
         return result
     
     def FillViagensTable(self, cntr, booking, status, data, anyDate):
-
-        if not (self.isDBopened):
-            self.OpenDB()
 
         if (anyDate):
             self.cursor.execute("""
@@ -279,9 +257,6 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
 
     #region ListsSetup
     def GetArmadores(self):
-
-        if not (self.isDBopened):
-            self.OpenDB()
         
         self.cursor.execute("SELECT * FROM _Armadores ORDER BY armador")
         result = self.cursor.fetchall()
@@ -292,9 +267,6 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
         return data
     
     def GetFabricas(self):
-
-        if not (self.isDBopened):
-            self.OpenDB()
         
         self.cursor.execute("SELECT * FROM _Fabricas ORDER BY fabrica")
         result = self.cursor.fetchall()
@@ -305,9 +277,6 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
         return data
     
     def GetPortos(self):
-
-        if not (self.isDBopened):
-            self.OpenDB()
         
         self.cursor.execute("SELECT * FROM _Portos ORDER BY porto")
         result = self.cursor.fetchall()
@@ -318,9 +287,6 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
         return data
     
     def GetStatusCNTR(self):
-
-        if not (self.isDBopened):
-            self.OpenDB()
         
         self.cursor.execute("SELECT * FROM _StatusCNTR")
         result = self.cursor.fetchall()
@@ -331,9 +297,6 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
         return data
     
     def GetStatusPedido(self):
-
-        if not (self.isDBopened):
-            self.OpenDB()
         
         self.cursor.execute("SELECT * FROM _StatusPedido")
         result = self.cursor.fetchall()
@@ -344,9 +307,6 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
         return data
     
     def GetStatusViagem(self):
-
-        if not (self.isDBopened):
-            self.OpenDB()
         
         self.cursor.execute("SELECT * FROM _StatusViagem ORDER BY status")
         result = self.cursor.fetchall()
@@ -357,9 +317,6 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
         return data
     
     def GetTerminais(self):
-
-        if not (self.isDBopened):
-            self.OpenDB()
         
         self.cursor.execute("SELECT * FROM _Terminais ORDER BY terminal")
         result = self.cursor.fetchall()
@@ -370,9 +327,6 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
         return data
 
     def GetTipoViagem(self):
-
-        if not (self.isDBopened):
-            self.OpenDB()
         
         self.cursor.execute("SELECT * FROM _TipoViagem ORDER BY tipo")
         result = self.cursor.fetchall()
@@ -383,9 +337,6 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
         return data
 
     def GetCPF(self):
-
-        if not (self.isDBopened):
-            self.OpenDB()
         
         self.cursor.execute("SELECT CPF FROM _BancoConjunto ORDER BY CPF")
         result = self.cursor.fetchall()
@@ -396,9 +347,6 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
         return data
     
     def GetMotorista(self, cpf = ''):
-
-        if not (self.isDBopened):
-            self.OpenDB()
         
         if (cpf == ''):
             self.cursor.execute("SELECT motorista FROM _BancoConjunto")            
@@ -415,9 +363,6 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
             return result[0]
     
     def GetCavalo(self, cpf = ''):
-
-        if not (self.isDBopened):
-            self.OpenDB()
         
         if (cpf == ''):
             self.cursor.execute("SELECT placaCavalo FROM _BancoConjunto")            
@@ -434,9 +379,6 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
             return result[0]
     
     def GetCarreta(self, cpf = ''):
-
-        if not (self.isDBopened):
-            self.OpenDB()
         
         if (cpf == ''):
             self.cursor.execute("SELECT placaCarreta FROM _BancoConjunto")

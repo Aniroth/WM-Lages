@@ -1,10 +1,9 @@
-class Pedido(object):
+class Booking(object):
 
-    def __init__(self, _pedido, _booking, _status, 
+    def __init__(self, _booking, _status, 
                 _cabotagem, _fabrica, _porto, _DLfabrica, 
-                _DLporto, _janelaInicio, _janelaFim):
+                _DLporto, _janelaInicio, _janelaFim, _qtde):
         
-        self.pedido = _pedido
         self.status = _status
         self.booking = _booking
         self.fabrica = _fabrica
@@ -14,6 +13,7 @@ class Pedido(object):
         self.janelaInicio = _janelaInicio
         self.janelaFim = _janelaFim
         self.cabotagem = _cabotagem
+        self.qtde = _qtde
 
 class CNTR(object):
 
@@ -51,3 +51,10 @@ class Viagem(object):
         self.cavalo = _cavalo
         self.carreta = _carreta
         self.spot = _spot
+
+class Oferta(object):
+        
+    def __init__(self, _booking, _oferta = ''):
+        
+        self.booking = _booking
+        self.oferta = _oferta
