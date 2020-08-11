@@ -127,6 +127,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                     itemText = 'Sim'
                 elif (itemText == 0):
                     itemText = 'Não'
+                elif (itemText == None):
+                    itemText = ''
                 else:
                     itemText = str(itemText)
 
