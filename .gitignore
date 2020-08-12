@@ -3,4 +3,4 @@ GUI/__pycache__
 *.spec
 build
 dist
-~$ControleMotoristas.xlsx
+~$*
