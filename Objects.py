@@ -19,7 +19,7 @@ class CNTR(object):
 
     def __init__(self, _cntr, _status, _booking, 
                 _tara, _armador, _terminal, _dataColeta, 
-                _freeTime, _obs = '', _expurgo = 0, _oferta = ''):
+                _freeTime, _obs = '', _expurgo = 0, _oferta = '', _lacre = ''):
 
         self.cntr = _cntr
         self.status = _status
@@ -32,6 +32,7 @@ class CNTR(object):
         self.obs = _obs
         self.expurgo = _expurgo
         self.oferta = _oferta
+        self.lacre = _lacre
 
 class Viagem(object):
 

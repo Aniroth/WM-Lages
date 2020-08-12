@@ -76,10 +76,11 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
                       CNTR.dataColeta,
                       CNTR.freeTime,
                       CNTR.obs,
-                      CNTR.expurgo
+                      CNTR.expurgo,
+                      CNTR.lacre
                      )
         
-        self.cursor.execute("INSERT OR REPLACE INTO CNTRs VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", dataStream)
+        self.cursor.execute("INSERT OR REPLACE INTO CNTRs VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", dataStream)
         self.conn.commit()
         
     def SaveViagem(self, Viagem):
@@ -112,7 +113,6 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
                             SELECT * FROM Bookings
                             WHERE booking LIKE ?
                             """, ('%' + str(booking) + '%',))            
-
 
         dataStream = self.cursor.fetchone()
 
@@ -184,17 +184,14 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
                                 CNTRs.cntr, 
                                 CNTRs.status, 
                                 CNTRs.tara, 
+                                CNTRs.lacre,
                                 CNTRs.terminal, 
                                 CNTRs.armador,
-                                Viagens.cpfMotorista,
-                                Viagens.nomeMotorista,
-                                Viagens.placaCavalo,
-                                Viagens.placaCarreta,
-                                CNTRs.expurgo
+                                CNTRs.expurgo,
+                                CNTRs.obs
                             FROM 
                                 Ofertas
                             LEFT JOIN CNTRs ON CNTRs.oferta = Ofertas.oferta
-                            LEFT JOIN Viagens on CNTRs.cntr = Viagens.cntr
                             WHERE Ofertas.booking = ?
                             GROUP BY Ofertas.ID
                             ORDER BY Ofertas.ID ASC
@@ -215,16 +212,12 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
                                 CNTRs.freetime, 
                                 CNTRs.armador, 
                                 CNTRs.terminal, 
-                                CNTRs.tara, 
+                                CNTRs.tara,
+                                CNTRs.lacre,
                                 CNTRs.expurgo,
-                                Viagens.cpfMotorista,
-                                Viagens.nomeMotorista,
-                                Viagens.placaCavalo,
-                                Viagens.placaCarreta,
                                 CNTRs.obs
                             FROM 
                                 CNTRs
-                            LEFT JOIN Viagens on Viagens.cntr = CNTRs.cntr 
                             WHERE (CNTRs.booking LIKE ? AND CNTRs.cntr LIKE ? AND CNTRs.status LIKE ?)
                             """
                             , ('%' + str(booking) + '%', '%' + str(cntr) + '%', '%' + str(status) + '%',))
@@ -244,6 +237,9 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
                                     CNTRs.cntr,
                                     Viagens.dataInicio,
                                     Viagens.dataFim,
+                                    Viagens.origem,
+                                    Viagens.destino,
+                                    CNTRs.lacre,
                                     Viagens.cpfMotorista,
                                     Viagens.nomeMotorista,
                                     Viagens.placaCavalo,
@@ -265,7 +261,11 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
                                     CNTRs.cntr,
                                     Viagens.dataInicio,
                                     Viagens.dataFim,
+                                    Viagens.origem,
+                                    Viagens.destino,
+                                    CNTRs.lacre
                                     Viagens.cpfMotorista,
+                                    Viagens.nomeMotorista,
                                     Viagens.placaCavalo,
                                     Viagens.placaCarreta,
                                     Viagens.spot
@@ -299,6 +299,22 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
         data = []
         for i in range(len(result)):
             data.append(str(result[i][0]))
+
+        return data
+
+    def GetFabrica(self, booking):
+
+        self.cursor.execute("SELECT fabrica FROM Bookings WHERE booking = ?", (str(booking),))
+        result = self.cursor.fetchone()
+        data = str(result[0])
+
+        return data
+
+    def GetPorto(self, booking):
+
+        self.cursor.execute("SELECT porto FROM Bookings WHERE booking = ?", (str(booking),))
+        result = self.cursor.fetchone()
+        data = str(result[0])
 
         return data
     

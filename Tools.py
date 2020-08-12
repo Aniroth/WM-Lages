@@ -1,7 +1,7 @@
 from PyQt5 import QtCore
 
 #SINGLETON#
-class DateToolsMeta(type):
+class ToolsMeta(type):
     _instances = {}
 
     def __call__(cls, *args, **kwargs):
@@ -10,7 +10,7 @@ class DateToolsMeta(type):
             cls._instances[cls] = instance
         return cls._instances[cls]
 
-class DateTolls(metaclass=DateToolsMeta):
+class Tools(metaclass=ToolsMeta):
 
     today = QtCore.QDate.currentDate()
 
@@ -18,3 +18,16 @@ class DateTolls(metaclass=DateToolsMeta):
         tempDate = str(sTime).split('/')
         date = QtCore.QDate(int(tempDate[2]), int(tempDate[1]), int(tempDate[0]))
         return date
+    
+    def FormatData(self, data):
+        
+        if (data == None):
+            data = ''
+        elif (data == 1):
+            data = 'Sim'
+        elif (data == 0):
+            data = 'Não'
+        else:
+            data = str(data)
+        
+        return data

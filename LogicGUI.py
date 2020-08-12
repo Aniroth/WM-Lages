@@ -10,7 +10,7 @@ from GUI.EditarViagem.DrawEditarViagem import Ui_DIALOG_EditarViagem
 from GUI.EditarBooking.DrawEditarBooking import Ui_DIALOG_NovoBooking
 
 from DataBase import *
-from DateTools import *
+from Tools import *
 from Objects import *
 
 import sys
@@ -19,25 +19,26 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
         self.dataBase = DataBaseConnection()
-        self.dateTools = DateTolls()
+        self.tools = Tools()
         self.setupUi(self)
         self.setupConnections()
         self.setupComboBox()
-        self.DATE_DataViagem.setDate(self.dateTools.today)
+        self.DATE_DataViagem.setDate(self.tools.today)
         self.FillCNTRTable()
         self.FillViagensTable()
 
     def setupConnections(self):
-        self.PBT_Salvar.clicked.connect(self.SalvarBooking)
+        self.PBT_Salvar.clicked.connect(self.SaveBooking)
         self.PBT_Novo.clicked.connect(self.ShowNovoBooking)
         self.PBT_Buscar.clicked.connect(self.ShowBuscarBooking)
-        self.PBT_Excluir.clicked.connect(self.ExcluirBooking)
-        self.PBT_ExcluirCNTR.clicked.connect(self.ExcluirCNTR)
+        self.PBT_Excluir.clicked.connect(self.DeleteBooking)
+        self.PBT_ExcluirCNTR.clicked.connect(self.DeleteCNTR)
         self.PBT_AplicarFiltro.clicked.connect(self.FillCNTRTable)
         self.PBT_EditarCNTR.clicked.connect(lambda: self.ShowEditarCNTR(False))
         self.PBT_IncluirCNTR.clicked.connect(lambda: self.ShowEditarCNTR(True))
         self.PBT_NovaViagem.clicked.connect(lambda: self.ShowEditarViagem(True))
         self.PBT_FiltroViagem.clicked.connect(self.FillViagensTable)
+        self.PBT_EditarViagem.clicked.connect(lambda: self.ShowEditarViagem(False))
         self.TABLE_Status.cellClicked.connect(self.AllowEdit)
     
     def setupComboBox(self):
@@ -53,7 +54,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.CBX_StatusEstoque.setCurrentText('')
 
     #region SaveCalls
-    def SalvarBooking(self):
+    def SaveBooking(self):
         booking = Booking(self.TXB_Booking.text(),
                           'Aberto',
                           self.CHB_Cabotagem.isChecked(),
@@ -87,19 +88,19 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.CHB_Cabotagem.setChecked(bool(datastream[3]))
         self.CBX_Fabrica.setCurrentText(str(datastream[4]))
         self.CBX_Porto.setCurrentText(str(datastream[5]))
-        self.DATE_DL_Fabrica.setDate(self.dateTools.GetDate(datastream[6]))
-        self.DATE_DL_Porto.setDate(self.dateTools.GetDate(datastream[7]))
-        self.DATE_InicioJanela.setDate(self.dateTools.GetDate(datastream[8]))
-        self.DATE_FimJanela.setDate(self.dateTools.GetDate(datastream[9]))
+        self.DATE_DL_Fabrica.setDate(self.tools.GetDate(datastream[6]))
+        self.DATE_DL_Porto.setDate(self.tools.GetDate(datastream[7]))
+        self.DATE_InicioJanela.setDate(self.tools.GetDate(datastream[8]))
+        self.DATE_FimJanela.setDate(self.tools.GetDate(datastream[9]))
         self.FillBookingTable(str(datastream[1]))
     #endregion
 
     #region DeleteCalls
-    def ExcluirBooking(self):
+    def DeleteBooking(self):
         self.dataBase.DeleteBooking(self.TXB_Pedido.text())
         self.NovoBooking()
     
-    def ExcluirCNTR(self):
+    def DeleteCNTR(self):
         index = (self.TABLE_Estoque.selectionModel().currentIndex())
         value = index.sibling(index.row(), 0).data()
         self.dataBase.DeleteCNTR(value)
@@ -112,26 +113,16 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         
         dataStream = self.dataBase.FillBookingTable(booking)
 
-        names = ['ID', 'Oferta', 'Container', 'Status', 'Tara', 'Terminal', 'Armador', 'CPF', 'Motorista', 'Placa Cavalo', 'Placa Carreta', 'Expurgo']
+        names = ['ID', 'Oferta', 'Container', 'Status', 'Tara', 'Lacre', 'Terminal', 'Armador', 'Expurgo', 'OBS']
         self.TABLE_Status.setRowCount(len(dataStream))
+        self.TABLE_Status.setColumnCount(len(names))
         self.TABLE_Status.setHorizontalHeaderLabels(names)
 
         for row in range(len(dataStream)):
 
             for col in range(len(dataStream[row])):
                 
-                itemText = dataStream[row][col]
-                if (itemText == 'None'):
-                    itemText = ''
-                elif (itemText == 1):
-                    itemText = 'Sim'
-                elif (itemText == 0):
-                    itemText = 'Não'
-                elif (itemText == None):
-                    itemText = ''
-                else:
-                    itemText = str(itemText)
-
+                itemText = self.tools.FormatData(dataStream[row][col])
                 self.TABLE_Status.setItem(row, col, QTableWidgetItem(itemText))
     
     def FillCNTRTable(self):
@@ -142,25 +133,17 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                                                  self.TXB_CNTR.text(),
                                                  self.CBX_StatusEstoque.currentText())
 
-        names = ['Container', 'Booking', 'Status', 'Freetime', 'Armador', 'Terminal', 'Tara', 'Expurgo', 'CPF', 'Motorista', 'Placa Cavalo', 'Placa Carreta', 'OBS']
+        names = ['Container', 'Booking', 'Status', 'Freetime', 'Armador', 'Terminal', 'Tara', 'Lacre', 'Expurgo', 'OBS']
         
         self.TABLE_Estoque.setRowCount(len(dataStream))
+        self.TABLE_Estoque.setColumnCount(len(names))
         self.TABLE_Estoque.setHorizontalHeaderLabels(names)
 
         for row in range(len(dataStream)):
 
             for col in range(len(dataStream[row])):
                 
-                itemText = dataStream[row][col]
-                if (itemText == 'None'):
-                    itemText = ''
-                elif (itemText == 1):
-                    itemText = 'Sim'
-                elif (itemText == 0):
-                    itemText = 'Não'
-                else:
-                    itemText = str(itemText)
-
+                itemText = self.tools.FormatData(dataStream[row][col])
                 self.TABLE_Estoque.setItem(row, col, QTableWidgetItem(itemText))
     
     def FillViagensTable(self):
@@ -173,25 +156,17 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                                                     self.DATE_DataViagem.text(),
                                                     bool(self.CHB_SelectALL.isChecked()))
 
-        names = ['ID', 'Status', 'Booking', 'CNTR', 'Início', 'Fim', 'CPF', 'Motorista', 'Placa Cavalo', 'Placa Carreta', 'Spot']
+        names = ['ID', 'Status', 'Booking', 'CNTR', 'Início', 'Fim', 'Origem', 'Destino', 'Lacre', 'CPF', 'Motorista', 'Placa Cavalo', 'Placa Carreta', 'Spot']
         
         self.TABLE_Viagens.setRowCount(len(dataStream))
+        self.TABLE_Viagens.setColumnCount(len(names))
         self.TABLE_Viagens.setHorizontalHeaderLabels(names)
 
         for row in range(len(dataStream)):
 
             for col in range(len(dataStream[row])):
                 
-                itemText = dataStream[row][col]
-                if (itemText == 'None'):
-                    itemText = ''
-                elif (itemText == 1):
-                    itemText = 'Sim'
-                elif (itemText == 0):
-                    itemText = 'Não'
-                else:
-                    itemText = str(itemText)
-
+                itemText = self.tools.FormatData(dataStream[row][col])
                 self.TABLE_Viagens.setItem(row, col, QTableWidgetItem(itemText))
     #endregion
 
@@ -234,114 +209,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         else:
             self.TABLE_Status.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
 
-class EditarBookingDialog(QtWidgets.QDialog, Ui_DIALOG_NovoBooking):
-    def __init__(self, _parentWindow, parent=None):
-        super(EditarBookingDialog, self).__init__(parent)
-        self.dataBase = DataBaseConnection()
-        self.dateTools = DateTolls()
-        self.parentWindow = _parentWindow
-        self.setupUi(self)
-        self.setupConnections()
-        self.setupComboBox()
-
-    def setupConnections(self):        
-        self.PBT_Gravar.clicked.connect(self.SaveBooking)
-    
-    def setupComboBox(self):
-        self.DATE_DL_Fabrica.setDate(self.dateTools.today)
-        self.DATE_DL_Porto.setDate(self.dateTools.today)
-        self.DATE_InicioJanela.setDate(self.dateTools.today)
-        self.DATE_FimJanela.setDate(self.dateTools.today)
-        self.CBX_Fabrica.addItems(self.dataBase.GetFabricas())
-        self.CBX_Porto.addItems(self.dataBase.GetPortos())
-    
-    def SaveBooking(self):
-        novoBooking = Booking(self.TXB_Booking.text(),
-                              'Aberto',
-                              self.CHB_Cabotagem.isChecked(),
-                              self.CBX_Fabrica.currentText(),
-                              self.CBX_Porto.currentText(),
-                              self.DATE_DL_Fabrica.text(),
-                              self.DATE_DL_Porto.text(),
-                              self.DATE_InicioJanela.text(),
-                              self.DATE_FimJanela.text(),
-                              self.SBX_QtdePedido.text())
-        
-        self.dataBase.SaveBooking(novoBooking)
-        self.CreateOfertas(int(self.SBX_QtdePedido.text()), 
-                           self.TXB_Booking.text())
-        self.parentWindow.OpenBooking(novoBooking.booking)
-        self.hide()
-    
-    def CreateOfertas(self, qtde, booking):
-        novaOferta = Oferta(booking)
-        self.dataBase.NewOferta(novaOferta, qtde)
-
-class EditarCNTRDialog(QtWidgets.QDialog, Ui_DIALOG_EditarCNTR):
-    def __init__(self, _parentWindow, cntr = None, parent = None):
-        super(EditarCNTRDialog, self).__init__(parent)
-        self.parentWindow = _parentWindow
-        self.dataBase = DataBaseConnection()
-        self.dateTools = DateTolls()
-        self.setupUi(self)
-        self.setupConnections()
-        self.setupComboBox()
-
-        if (cntr == None):
-            self.DATE_Coleta.setDate(self.dateTools.today)
-        else:
-            self.OpenCNTR(cntr)
-
-    def setupConnections(self):
-        self.PBT_Gravar.clicked.connect(self.SalvarCNTR)
-        self.PBT_Cancelar.clicked.connect(self.Fechar)
-
-    def setupComboBox(self):
-        self.CBX_Armador.clear()
-        self.CBX_Status.clear()
-        self.CBX_TerminalVazio.clear()
-        self.CBX_Armador.addItems(self.dataBase.GetArmadores())
-        self.CBX_Status.addItems(self.dataBase.GetStatusCNTR())
-        self.CBX_TerminalVazio.addItems(self.dataBase.GetTerminais())
-
-    def Fechar(self):
-        self.hide()
-
-    #region SaveCalls
-    def SalvarCNTR(self):
-        novoCNTR = CNTR(
-                        self.TXB_Unidade.text(),
-                        self.CBX_Status.currentText(),
-                        self.TXB_Booking.text(),
-                        self.SBX_Tara.text(),
-                        self.CBX_Armador.currentText(),
-                        self.CBX_TerminalVazio.currentText(),
-                        self.DATE_Coleta.text(),
-                        20,                                            #GAMBIARRA
-                        '',
-                        int(self.CHB_Expurgo.isChecked()),
-                        self.TXB_Oferta.text()
-                        )
-        
-        self.dataBase.SaveCNTR(novoCNTR)
-        self.parentWindow.FillCNTRTable()
-        self.Fechar()
-    #endregion
-
-    #region LoadCalls
-    def OpenCNTR(self, cntr):
-        dataStream = self.dataBase.OpenCNTR(cntr)
-        self.TXB_Unidade.setText(dataStream[1])
-        self.TXB_Oferta.setText(str(dataStream[2]))
-        self.CBX_Status.setCurrentText(dataStream[3])
-        self.TXB_Booking.setText(dataStream[4])
-        self.SBX_Tara.setValue(dataStream[5])
-        self.CBX_Armador.setCurrentText(dataStream[6])
-        self.CBX_TerminalVazio.setCurrentText(dataStream[7])
-        self.DATE_Coleta.setDate(self.dateTools.GetDate(dataStream[8]))
-        self.CHB_Expurgo.setChecked(bool(dataStream[11]))
-    #endregion
-
 class BuscarBookingDialog(QtWidgets.QDialog, Ui_DIALOG_BuscaPedido):
     def __init__(self, _parentWindow, parent = None):
         super(BuscarBookingDialog, self).__init__(parent)
@@ -381,16 +248,167 @@ class BuscarBookingDialog(QtWidgets.QDialog, Ui_DIALOG_BuscaPedido):
         self.hide()
     #endregion
 
+class EditarBookingDialog(QtWidgets.QDialog, Ui_DIALOG_NovoBooking):
+    def __init__(self, _parentWindow, parent=None):
+        super(EditarBookingDialog, self).__init__(parent)
+        self.dataBase = DataBaseConnection()
+        self.dateTools = Tools()
+        self.parentWindow = _parentWindow
+        self.setupUi(self)
+        self.setupConnections()
+        self.setupComboBox()
+
+    def setupConnections(self):        
+        self.PBT_Gravar.clicked.connect(self.SaveBooking)
+    
+    def setupComboBox(self):
+        self.DATE_DL_Fabrica.setDate(self.dateTools.today)
+        self.DATE_DL_Porto.setDate(self.dateTools.today)
+        self.DATE_InicioJanela.setDate(self.dateTools.today)
+        self.DATE_FimJanela.setDate(self.dateTools.today)
+        self.CBX_Fabrica.addItems(self.dataBase.GetFabricas())
+        self.CBX_Porto.addItems(self.dataBase.GetPortos())
+    
+    def SaveBooking(self):
+        novoBooking = Booking(self.TXB_Booking.text(),
+                              'Aberto',
+                              self.CHB_Cabotagem.isChecked(),
+                              self.CBX_Fabrica.currentText(),
+                              self.CBX_Porto.currentText(),
+                              self.DATE_DL_Fabrica.text(),
+                              self.DATE_DL_Porto.text(),
+                              self.DATE_InicioJanela.text(),
+                              self.DATE_FimJanela.text(),
+                              self.SBX_QtdePedido.text())
+        
+        self.dataBase.SaveBooking(novoBooking)
+        self.CreateOfertas(int(self.SBX_QtdePedido.text()), 
+                           self.TXB_Booking.text())
+        self.parentWindow.OpenBooking(novoBooking.booking)
+        self.parentWindow.FillViagensTable()
+        self.parentWindow.FillCNTRTable()
+        self.hide()
+    
+    def CreateOfertas(self, qtde, booking):
+        novaOferta = Oferta(booking)
+        self.dataBase.NewOferta(novaOferta, qtde)
+
+class EditarCNTRDialog(QtWidgets.QDialog, Ui_DIALOG_EditarCNTR):
+    def __init__(self, _parentWindow, _cntr = None, parent = None):
+        super(EditarCNTRDialog, self).__init__(parent)
+        self.parentWindow = _parentWindow
+        self.dataBase = DataBaseConnection()
+        self.tools = Tools()
+        self.setupUi(self)
+        self.setupConnections()
+        self.setupComboBox()
+
+        if (_cntr == None):
+            self.DATE_Coleta.setDate(self.tools.today)
+            self.cntr = None
+        else:
+            self.OpenCNTR(_cntr)
+            self.cntr = _cntr
+
+    def setupConnections(self):
+        self.PBT_Gravar.clicked.connect(self.SalvarCNTR)
+        self.PBT_Cancelar.clicked.connect(self.Fechar)
+
+    def setupComboBox(self):
+        self.CBX_Armador.clear()
+        self.CBX_Status.clear()
+        self.CBX_TerminalVazio.clear()
+        self.CBX_Armador.addItems(self.dataBase.GetArmadores())
+        self.CBX_Status.addItems(self.dataBase.GetStatusCNTR())
+        self.CBX_TerminalVazio.addItems(self.dataBase.GetTerminais())
+
+    def Fechar(self):
+        self.hide()
+
+    #region SaveCalls
+    def SalvarCNTR(self):
+        novoCNTR = CNTR(
+                        self.TXB_Unidade.text(),
+                        self.CBX_Status.currentText(),
+                        self.TXB_Booking.text(),
+                        self.SBX_Tara.text(),
+                        self.CBX_Armador.currentText(),
+                        self.CBX_TerminalVazio.currentText(),
+                        self.DATE_Coleta.text(),
+                        20,                                            #GAMBIARRA
+                        self.TED_obs.toPlainText(),
+                        int(self.CHB_Expurgo.isChecked()),
+                        self.TXB_Oferta.text(),
+                        self.TXB_Lacre.text()
+                        )
+
+        if (self.cntr == None):
+            self.novaViagem = EditarViagemDialog(self.parentWindow)
+            self.novaViagem.TXB_CNTR.setText(self.TXB_Unidade.text())
+            self.novaViagem.CBX_Origem.setCurrentText(self.CBX_TerminalVazio.currentText())
+            self.novaViagem.CBX_Destino.setCurrentText('Lages')
+            self.novaViagem.CBX_StatusViagem.setCurrentText('Finalizada')
+            self.novaViagem.CBX_TipoViagem.setCurrentText('Coleta Vázio')
+            self.novaViagem.DATE_Inicio.setDate(self.tools.today)
+            self.novaViagem.DATE_Fim.setDate(self.tools.today)
+            self.novaViagem.show()
+        elif (self.CBX_Status.currentText() == 'Trânsito Fábrica'):
+            self.novaViagem = EditarViagemDialog(self.parentWindow)
+            self.novaViagem.TXB_CNTR.setText(self.TXB_Unidade.text())
+            self.novaViagem.CBX_Origem.setCurrentText('Lages')
+            self.novaViagem.CBX_Destino.setCurrentText(self.dataBase.GetFabrica(self.TXB_Booking.text()))
+            self.novaViagem.CBX_StatusViagem.setCurrentText('Em Trânsito')
+            self.novaViagem.CBX_TipoViagem.setCurrentText('Unitização Fábrica')
+            self.novaViagem.DATE_Inicio.setDate(self.tools.today)
+            self.novaViagem.DATE_Fim.setDate(self.tools.today)
+            self.novaViagem.show()
+        elif (self.CBX_Status.currentText() == 'Trânsito Porto'):
+            self.novaViagem = EditarViagemDialog(self.parentWindow)
+            self.novaViagem.TXB_CNTR.setText(self.TXB_Unidade.text())
+            self.novaViagem.CBX_Origem.setCurrentText('Lages')
+            self.novaViagem.CBX_Destino.setCurrentText(self.dataBase.GetPorto(self.TXB_Booking.text()))
+            self.novaViagem.CBX_StatusViagem.setCurrentText('Em Trânsito')
+            self.novaViagem.CBX_TipoViagem.setCurrentText('Envio Porto')
+            self.novaViagem.DATE_Inicio.setDate(self.tools.today)
+            self.novaViagem.DATE_Fim.setDate(self.tools.today)
+            self.novaViagem.show()
+
+        self.dataBase.SaveCNTR(novoCNTR)
+        self.parentWindow.FillViagensTable()
+        self.parentWindow.FillCNTRTable()
+
+        self.Fechar()
+    #endregion
+
+    #region LoadCalls
+    def OpenCNTR(self, cntr):
+        dataStream = self.dataBase.OpenCNTR(cntr)
+        self.TXB_Unidade.setText(dataStream[1])
+        self.TXB_Oferta.setText(str(dataStream[2]))
+        self.CBX_Status.setCurrentText(dataStream[3])
+        self.TXB_Booking.setText(dataStream[4])
+        self.SBX_Tara.setValue(dataStream[5])
+        self.CBX_Armador.setCurrentText(dataStream[6])
+        self.CBX_TerminalVazio.setCurrentText(dataStream[7])
+        self.DATE_Coleta.setDate(self.tools.GetDate(dataStream[8]))
+        self.TED_obs.setText(str(dataStream[10]))
+        self.CHB_Expurgo.setChecked(bool(dataStream[11]))
+        self.TXB_Lacre.setText(dataStream[12])
+    #endregion
+
 class EditarViagemDialog(QtWidgets.QDialog, Ui_DIALOG_EditarViagem):
     def __init__(self, _parentWindow, _viagem = None, parent=None):
         super(EditarViagemDialog, self).__init__(parent)
         self.dataBase = DataBaseConnection()
-        self.dateTools = DateTolls()
+        self.dateTools = Tools()
         self.parentWindow = _parentWindow
         self.setupUi(self)
         self.setupConnections()
         self.setupComboBox()
         self.viagem = _viagem
+
+        if not (_viagem == None):
+            self.OpenViagem()
 
         if (self.viagem == None):
             self.DATE_Fim.setDate(self.dateTools.today)
@@ -445,18 +463,20 @@ class EditarViagemDialog(QtWidgets.QDialog, Ui_DIALOG_EditarViagem):
         
         self.dataBase.SaveViagem(NovaViagem)
         self.parentWindow.FillViagensTable()
+        self.parentWindow.FillCNTRTable()
         self.Fechar()
 
     def OpenViagem(self):
         dataStream = self.dataBase.OpenViagem(self.viagem)
-        self.TXB_CNTR.setText(str(dataStream[3]))
-        self.CBX_TipoViagem.setCurrentIndex(str(dataStream[4]))
-        self.DATE_Inicio.setDate(self.dateTools.GetDate(str(dataStream[5])))
-        self.DATE_Fim.setDate(self.dateTools.GetDate(str(dataStream[6])))
-        self.CBX_Origem.currentText(str(dataStream[7]))
-        self.CBX_Destino.currentText(str(dataStream[8]))
-        self.TXB_CPF.text(str(dataStream[9]))
-        self.CBX_Motorista.currentText(str(dataStream[10]))
-        self.CBX_Cavalo.currentText(str(dataStream[11]))
-        self.CBX_Carreta.currentText(str(dataStream[12]))
-        self.CHB_Spot.setChecked(bool(dataStream[13]))
+        self.CBX_StatusViagem.setCurrentText(dataStream[2])
+        self.TXB_CNTR.setText(dataStream[3])
+        self.CBX_TipoViagem.setCurrentText(dataStream[4])
+        self.DATE_Inicio.setDate(self.dateTools.GetDate(dataStream[5]))
+        self.DATE_Fim.setDate(self.dateTools.GetDate(dataStream[6]))
+        self.CBX_Origem.setCurrentText(dataStream[7])
+        self.CBX_Destino.setCurrentText(dataStream[8])
+        self.TXB_CPF.setText(dataStream[9])
+        self.CBX_Motorista.setCurrentText(dataStream[10])
+        self.CBX_Cavalo.setCurrentText(dataStream[11])
+        self.CBX_Carreta.setCurrentText(dataStream[12])
+        self.CHB_Spot.setChecked(dataStream[13])
