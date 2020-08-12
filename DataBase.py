@@ -381,7 +381,7 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
 
         return data
 
-    def GetCPF(self):
+    def GetCPFs(self):
         
         self.cursor.execute("SELECT CPF FROM _BancoConjunto ORDER BY CPF")
         result = self.cursor.fetchall()
@@ -455,7 +455,7 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
             result = self.cursor.fetchone()
             return result[0]
     
-    def Horarios(self, porto):
+    def Agendamentos(self, porto):
         self.cursor.execute("SELECT horario FROM _Agendamentos WHERE porto = ?",
                             (str(porto),))
         result = self.cursor.fetchall()
@@ -465,4 +465,11 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
         
         return data
 
+    def GetVersion(self):
+
+        self.cursor.execute("SELECT ver FROM _Parametros")
+        result = self.cursor.fetchone()
+        data = str(result[0])
+
+        return data
     #endregion

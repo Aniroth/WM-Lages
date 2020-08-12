@@ -14,6 +14,7 @@ from Tools import *
 from Objects import *
 
 import sys
+import os
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
@@ -26,6 +27,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.DATE_DataViagem.setDate(self.tools.today)
         self.FillCNTRTable()
         self.FillViagensTable()
+        scriptDir = os.path.dirname(os.path.realpath(__file__))
+        self.setWindowIcon(QtGui.QIcon(scriptDir + os.path.sep + 'icon.png'))
 
     def setupConnections(self):
         self.PBT_Salvar.clicked.connect(self.SaveBooking)
@@ -306,7 +309,7 @@ class EditarCNTRDialog(QtWidgets.QDialog, Ui_DIALOG_EditarCNTR):
             self.cntr = None
         else:
             self.OpenCNTR(_cntr)
-            self.CBX_Agendamento.addItems(self.dataBase.Horarios(self.dataBase.GetPorto(self.TXB_Booking.text())))
+            self.CBX_Agendamento.addItems(self.dataBase.Agendamentos(self.dataBase.GetPorto(self.TXB_Booking.text())))
             self.cntr = _cntr
 
     def setupConnections(self):
