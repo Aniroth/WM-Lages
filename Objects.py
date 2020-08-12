@@ -1,17 +1,15 @@
 class Booking(object):
 
     def __init__(self, _booking, _status, 
-                _cabotagem, _fabrica, _porto, _DLfabrica, 
-                _DLporto, _janelaInicio, _janelaFim, _qtde):
+                _cabotagem, _fabrica, _porto, _aPartir, 
+                _DLporto, _qtde):
         
         self.status = _status
         self.booking = _booking
         self.fabrica = _fabrica
         self.porto = _porto
-        self.DLfabrica = _DLfabrica
+        self.aPartir = _aPartir
         self.DLporto = _DLporto
-        self.janelaInicio = _janelaInicio
-        self.janelaFim = _janelaFim
         self.cabotagem = _cabotagem
         self.qtde = _qtde
 
@@ -19,7 +17,7 @@ class CNTR(object):
 
     def __init__(self, _cntr, _status, _booking, 
                 _tara, _armador, _terminal, _dataColeta, 
-                _freeTime, _obs = '', _expurgo = 0, _oferta = '', _lacre = ''):
+                _freeTime, _obs = '', _expurgo = 0, _oferta = '', _lacre = '', _agendamento = '', _dataAgendamento = ''):
 
         self.cntr = _cntr
         self.status = _status
@@ -33,12 +31,14 @@ class CNTR(object):
         self.expurgo = _expurgo
         self.oferta = _oferta
         self.lacre = _lacre
+        self.agendamento = _agendamento
+        self.dataAgendamento = _dataAgendamento
 
 class Viagem(object):
 
     def __init__(self, _status, _cntr, _tipoViagem, 
                 _inicio, _fim, _origem, _destino, 
-                _CPF, _motorista, _cavalo, _carreta, _spot, _ID = None):
+                _CPF, _motorista, _cavalo, _carreta, _spot, _carreta2 = '', _ID = None):
         
         self.ID = _ID
         self.status = _status
@@ -52,6 +52,7 @@ class Viagem(object):
         self.motorista = _motorista
         self.cavalo = _cavalo
         self.carreta = _carreta
+        self.carreta2 = _carreta2
         self.spot = _spot
 
 class Oferta(object):

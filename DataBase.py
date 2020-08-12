@@ -52,14 +52,12 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
                       booking.cabotagem, 
                       booking.fabrica, 
                       booking.porto, 
-                      booking.DLfabrica, 
+                      booking.aPartir, 
                       booking.DLporto,
-                      booking.janelaInicio, 
-                      booking.janelaFim,
                       booking.qtde
                       )
 
-        self.cursor.execute("INSERT OR REPLACE INTO Bookings VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", dataStream)
+        self.cursor.execute("INSERT OR REPLACE INTO Bookings VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", dataStream)
         self.conn.commit()
 
     def SaveCNTR(self, CNTR):
@@ -77,10 +75,12 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
                       CNTR.freeTime,
                       CNTR.obs,
                       CNTR.expurgo,
-                      CNTR.lacre
+                      CNTR.lacre,
+                      CNTR.agendamento,
+                      CNTR.dataAgendamento
                      )
         
-        self.cursor.execute("INSERT OR REPLACE INTO CNTRs VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", dataStream)
+        self.cursor.execute("INSERT OR REPLACE INTO CNTRs VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", dataStream)
         self.conn.commit()
         
     def SaveViagem(self, Viagem):
@@ -99,10 +99,11 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
                       Viagem.motorista,
                       Viagem.cavalo,
                       Viagem.carreta,
+                      Viagem.carreta2,
                       Viagem.spot
                       )
 
-        self.cursor.execute("INSERT OR REPLACE INTO Viagens VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", dataStream)
+        self.cursor.execute("INSERT OR REPLACE INTO Viagens VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", dataStream)
         self.conn.commit()
     #endregion
 
@@ -244,17 +245,18 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
                                     Viagens.nomeMotorista,
                                     Viagens.placaCavalo,
                                     Viagens.placaCarreta,
+                                    Viagens.placaCarreta2,
                                     Viagens.spot
                                 FROM 
                                     CNTRs
                                 LEFT JOIN Viagens on Viagens.cntr = CNTRs.cntr
-                                WHERE (CNTRs.booking LIKE ? AND CNTRs.cntr LIKE ? AND Viagens.status LIKE ?)
+                                WHERE (CNTRs.booking LIKE ? AND CNTRs.cntr LIKE ? AND Viagens.tipoViagem LIKE ?)
                                 """
                                 , ('%' + str(booking) + '%', '%' + str(cntr) + '%', '%' + str(status) + '%',))  
         
         else:
             self.cursor.execute("""
-                                SELECT 
+                                SELECT
                                     Viagens.ID,
                                     Viagens.status,
                                     CNTRs.booking,
@@ -263,16 +265,17 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
                                     Viagens.dataFim,
                                     Viagens.origem,
                                     Viagens.destino,
-                                    CNTRs.lacre
+                                    CNTRs.lacre,
                                     Viagens.cpfMotorista,
                                     Viagens.nomeMotorista,
                                     Viagens.placaCavalo,
                                     Viagens.placaCarreta,
+                                    Viagens.placaCarreta2,
                                     Viagens.spot
                                 FROM 
                                     CNTRs
                                 LEFT JOIN Viagens on Viagens.cntr = CNTRs.cntr
-                                WHERE (CNTRs.booking LIKE ? AND CNTRs.cntr LIKE ? AND Viagens.status LIKE ? AND Viagens.dataInicio LIKE ?)
+                                WHERE (CNTRs.booking LIKE ? AND CNTRs.cntr LIKE ? AND Viagens.tipoViagem LIKE ? AND Viagens.dataInicio LIKE ?)
                                 """
                                 , ('%' + str(booking) + '%', '%' + str(cntr) + '%', '%' + str(status) + '%', '%' + str(data) + '%',))  
         
@@ -435,5 +438,31 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
                                 (str(cpf),))
             result = self.cursor.fetchone()
             return result[0]
+
+    def GetCarreta2(self, cpf = ''):
+        
+        if (cpf == ''):
+            self.cursor.execute("SELECT placaCarreta2 FROM _BancoConjunto")
+            result = self.cursor.fetchall()
+            data = []
+            for i in range(len(result)):
+                data.append(str(result[i][0]))
+
+            return data
+        else:
+            self.cursor.execute("SELECT placaCarreta2 FROM _BancoConjunto WHERE CPF = ?",
+                                (str(cpf),))
+            result = self.cursor.fetchone()
+            return result[0]
+    
+    def Horarios(self, porto):
+        self.cursor.execute("SELECT horario FROM _Agendamentos WHERE porto = ?",
+                            (str(porto),))
+        result = self.cursor.fetchall()
+        data = []
+        for i in range(len(result)):
+            data.append(str(result[i][0]))
+        
+        return data
 
     #endregion

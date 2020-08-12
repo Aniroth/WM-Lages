@@ -317,6 +317,32 @@
     </rect>
    </property>
   </widget>
+  <widget class="QLabel" name="LBL_Agendamento">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>160</y>
+     <width>111</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Data Agendamento</string>
+   </property>
+  </widget>
+  <widget class="QDateEdit" name="DATE_Agendamento">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>180</y>
+     <width>110</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="calendarPopup">
+    <bool>true</bool>
+   </property>
+  </widget>
  </widget>
  <tabstops>
   <tabstop>TXB_Unidade</tabstop>

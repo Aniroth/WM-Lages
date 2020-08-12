@@ -94,6 +94,13 @@ class Ui_DIALOG_EditarCNTR(object):
         self.CBX_Agendamento = QtWidgets.QComboBox(DIALOG_EditarCNTR)
         self.CBX_Agendamento.setGeometry(QtCore.QRect(140, 180, 111, 22))
         self.CBX_Agendamento.setObjectName("CBX_Agendamento")
+        self.LBL_Agendamento = QtWidgets.QLabel(DIALOG_EditarCNTR)
+        self.LBL_Agendamento.setGeometry(QtCore.QRect(270, 160, 111, 16))
+        self.LBL_Agendamento.setObjectName("LBL_Agendamento")
+        self.DATE_Agendamento = QtWidgets.QDateEdit(DIALOG_EditarCNTR)
+        self.DATE_Agendamento.setGeometry(QtCore.QRect(270, 180, 110, 22))
+        self.DATE_Agendamento.setCalendarPopup(True)
+        self.DATE_Agendamento.setObjectName("DATE_Agendamento")
 
         self.retranslateUi(DIALOG_EditarCNTR)
         QtCore.QMetaObject.connectSlotsByName(DIALOG_EditarCNTR)
@@ -121,3 +128,4 @@ class Ui_DIALOG_EditarCNTR(object):
         self.LBL_Lacre.setText(_translate("DIALOG_EditarCNTR", "Lacre"))
         self.LBL_Obs.setText(_translate("DIALOG_EditarCNTR", "Observação"))
         self.LBL_AgendamentoPorto.setText(_translate("DIALOG_EditarCNTR", "Agendamento Porto"))
+        self.LBL_Agendamento.setText(_translate("DIALOG_EditarCNTR", "Data Agendamento"))

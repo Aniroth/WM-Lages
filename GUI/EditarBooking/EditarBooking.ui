@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>417</width>
-    <height>233</height>
+    <width>385</width>
+    <height>195</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Novo Booking</string>
   </property>
-  <widget class="QLabel" name="LBL_DL_Fabrica">
+  <widget class="QLabel" name="LBL_Apartir">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -35,41 +35,10 @@
     </size>
    </property>
    <property name="text">
-    <string>Deadline da Fábrica</string>
+    <string>A Partir</string>
    </property>
   </widget>
-  <widget class="QDateEdit" name="DATE_FimJanela">
-   <property name="geometry">
-    <rect>
-     <x>130</x>
-     <y>180</y>
-     <width>110</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="sizePolicy">
-    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-     <horstretch>0</horstretch>
-     <verstretch>0</verstretch>
-    </sizepolicy>
-   </property>
-   <property name="minimumSize">
-    <size>
-     <width>110</width>
-     <height>0</height>
-    </size>
-   </property>
-   <property name="maximumSize">
-    <size>
-     <width>110</width>
-     <height>16777215</height>
-    </size>
-   </property>
-   <property name="calendarPopup">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QDateEdit" name="DATE_DL_Fabrica">
+  <widget class="QDateEdit" name="DATE_Apartir">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -113,73 +82,11 @@
     <number>1000</number>
    </property>
   </widget>
-  <widget class="QDateEdit" name="DATE_InicioJanela">
-   <property name="geometry">
-    <rect>
-     <x>130</x>
-     <y>138</y>
-     <width>110</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="sizePolicy">
-    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-     <horstretch>0</horstretch>
-     <verstretch>0</verstretch>
-    </sizepolicy>
-   </property>
-   <property name="minimumSize">
-    <size>
-     <width>110</width>
-     <height>0</height>
-    </size>
-   </property>
-   <property name="maximumSize">
-    <size>
-     <width>110</width>
-     <height>16777215</height>
-    </size>
-   </property>
-   <property name="calendarPopup">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QLabel" name="LBL_FimJanela">
-   <property name="geometry">
-    <rect>
-     <x>130</x>
-     <y>163</y>
-     <width>110</width>
-     <height>13</height>
-    </rect>
-   </property>
-   <property name="sizePolicy">
-    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-     <horstretch>0</horstretch>
-     <verstretch>0</verstretch>
-    </sizepolicy>
-   </property>
-   <property name="minimumSize">
-    <size>
-     <width>110</width>
-     <height>0</height>
-    </size>
-   </property>
-   <property name="maximumSize">
-    <size>
-     <width>110</width>
-     <height>16777215</height>
-    </size>
-   </property>
-   <property name="text">
-    <string>Fim da Janela</string>
-   </property>
-  </widget>
   <widget class="QDateEdit" name="DATE_DL_Porto">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>180</y>
+     <x>130</x>
+     <y>137</y>
      <width>110</width>
      <height>20</height>
     </rect>
@@ -241,7 +148,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>210</y>
+     <y>170</y>
      <width>110</width>
      <height>17</height>
     </rect>
@@ -266,37 +173,6 @@
    </property>
    <property name="text">
     <string>Cabotagem</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="LBL_InicioJanela">
-   <property name="geometry">
-    <rect>
-     <x>130</x>
-     <y>120</y>
-     <width>110</width>
-     <height>13</height>
-    </rect>
-   </property>
-   <property name="sizePolicy">
-    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-     <horstretch>0</horstretch>
-     <verstretch>0</verstretch>
-    </sizepolicy>
-   </property>
-   <property name="minimumSize">
-    <size>
-     <width>110</width>
-     <height>0</height>
-    </size>
-   </property>
-   <property name="maximumSize">
-    <size>
-     <width>110</width>
-     <height>16777215</height>
-    </size>
-   </property>
-   <property name="text">
-    <string>Inicio da Janela</string>
    </property>
   </widget>
   <widget class="QComboBox" name="CBX_Fabrica">
@@ -386,8 +262,8 @@
   <widget class="QLabel" name="LBL_DL_Porto">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>163</y>
+     <x>130</x>
+     <y>120</y>
      <width>110</width>
      <height>13</height>
     </rect>
@@ -483,8 +359,8 @@
   <widget class="QPushButton" name="PBT_Gravar">
    <property name="geometry">
     <rect>
-     <x>300</x>
-     <y>130</y>
+     <x>280</x>
+     <y>90</y>
      <width>101</width>
      <height>41</height>
     </rect>
@@ -496,8 +372,8 @@
   <widget class="QPushButton" name="PBT_Cancelar">
    <property name="geometry">
     <rect>
-     <x>300</x>
-     <y>180</y>
+     <x>280</x>
+     <y>140</y>
      <width>101</width>
      <height>41</height>
     </rect>
@@ -512,10 +388,8 @@
   <tabstop>SBX_QtdePedido</tabstop>
   <tabstop>CBX_Fabrica</tabstop>
   <tabstop>CBX_Porto</tabstop>
-  <tabstop>DATE_DL_Fabrica</tabstop>
+  <tabstop>DATE_Apartir</tabstop>
   <tabstop>DATE_DL_Porto</tabstop>
-  <tabstop>DATE_InicioJanela</tabstop>
-  <tabstop>DATE_FimJanela</tabstop>
   <tabstop>CHB_Cabotagem</tabstop>
   <tabstop>PBT_Gravar</tabstop>
   <tabstop>PBT_Cancelar</tabstop>

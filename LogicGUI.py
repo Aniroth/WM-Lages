@@ -46,24 +46,26 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.CBX_Porto.clear()
         self.CBX_Status.clear()
         self.CBX_StatusEstoque.clear()
+        self.CBX_StatusViagem.clear()
         self.CBX_Fabrica.addItems(self.dataBase.GetFabricas())
         self.CBX_Porto.addItems(list(self.dataBase.GetPortos()))
         self.CBX_Status.addItems(list(self.dataBase.GetStatusPedido()))
         self.CBX_StatusEstoque.addItems(list(self.dataBase.GetStatusCNTR()))
+        self.CBX_StatusViagem.addItems(list(self.dataBase.GetTipoViagem()))
         self.CBX_Status.setCurrentText('')
         self.CBX_StatusEstoque.setCurrentText('')
+        self.CBX_StatusViagem.addItem('')
+        self.CBX_StatusViagem.setCurrentText('')
 
     #region SaveCalls
     def SaveBooking(self):
         booking = Booking(self.TXB_Booking.text(),
-                          'Aberto',
+                          self.CBX_Status.currentText(),
                           self.CHB_Cabotagem.isChecked(),
                           self.CBX_Fabrica.currentText(),
                           self.CBX_Porto.currentText(),
-                          self.DATE_DL_Fabrica.text(),
+                          self.DATE_Apartir.text(),
                           self.DATE_DL_Porto.text(),
-                          self.DATE_InicioJanela.text(),
-                          self.DATE_FimJanela.text(),
                           self.SBX_QtdePedido.text())
 
         ofertas = []
@@ -83,15 +85,14 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     #region LoadCalls
     def OpenBooking(self, booking):
         datastream = self.dataBase.OpenBooking(str(booking))
-        self.TXB_Booking.setText(str(datastream[1]))
-        self.CBX_Status.setCurrentText(str(datastream[2]))
+        self.TXB_Booking.setText(datastream[1])
+        self.CBX_Status.setCurrentText(datastream[2])
         self.CHB_Cabotagem.setChecked(bool(datastream[3]))
-        self.CBX_Fabrica.setCurrentText(str(datastream[4]))
-        self.CBX_Porto.setCurrentText(str(datastream[5]))
-        self.DATE_DL_Fabrica.setDate(self.tools.GetDate(datastream[6]))
+        self.CBX_Fabrica.setCurrentText(datastream[4])
+        self.CBX_Porto.setCurrentText(datastream[5])
+        self.DATE_Apartir.setDate(self.tools.GetDate(datastream[6]))
         self.DATE_DL_Porto.setDate(self.tools.GetDate(datastream[7]))
-        self.DATE_InicioJanela.setDate(self.tools.GetDate(datastream[8]))
-        self.DATE_FimJanela.setDate(self.tools.GetDate(datastream[9]))
+        self.SBX_QtdePedido.setValue(int(datastream[8]))
         self.FillBookingTable(str(datastream[1]))
     #endregion
 
@@ -156,7 +157,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                                                     self.DATE_DataViagem.text(),
                                                     bool(self.CHB_SelectALL.isChecked()))
 
-        names = ['ID', 'Status', 'Booking', 'CNTR', 'Início', 'Fim', 'Origem', 'Destino', 'Lacre', 'CPF', 'Motorista', 'Placa Cavalo', 'Placa Carreta', 'Spot']
+        names = ['ID', 'Status', 'Booking', 'CNTR', 'Início', 'Fim', 'Origem', 'Destino', 'Lacre', 'CPF', 'Motorista', 'Placa Cavalo', 'Placa Carreta', 'Placa Carreta 2', 'Spot']
         
         self.TABLE_Viagens.setRowCount(len(dataStream))
         self.TABLE_Viagens.setColumnCount(len(names))
@@ -262,10 +263,8 @@ class EditarBookingDialog(QtWidgets.QDialog, Ui_DIALOG_NovoBooking):
         self.PBT_Gravar.clicked.connect(self.SaveBooking)
     
     def setupComboBox(self):
-        self.DATE_DL_Fabrica.setDate(self.dateTools.today)
+        self.DATE_Apartir.setDate(self.dateTools.today)
         self.DATE_DL_Porto.setDate(self.dateTools.today)
-        self.DATE_InicioJanela.setDate(self.dateTools.today)
-        self.DATE_FimJanela.setDate(self.dateTools.today)
         self.CBX_Fabrica.addItems(self.dataBase.GetFabricas())
         self.CBX_Porto.addItems(self.dataBase.GetPortos())
     
@@ -275,10 +274,8 @@ class EditarBookingDialog(QtWidgets.QDialog, Ui_DIALOG_NovoBooking):
                               self.CHB_Cabotagem.isChecked(),
                               self.CBX_Fabrica.currentText(),
                               self.CBX_Porto.currentText(),
-                              self.DATE_DL_Fabrica.text(),
+                              self.DATE_Apartir.text(),
                               self.DATE_DL_Porto.text(),
-                              self.DATE_InicioJanela.text(),
-                              self.DATE_FimJanela.text(),
                               self.SBX_QtdePedido.text())
         
         self.dataBase.SaveBooking(novoBooking)
@@ -305,9 +302,11 @@ class EditarCNTRDialog(QtWidgets.QDialog, Ui_DIALOG_EditarCNTR):
 
         if (_cntr == None):
             self.DATE_Coleta.setDate(self.tools.today)
+            self.DATE_Agendamento.setDate(self.tools.today)
             self.cntr = None
         else:
             self.OpenCNTR(_cntr)
+            self.CBX_Agendamento.addItems(self.dataBase.Horarios(self.dataBase.GetPorto(self.TXB_Booking.text())))
             self.cntr = _cntr
 
     def setupConnections(self):
@@ -339,7 +338,9 @@ class EditarCNTRDialog(QtWidgets.QDialog, Ui_DIALOG_EditarCNTR):
                         self.TED_obs.toPlainText(),
                         int(self.CHB_Expurgo.isChecked()),
                         self.TXB_Oferta.text(),
-                        self.TXB_Lacre.text()
+                        self.TXB_Lacre.text(),
+                        self.CBX_Agendamento.currentText(),
+                        self.DATE_Agendamento.text()
                         )
 
         if (self.cntr == None):
@@ -391,9 +392,11 @@ class EditarCNTRDialog(QtWidgets.QDialog, Ui_DIALOG_EditarCNTR):
         self.CBX_Armador.setCurrentText(dataStream[6])
         self.CBX_TerminalVazio.setCurrentText(dataStream[7])
         self.DATE_Coleta.setDate(self.tools.GetDate(dataStream[8]))
-        self.TED_obs.setText(str(dataStream[10]))
+        self.TED_obs.setText(dataStream[10])
         self.CHB_Expurgo.setChecked(bool(dataStream[11]))
         self.TXB_Lacre.setText(dataStream[12])
+        self.CBX_Agendamento.setCurrentText(dataStream[13])
+        self.DATE_Agendamento.setDate(self.tools.GetDate(dataStream[14]))
     #endregion
 
 class EditarViagemDialog(QtWidgets.QDialog, Ui_DIALOG_EditarViagem):
@@ -430,6 +433,7 @@ class EditarViagemDialog(QtWidgets.QDialog, Ui_DIALOG_EditarViagem):
         self.CBX_Motorista.addItems(self.dataBase.GetMotorista())
         self.CBX_Cavalo.addItems(self.dataBase.GetCavalo())
         self.CBX_Carreta.addItems(self.dataBase.GetCarreta())
+        self.CBX_Carreta_2.addItems(self.dataBase.GetCarreta2())
         self.CBX_Origem.addItems(self.dataBase.GetTerminais())
         self.CBX_Origem.addItems(self.dataBase.GetFabricas())
         self.CBX_Destino.addItems(self.dataBase.GetFabricas())
@@ -445,6 +449,7 @@ class EditarViagemDialog(QtWidgets.QDialog, Ui_DIALOG_EditarViagem):
         self.CBX_Motorista.setCurrentText(self.dataBase.GetMotorista(cpf))
         self.CBX_Cavalo.setCurrentText(self.dataBase.GetCavalo(cpf))
         self.CBX_Carreta.setCurrentText(self.dataBase.GetCarreta(cpf))
+        self.CBX_Carreta_2.setCurrentText(self.dataBase.GetCarreta2(cpf))
 
     def SaveViagem(self):
         NovaViagem = Viagem(self.CBX_StatusViagem.currentText(),
@@ -459,6 +464,7 @@ class EditarViagemDialog(QtWidgets.QDialog, Ui_DIALOG_EditarViagem):
                             self.CBX_Cavalo.currentText(),
                             self.CBX_Carreta.currentText(),
                             int(self.CHB_Spot.isChecked()),
+                            self.CBX_Carreta_2.currentText(),
                             self.viagem)
         
         self.dataBase.SaveViagem(NovaViagem)
@@ -479,4 +485,5 @@ class EditarViagemDialog(QtWidgets.QDialog, Ui_DIALOG_EditarViagem):
         self.CBX_Motorista.setCurrentText(dataStream[10])
         self.CBX_Cavalo.setCurrentText(dataStream[11])
         self.CBX_Carreta.setCurrentText(dataStream[12])
-        self.CHB_Spot.setChecked(dataStream[13])
+        self.CBX_Carreta_2.setCurrentText(dataStream[13])
+        self.CHB_Spot.setChecked(dataStream[14])
