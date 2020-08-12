@@ -1,5 +1,6 @@
 from Objects import *
 import sqlite3
+import xlwings
 
 #SINGLETON#
 class DataBaseConnectionMeta(type):
@@ -445,7 +446,10 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
             self.cursor.execute("SELECT placaCarreta2 FROM _BancoConjunto")
             result = self.cursor.fetchall()
             data = []
+            data.append('')
             for i in range(len(result)):
+                if (result[i][0] == ''):
+                    continue
                 data.append(str(result[i][0]))
 
             return data
@@ -473,3 +477,34 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
 
         return data
     #endregion
+
+    def UpdateDataBase(self):
+        
+        app = xlwings.App(visible=False)
+        workbook = app.books.open('ControleMotoristas.xlsx')
+        sheet = workbook.sheets[0]
+        lastRow = sheet.range('A' + str(sheet.cells.last_cell.row)).end('up').row
+        
+        data = []
+        for i in range(2, lastRow):
+            if (sheet.range('E' + str(i)).value == None):
+                carreta2 = ''
+            else:
+                carreta2 = str(sheet.range('E' + str(i)).value)
+            
+            data.append((str(sheet.range('A' + str(i)).value)[0:11],
+                        str(sheet.range('B' + str(i)).value),
+                        str(sheet.range('C' + str(i)).value),
+                        str(sheet.range('D' + str(i)).value),
+                        carreta2
+                        ))
+        
+        self.cursor.executemany("""
+                                INSERT OR REPLACE INTO _BancoConjunto
+                                VALUES (?, ?, ?, ?, ?)
+                                """, (data))
+        
+        self.conn.commit()
+        workbook.save()
+        workbook.close()
+        app.quit()

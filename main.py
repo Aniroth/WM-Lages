@@ -7,18 +7,10 @@ import sys
 import os
 
 def main():
-    ver = '1.0'
-    dataBase = DataBaseConnection()
-
-    if not (ver == dataBase.GetVersion()):
-        print('VERSÃO DESATUALIZADA!!!')
-        resp = input('\n\nPressione Y para atualizar ou N para fechar\n\n').lower()
-        return
+    DataBaseConnection().UpdateDataBase()
 
     app = QApplication(sys.argv)
     app.setStyle(QStyleFactory.create('fusion'))
-    scriptDir = os.path.dirname(os.path.realpath(__file__))
-    app.setWindowIcon(QtGui.QIcon(scriptDir + os.path.sep + 'icon.png'))
     form = MainWindow()
     form.showMaximized()
     app.exec_()

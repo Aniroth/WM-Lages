@@ -13,9 +13,6 @@
   <property name="windowTitle">
    <string>Controle Localfrio-LAGES</string>
   </property>
-  <property name="windowIcon">
-   <iconset theme="icon.ico"/>
-  </property>
   <widget class="QWidget" name="centralwidget">
    <property name="sizePolicy">
     <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
