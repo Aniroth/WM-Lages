@@ -8,7 +8,6 @@ import os
 
 def main():
     DataBaseConnection().UpdateDataBase()
-
     app = QApplication(sys.argv)
     app.setStyle(QStyleFactory.create('fusion'))
     form = MainWindow()

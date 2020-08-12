@@ -223,7 +223,7 @@ class BuscarBookingDialog(QtWidgets.QDialog, Ui_DIALOG_BuscaPedido):
         self.FillTable()
     
     def setupConnections(self):
-        self.TXB_Busca.editingFinished.connect(self.FillTable)
+        self.TBN_Filtrar.clicked.connect(self.FillTable)
         self.PBT_Selecionar.clicked.connect(self.SelecionarPedido)
 
     #region FillCalls
@@ -234,6 +234,7 @@ class BuscarBookingDialog(QtWidgets.QDialog, Ui_DIALOG_BuscaPedido):
 
         names = ['Booking', 'Status', 'Dead Line']
         self.TABLE_BuscarPedido.setRowCount(len(dataStream))
+        self.TABLE_BuscarPedido.setColumnCount(len(names))
         self.TABLE_BuscarPedido.setHorizontalHeaderLabels(names)
 
         for row in range(len(dataStream)):
