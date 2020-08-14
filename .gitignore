@@ -4,5 +4,3 @@ GUI/__pycache__
 build
 dist
 ~$*
-*.ico
-icon.*
