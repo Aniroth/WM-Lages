@@ -137,7 +137,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                                                  self.TXB_CNTR.text(),
                                                  self.CBX_StatusEstoque.currentText())
 
-        names = ['Container', 'Booking', 'Status', 'Freetime', 'Armador', 'Terminal', 'Tara', 'Lacre', 'Expurgo', 'OBS']
+        names = ['Container', 'Booking', 'Status', 'Freetime', 'Armador', 'Terminal', 'Tara', 'Lacre', 'Agendamento', 'Data Agendamento', 'Expurgo', 'OBS']
         
         self.TABLE_Estoque.setRowCount(len(dataStream))
         self.TABLE_Estoque.setColumnCount(len(names))
@@ -358,25 +358,33 @@ class EditarCNTRDialog(QtWidgets.QDialog, Ui_DIALOG_EditarCNTR):
             self.novaViagem.DATE_Fim.setDate(self.tools.today)
             self.novaViagem.show()
         elif (self.CBX_Status.currentText() == 'Trânsito Fábrica'):
-            self.novaViagem = EditarViagemDialog(self.parentWindow)
-            self.novaViagem.TXB_CNTR.setText(self.TXB_Unidade.text())
-            self.novaViagem.CBX_Origem.setCurrentText('Lages')
-            self.novaViagem.CBX_Destino.setCurrentText(self.dataBase.GetFabrica(self.TXB_Booking.text()))
-            self.novaViagem.CBX_StatusViagem.setCurrentText('Em Trânsito')
-            self.novaViagem.CBX_TipoViagem.setCurrentText('Unitização Fábrica')
-            self.novaViagem.DATE_Inicio.setDate(self.tools.today)
-            self.novaViagem.DATE_Fim.setDate(self.tools.today)
-            self.novaViagem.show()
+            if (self.dataBase.OpenViagemByCNTR(self.TXB_Unidade.text(), 'Unitização Fábrica') == None):
+                self.novaViagem = EditarViagemDialog(self.parentWindow)
+                self.novaViagem.TXB_CNTR.setText(self.TXB_Unidade.text())
+                self.novaViagem.CBX_Origem.setCurrentText('Lages')
+                self.novaViagem.CBX_Destino.setCurrentText(self.dataBase.GetFabrica(self.TXB_Booking.text()))
+                self.novaViagem.CBX_StatusViagem.setCurrentText('Em Trânsito')
+                self.novaViagem.CBX_TipoViagem.setCurrentText('Unitização Fábrica')
+                self.novaViagem.DATE_Inicio.setDate(self.tools.today)
+                self.novaViagem.DATE_Fim.setDate(self.tools.today)
+                self.novaViagem.show()
+        elif (self.CBX_Status.currentText() == 'Unitizado'):
+            self.dataBase.CloseViagem(self.TXB_Unidade.text(),
+                                      'Unitização Fábrica')
         elif (self.CBX_Status.currentText() == 'Trânsito Porto'):
-            self.novaViagem = EditarViagemDialog(self.parentWindow)
-            self.novaViagem.TXB_CNTR.setText(self.TXB_Unidade.text())
-            self.novaViagem.CBX_Origem.setCurrentText('Lages')
-            self.novaViagem.CBX_Destino.setCurrentText(self.dataBase.GetPorto(self.TXB_Booking.text()))
-            self.novaViagem.CBX_StatusViagem.setCurrentText('Em Trânsito')
-            self.novaViagem.CBX_TipoViagem.setCurrentText('Envio Porto')
-            self.novaViagem.DATE_Inicio.setDate(self.tools.today)
-            self.novaViagem.DATE_Fim.setDate(self.tools.today)
-            self.novaViagem.show()
+            if (self.dataBase.OpenViagemByCNTR(self.TXB_Unidade.text(), 'Envio Porto') == None):
+                self.novaViagem = EditarViagemDialog(self.parentWindow)
+                self.novaViagem.TXB_CNTR.setText(self.TXB_Unidade.text())
+                self.novaViagem.CBX_Origem.setCurrentText('Lages')
+                self.novaViagem.CBX_Destino.setCurrentText(self.dataBase.GetPorto(self.TXB_Booking.text()))
+                self.novaViagem.CBX_StatusViagem.setCurrentText('Em Trânsito')
+                self.novaViagem.CBX_TipoViagem.setCurrentText('Envio Porto')
+                self.novaViagem.DATE_Inicio.setDate(self.tools.today)
+                self.novaViagem.DATE_Fim.setDate(self.tools.today)
+                self.novaViagem.show()
+        elif (self.CBX_Status.currentText() == 'Finalizado'):
+            self.dataBase.CloseViagem(self.TXB_Unidade.text(),
+                                      'Envio Porto')
 
         self.dataBase.SaveCNTR(novoCNTR)
         self.parentWindow.FillViagensTable()
@@ -399,7 +407,7 @@ class EditarCNTRDialog(QtWidgets.QDialog, Ui_DIALOG_EditarCNTR):
         self.TED_obs.setText(dataStream[10])
         self.CHB_Expurgo.setChecked(bool(dataStream[11]))
         self.TXB_Lacre.setText(dataStream[12])
-        self.CBX_Agendamento.setCurrentText(dataStream[13])
+        self.CBX_Agendamento.setCurrentText(str(dataStream[13]))
         self.DATE_Agendamento.setDate(self.tools.GetDate(dataStream[14]))
     #endregion
 

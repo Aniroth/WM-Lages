@@ -106,6 +106,16 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
 
         self.cursor.execute("INSERT OR REPLACE INTO Viagens VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", dataStream)
         self.conn.commit()
+    
+    def CloseViagem(self, cntr, tipo):
+        
+        self.cursor.execute("""
+                            UPDATE Viagens
+                            SET status = "Finalizada"
+                            WHERE (cntr = ? AND tipoViagem = ?)
+                            """, (str(cntr), str(tipo), ))
+
+        self.conn.commit()
     #endregion
 
     #region LoadQueries
@@ -141,6 +151,18 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
         dataStream = self.cursor.fetchone()
 
         return dataStream
+    
+    def OpenViagemByCNTR(self, cntr, tipo):
+        
+        self.cursor.execute("""
+                            SELECT * FROM Viagens
+                            WHERE (cntr = ? AND tipoViagem = ?)
+                            """, (str(cntr), str(tipo)))
+        
+        dataStream = self.cursor.fetchone()
+
+        return dataStream
+
     #endregion
 
     #region DeleteQueries
@@ -216,6 +238,8 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
                                 CNTRs.terminal, 
                                 CNTRs.tara,
                                 CNTRs.lacre,
+                                CNTRs.agendamento,
+                                CNTRs.dataAgendamento,
                                 CNTRs.expurgo,
                                 CNTRs.obs
                             FROM 
