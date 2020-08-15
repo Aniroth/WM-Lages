@@ -1,6 +1,6 @@
 """PyQT imports"""
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QApplication, QTableWidgetItem
+from PyQt5.QtWidgets import QApplication, QTableWidgetItem, QMessageBox
 
 """GUI Draw imports"""
 from GUI.MainWindow.DrawMainWindow import Ui_MainWindow
@@ -25,6 +25,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setupConnections()
         self.setupComboBox()
         self.DATE_DataViagem.setDate(self.tools.today)
+        self.OpenBooking('')
         self.FillCNTRTable()
         self.FillViagensTable()
         scriptDir = os.path.dirname(os.path.realpath(__file__))
@@ -42,6 +43,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.PBT_NovaViagem.clicked.connect(lambda: self.ShowEditarViagem(True))
         self.PBT_FiltroViagem.clicked.connect(self.FillViagensTable)
         self.PBT_EditarViagem.clicked.connect(lambda: self.ShowEditarViagem(False))
+        self.PBT_ExcluirViagem.clicked.connect(self.DeleteViagem)
         self.TABLE_Status.cellClicked.connect(self.AllowEdit)
     
     def setupComboBox(self):
@@ -87,6 +89,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     #region LoadCalls
     def OpenBooking(self, booking):
+        if not (booking == ''):
+            self.UpdateBooking(booking)
+        
         datastream = self.dataBase.OpenBooking(str(booking))
         self.TXB_Booking.setText(datastream[1])
         self.CBX_Status.setCurrentText(datastream[2])
@@ -105,10 +110,16 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.NovoBooking()
     
     def DeleteCNTR(self):
-        index = (self.TABLE_Estoque.selectionModel().currentIndex())
+        index = self.TABLE_Estoque.selectionModel().currentIndex()
         value = index.sibling(index.row(), 0).data()
         self.dataBase.DeleteCNTR(value)
         self.FillCNTRTable()
+    
+    def DeleteViagem(self):
+        index = self.TABLE_Viagens.selectionModel().currentIndex()
+        value = index.sibling(index.row(), 0).data()
+        self.dataBase.DeleteViagem(value)
+        self.FillViagensTable()
     #endregion
 
     #region FillCalls
@@ -160,7 +171,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                                                     self.DATE_DataViagem.text(),
                                                     bool(self.CHB_SelectALL.isChecked()))
 
-        names = ['ID', 'Status', 'Booking', 'CNTR', 'Início', 'Fim', 'Origem', 'Destino', 'Lacre', 'CPF', 'Motorista', 'Placa Cavalo', 'Placa Carreta', 'Placa Carreta 2', 'Spot']
+        names = ['ID', 'Status', 'Tipo', 'Booking', 'CNTR', 'Início', 'Fim', 'Origem', 'Destino', 'Lacre', 'CPF', 'Motorista', 'Placa Cavalo', 'Placa Carreta', 'Placa Carreta 2', 'Spot']
         
         self.TABLE_Viagens.setRowCount(len(dataStream))
         self.TABLE_Viagens.setColumnCount(len(names))
@@ -212,6 +223,34 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.TABLE_Status.setEditTriggers(QtWidgets.QAbstractItemView.DoubleClicked)
         else:
             self.TABLE_Status.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+    
+    def UpdateBooking(self, booking):
+        
+        isAberto = False
+        isUnitizando = False
+        isEnvioPorto = False
+        finalizadoCount = 0
+        cntrs = self.dataBase.GetCNTRs(booking)
+
+        for status in cntrs:
+
+            if (status == ''):
+                isAberto = True
+            elif (status == 'Trânsito Fábrica' or status == 'Unitizado'):
+                isUnitizando = True
+            elif (status == 'Trânsito Porto'):
+                isEnvioPorto = True
+            elif (status == 'Finalizado'):
+                finalizadoCount += 1
+        
+        if (finalizadoCount == len(cntrs)):
+            self.dataBase.UpdateBookingStatus(booking, 'Finalizado')
+        elif (isEnvioPorto):
+            self.dataBase.UpdateBookingStatus(booking, 'Envio Porto')
+        elif (isUnitizando):
+            self.dataBase.UpdateBookingStatus(booking, 'Unitização')
+        elif (isAberto):
+            self.dataBase.UpdateBookingStatus(booking, 'Aberto')
 
 class BuscarBookingDialog(QtWidgets.QDialog, Ui_DIALOG_BuscaPedido):
     def __init__(self, _parentWindow, parent = None):
@@ -221,6 +260,8 @@ class BuscarBookingDialog(QtWidgets.QDialog, Ui_DIALOG_BuscaPedido):
         self.setupConnections()
         self.dataBase = DataBaseConnection()
         self.FillTable()
+        scriptDir = os.path.dirname(os.path.realpath(__file__))
+        self.setWindowIcon(QtGui.QIcon(scriptDir + os.path.sep + 'icon.png'))
     
     def setupConnections(self):
         self.TBN_Filtrar.clicked.connect(self.FillTable)
@@ -262,6 +303,8 @@ class EditarBookingDialog(QtWidgets.QDialog, Ui_DIALOG_NovoBooking):
         self.setupUi(self)
         self.setupConnections()
         self.setupComboBox()
+        scriptDir = os.path.dirname(os.path.realpath(__file__))
+        self.setWindowIcon(QtGui.QIcon(scriptDir + os.path.sep + 'icon.png'))
 
     def setupConnections(self):        
         self.PBT_Gravar.clicked.connect(self.SaveBooking)
@@ -303,14 +346,19 @@ class EditarCNTRDialog(QtWidgets.QDialog, Ui_DIALOG_EditarCNTR):
         self.setupUi(self)
         self.setupConnections()
         self.setupComboBox()
+        scriptDir = os.path.dirname(os.path.realpath(__file__))
+        self.setWindowIcon(QtGui.QIcon(scriptDir + os.path.sep + 'icon.png'))
 
         if (_cntr == None):
             self.DATE_Coleta.setDate(self.tools.today)
             self.DATE_Agendamento.setDate(self.tools.today)
+            self.CBX_Agendamento.hide()
+            self.LBL_Agendamento.hide()
+            self.DATE_Agendamento.hide()
+            self.LBL_AgendamentoPorto.hide()
             self.cntr = None
         else:
             self.OpenCNTR(_cntr)
-            self.CBX_Agendamento.addItems(self.dataBase.Agendamentos(self.dataBase.GetPorto(self.TXB_Booking.text())))
             self.cntr = _cntr
 
     def setupConnections(self):
@@ -330,24 +378,15 @@ class EditarCNTRDialog(QtWidgets.QDialog, Ui_DIALOG_EditarCNTR):
 
     #region SaveCalls
     def SalvarCNTR(self):
-        novoCNTR = CNTR(
-                        self.TXB_Unidade.text(),
-                        self.CBX_Status.currentText(),
-                        self.TXB_Booking.text(),
-                        self.SBX_Tara.text(),
-                        self.CBX_Armador.currentText(),
-                        self.CBX_TerminalVazio.currentText(),
-                        self.DATE_Coleta.text(),
-                        20,                                            #GAMBIARRA
-                        self.TED_obs.toPlainText(),
-                        int(self.CHB_Expurgo.isChecked()),
-                        self.TXB_Oferta.text(),
-                        self.TXB_Lacre.text(),
-                        self.CBX_Agendamento.currentText(),
-                        self.DATE_Agendamento.text()
-                        )
+
+        agendamento = self.CBX_Agendamento.currentText()
+        dataAgendamento = self.DATE_Agendamento.text()
+
+        if not (self.ValidateCNTR()):
+            return
 
         if (self.cntr == None):
+
             self.novaViagem = EditarViagemDialog(self.parentWindow)
             self.novaViagem.TXB_CNTR.setText(self.TXB_Unidade.text())
             self.novaViagem.CBX_Origem.setCurrentText(self.CBX_TerminalVazio.currentText())
@@ -356,9 +395,13 @@ class EditarCNTRDialog(QtWidgets.QDialog, Ui_DIALOG_EditarCNTR):
             self.novaViagem.CBX_TipoViagem.setCurrentText('Coleta Vázio')
             self.novaViagem.DATE_Inicio.setDate(self.tools.today)
             self.novaViagem.DATE_Fim.setDate(self.tools.today)
+            agendamento = ''
+            dataAgendamento = ''
             self.novaViagem.show()
+
         elif (self.CBX_Status.currentText() == 'Trânsito Fábrica'):
-            if (self.dataBase.OpenViagemByCNTR(self.TXB_Unidade.text(), 'Unitização Fábrica') == None):
+
+            if (self.dataBase.GetViagemByCNTR(self.TXB_Unidade.text(), 'Unitização Fábrica') == None):
                 self.novaViagem = EditarViagemDialog(self.parentWindow)
                 self.novaViagem.TXB_CNTR.setText(self.TXB_Unidade.text())
                 self.novaViagem.CBX_Origem.setCurrentText('Lages')
@@ -368,11 +411,15 @@ class EditarCNTRDialog(QtWidgets.QDialog, Ui_DIALOG_EditarCNTR):
                 self.novaViagem.DATE_Inicio.setDate(self.tools.today)
                 self.novaViagem.DATE_Fim.setDate(self.tools.today)
                 self.novaViagem.show()
+
         elif (self.CBX_Status.currentText() == 'Unitizado'):
+
             self.dataBase.CloseViagem(self.TXB_Unidade.text(),
                                       'Unitização Fábrica')
+
         elif (self.CBX_Status.currentText() == 'Trânsito Porto'):
-            if (self.dataBase.OpenViagemByCNTR(self.TXB_Unidade.text(), 'Envio Porto') == None):
+
+            if (self.dataBase.GetViagemByCNTR(self.TXB_Unidade.text(), 'Envio Porto') == None):
                 self.novaViagem = EditarViagemDialog(self.parentWindow)
                 self.novaViagem.TXB_CNTR.setText(self.TXB_Unidade.text())
                 self.novaViagem.CBX_Origem.setCurrentText('Lages')
@@ -382,14 +429,32 @@ class EditarCNTRDialog(QtWidgets.QDialog, Ui_DIALOG_EditarCNTR):
                 self.novaViagem.DATE_Inicio.setDate(self.tools.today)
                 self.novaViagem.DATE_Fim.setDate(self.tools.today)
                 self.novaViagem.show()
+
         elif (self.CBX_Status.currentText() == 'Finalizado'):
             self.dataBase.CloseViagem(self.TXB_Unidade.text(),
                                       'Envio Porto')
 
+        novoCNTR = CNTR(
+                self.TXB_Unidade.text(),
+                self.CBX_Status.currentText(),
+                self.TXB_Booking.text(),
+                self.SBX_Tara.text(),
+                self.CBX_Armador.currentText(),
+                self.CBX_TerminalVazio.currentText(),
+                self.DATE_Coleta.text(),
+                20,                                            #GAMBIARRA
+                self.TED_obs.toPlainText(),
+                int(self.CHB_Expurgo.isChecked()),
+                self.TXB_Oferta.text(),
+                self.TXB_Lacre.text(),
+                agendamento,
+                dataAgendamento
+                )
+
         self.dataBase.SaveCNTR(novoCNTR)
         self.parentWindow.FillViagensTable()
         self.parentWindow.FillCNTRTable()
-
+        self.parentWindow.OpenBooking(self.TXB_Booking.text())
         self.Fechar()
     #endregion
 
@@ -407,9 +472,72 @@ class EditarCNTRDialog(QtWidgets.QDialog, Ui_DIALOG_EditarCNTR):
         self.TED_obs.setText(dataStream[10])
         self.CHB_Expurgo.setChecked(bool(dataStream[11]))
         self.TXB_Lacre.setText(dataStream[12])
-        self.CBX_Agendamento.setCurrentText(str(dataStream[13]))
-        self.DATE_Agendamento.setDate(self.tools.GetDate(dataStream[14]))
+        self.CBX_Agendamento.addItem('')
+        self.CBX_Agendamento.addItems(self.dataBase.Agendamentos(self.dataBase.GetPorto(self.TXB_Booking.text())))
+        self.CBX_Agendamento.setCurrentText(dataStream[13])
+        
+        if (dataStream[14] == ''):
+            self.DATE_Agendamento.setDate(self.tools.GetDate(self.dataBase.GetDeadLine(dataStream[4])))
+        else:
+            self.DATE_Agendamento.setDate(self.tools.GetDate(dataStream[14]))
     #endregion
+
+    def ValidateCNTR(self):
+
+        if (self.dataBase.GetBooking(self.TXB_Booking.text()) == None):
+            
+            ret = QMessageBox.warning(self, 
+                                        'Booking não encontrado!',
+                                        'O booking digitado não foi encontrado\nVerifique se a numeração está correta\n\nSe você acredita que isso é um erro, abra um chamado!',
+                                        QMessageBox.Ok | QMessageBox.Cancel, QMessageBox.Cancel)
+
+            if (ret == QMessageBox.Cancel):
+                return False
+        
+        if (self.dataBase.GetOferta(self.TXB_Oferta.text()) == None and not self.TXB_Oferta.text() == ''):
+            
+            ret = QMessageBox.critical(self, 
+                                        'Oferta não encontrada!',
+                                        'Não foi possível localizar a oferta digitada, você não pode prosseguir\nSe você acredita que isso é um erro, abra um chamado!',
+                                        QMessageBox.Ok, QMessageBox.Ok)
+
+            if (ret == QMessageBox.Ok):
+                return False
+
+        if (self.CBX_Status.currentText() == 'Trânsito Porto'):
+
+            if (self.CBX_Agendamento.currentText() == ''):
+                ret = QMessageBox.warning(self, 
+                                            'Agendamento em branco!',
+                                            'O agendamento não foi preenchido\nSe você acredita que isso é um erro, abra um chamado!',
+                                            QMessageBox.Ok | QMessageBox.Cancel, QMessageBox.Cancel)
+
+                if (ret == QMessageBox.Cancel):
+                    return False
+
+            if (self.TXB_Lacre.text() == ''):
+                ret = QMessageBox.warning(self, 
+                                            'Lacre em branco!',
+                                            'O lacre não foi preenchido\nSe você acredita que isso é um erro, abra um chamado!',
+                                            QMessageBox.Ok | QMessageBox.Cancel, QMessageBox.Cancel)
+                
+                if (ret == QMessageBox.Cancel):
+                    return False
+            
+            if (self.dataBase.GetViagemByCNTR(self.TXB_Unidade.text(), 'Unitização Fábrica') == None):
+                
+                ret = QMessageBox.warning(self, 
+                                            'Viagem para fábrica não encontrada',
+                                            """Não foi possível encontrar uma viagem de unitização para esse CNTR
+                                                \nVocê pode prosseguir mesmo assim, mas para garantir os relatórios corretos
+                                                \né indicado que todas as viagens estejam de acordo
+                                                \nSe você acredita que isso é um erro, abra um chamado!""",
+                                            QMessageBox.Ok | QMessageBox.Cancel, QMessageBox.Cancel)
+                
+                if (ret == QMessageBox.Cancel):
+                    return False
+        
+        return True
 
 class EditarViagemDialog(QtWidgets.QDialog, Ui_DIALOG_EditarViagem):
     def __init__(self, _parentWindow, _viagem = None, parent=None):
@@ -421,6 +549,8 @@ class EditarViagemDialog(QtWidgets.QDialog, Ui_DIALOG_EditarViagem):
         self.setupConnections()
         self.setupComboBox()
         self.viagem = _viagem
+        scriptDir = os.path.dirname(os.path.realpath(__file__))
+        self.setWindowIcon(QtGui.QIcon(scriptDir + os.path.sep + 'icon.png'))
 
         if not (_viagem == None):
             self.OpenViagem()

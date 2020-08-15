@@ -32,7 +32,7 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
         self.conn.commit()
     #endregion
 
-    #region SaveQueries    
+    #region SaveQueries
     def SaveOfertas(self, ofertas):
         
         dataStream = []
@@ -59,6 +59,15 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
                       )
 
         self.cursor.execute("INSERT OR REPLACE INTO Bookings VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", dataStream)
+        self.conn.commit()
+
+    def UpdateBookingStatus(self, booking, status):
+
+        self.cursor.execute("""
+                            UPDATE Bookings 
+                            SET status = ?
+                            WHERE booking = ?
+                            """, (str(status), str(booking)))
         self.conn.commit()
 
     def SaveCNTR(self, CNTR):
@@ -151,18 +160,6 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
         dataStream = self.cursor.fetchone()
 
         return dataStream
-    
-    def OpenViagemByCNTR(self, cntr, tipo):
-        
-        self.cursor.execute("""
-                            SELECT * FROM Viagens
-                            WHERE (cntr = ? AND tipoViagem = ?)
-                            """, (str(cntr), str(tipo)))
-        
-        dataStream = self.cursor.fetchone()
-
-        return dataStream
-
     #endregion
 
     #region DeleteQueries
@@ -181,6 +178,15 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
                             DELETE FROM CNTRs
                             WHERE cntr= ?
                             """, (str(cntr),))
+        
+        self.conn.commit()
+    
+    def DeleteViagem(self, id):
+        
+        self.cursor.execute("""
+                            DELETE FROM Viagens
+                            WHERE ID = ?
+                            """, (str(id),))
         
         self.conn.commit()
 
@@ -259,6 +265,7 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
                                 SELECT 
                                     Viagens.ID,
                                     Viagens.status,
+                                    Viagens.tipoViagem,
                                     CNTRs.booking,
                                     CNTRs.cntr,
                                     Viagens.dataInicio,
@@ -490,6 +497,80 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
         data = []
         for i in range(len(result)):
             data.append(str(result[i][0]))
+        
+        return data
+
+    def GetDeadLine(self, booking):
+
+        self.cursor.execute("""SELECT deadlinePorto 
+                               FROM Bookings
+                               WHERE booking = ?""",
+                               (str(booking),))
+        result = self.cursor.fetchone()
+
+        if (result == None):
+            return None
+
+        data = str(result[0])
+
+        return data
+    
+    def GetBooking(self, booking):
+
+        self.cursor.execute("""SELECT booking
+                               FROM Bookings
+                               WHERE booking = ?""",
+                               (str(booking),))
+        result = self.cursor.fetchone()
+
+        if (result == None):
+            return None
+
+        data = str(result[0])
+
+        return data
+
+    def GetOferta(self, oferta):
+
+        self.cursor.execute("""SELECT oferta
+                               FROM Ofertas
+                               WHERE oferta = ?""",
+                               (str(oferta),))
+        result = self.cursor.fetchone()
+
+        if (result == None):
+            return None
+
+        data = str(result[0])
+
+        return data
+
+    def GetViagemByCNTR(self, cntr, tipo):
+        
+        self.cursor.execute("""
+                            SELECT * FROM Viagens
+                            WHERE (cntr = ? AND tipoViagem = ?)
+                            """, (str(cntr), str(tipo)))
+        
+        dataStream = self.cursor.fetchone()
+
+        return dataStream
+
+    def GetCNTRs(self, booking):
+
+        self.cursor.execute("""
+                            SELECT CNTRs.status 
+                            FROM CNTRs 
+                            LEFT JOIN Ofertas ON Ofertas.oferta = CNTRS.oferta
+                            WHERE CNTRs.booking = ?""", (str(booking),))
+        
+        result = self.cursor.fetchall()
+        data = []
+        for i in range(len(result)):
+            if (result[i][0] == None):
+                data.append('')
+            else:
+                data.append(str(result[i][0]))
         
         return data
 
