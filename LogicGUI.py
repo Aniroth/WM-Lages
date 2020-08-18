@@ -15,6 +15,7 @@ from Objects import *
 
 import sys
 import os
+import pathlib
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
@@ -25,8 +26,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setupConnections()
         self.setupComboBox()
         self.DATE_DataViagem.setDate(self.tools.today)
-        scriptDir = os.path.dirname(os.path.realpath(__file__))
-        self.setWindowIcon(QtGui.QIcon(scriptDir + os.path.sep + 'icon.png'))        
+        scriptDir = str(pathlib.Path().absolute())
+        self.setWindowIcon(QtGui.QIcon(scriptDir + '\\icon.png'))
         self.FillCNTRTable()
         self.FillViagensTable()
         self.showMaximized()
@@ -274,8 +275,8 @@ class BuscarBookingDialog(QtWidgets.QDialog, Ui_DIALOG_BuscaPedido):
         self.setupConnections()
         self.dataBase = DataBaseConnection()
         self.FillTable()
-        scriptDir = os.path.dirname(os.path.realpath(__file__))
-        self.setWindowIcon(QtGui.QIcon(scriptDir + os.path.sep + 'icon.png'))
+        scriptDir = str(pathlib.Path().absolute())
+        self.setWindowIcon(QtGui.QIcon(scriptDir + '\\icon.png'))
     
     def setupConnections(self):
         self.TBN_Filtrar.clicked.connect(self.FillTable)
@@ -317,8 +318,8 @@ class EditarBookingDialog(QtWidgets.QDialog, Ui_DIALOG_NovoBooking):
         self.setupUi(self)
         self.setupConnections()
         self.setupComboBox()
-        scriptDir = os.path.dirname(os.path.realpath(__file__))
-        self.setWindowIcon(QtGui.QIcon(scriptDir + os.path.sep + 'icon.png'))
+        scriptDir = str(pathlib.Path().absolute())
+        self.setWindowIcon(QtGui.QIcon(scriptDir + '\\icon.png'))
 
     def setupConnections(self):        
         self.PBT_Gravar.clicked.connect(self.SaveBooking)
@@ -360,8 +361,8 @@ class EditarCNTRDialog(QtWidgets.QDialog, Ui_DIALOG_EditarCNTR):
         self.setupUi(self)
         self.setupConnections()
         self.setupComboBox()
-        scriptDir = os.path.dirname(os.path.realpath(__file__))
-        self.setWindowIcon(QtGui.QIcon(scriptDir + os.path.sep + 'icon.png'))
+        scriptDir = str(pathlib.Path().absolute())
+        self.setWindowIcon(QtGui.QIcon(scriptDir + '\\icon.png'))
 
         if (_cntr == None):
             self.DATE_Coleta.setDate(self.tools.today)
@@ -563,8 +564,8 @@ class EditarViagemDialog(QtWidgets.QDialog, Ui_DIALOG_EditarViagem):
         self.setupConnections()
         self.setupComboBox()
         self.viagem = _viagem
-        scriptDir = os.path.dirname(os.path.realpath(__file__))
-        self.setWindowIcon(QtGui.QIcon(scriptDir + os.path.sep + 'icon.png'))
+        scriptDir = str(pathlib.Path().absolute())
+        self.setWindowIcon(QtGui.QIcon(scriptDir + '\\icon.png'))
 
         if not (_viagem == None):
             self.OpenViagem()
