@@ -106,8 +106,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     #region DeleteCalls
     def DeleteBooking(self):
-        self.dataBase.DeleteBooking(self.TXB_Pedido.text())
-        self.NovoBooking()
+        self.dataBase.DeleteBooking(self.TXB_Booking.text())
+        self.OpenBooking('')
     
     def DeleteCNTR(self):
         index = self.TABLE_Estoque.selectionModel().currentIndex()
