@@ -25,11 +25,13 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setupConnections()
         self.setupComboBox()
         self.DATE_DataViagem.setDate(self.tools.today)
-        self.OpenBooking('')
+        scriptDir = os.path.dirname(os.path.realpath(__file__))
+        self.setWindowIcon(QtGui.QIcon(scriptDir + os.path.sep + 'icon.png'))        
         self.FillCNTRTable()
         self.FillViagensTable()
-        scriptDir = os.path.dirname(os.path.realpath(__file__))
-        self.setWindowIcon(QtGui.QIcon(scriptDir + os.path.sep + 'icon.png'))
+        if (self.OpenBooking('') == True):
+            self.ShowNovoBooking()
+
 
     def setupConnections(self):
         self.PBT_Salvar.clicked.connect(self.SaveBooking)
@@ -93,6 +95,17 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.UpdateBooking(booking)
         
         datastream = self.dataBase.OpenBooking(str(booking))
+
+        if (datastream == None):
+            
+            ret = QMessageBox.warning(self, 
+                                        'Nenhum booking no banco de dados!',
+                                        'Você deve clicar em "Novo Booking" para cadastrar.',
+                                        QMessageBox.Ok, QMessageBox.Ok)
+
+            if (ret == QMessageBox.Ok):
+                return 
+
         self.TXB_Booking.setText(datastream[1])
         self.CBX_Status.setCurrentText(datastream[2])
         self.CHB_Cabotagem.setChecked(bool(datastream[3]))
