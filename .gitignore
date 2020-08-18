@@ -5,6 +5,7 @@ GUI/EditarBooking/__pycache__
 GUI/EditarCNTR/__pycache__
 GUI/EditarViagem/__pycache__
 GUI/MainWindow/__pycache__
+pyinstallerCommand.txt
 *.spec
 build
 dist
