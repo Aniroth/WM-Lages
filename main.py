@@ -13,5 +13,5 @@ def launch():
     app = QApplication(sys.argv)
     app.setStyle(QStyleFactory.create('fusion'))
     form = MainWindow()
-    form.showMaximized()
+    #form.showMaximized()
     app.exec_()

@@ -29,6 +29,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setWindowIcon(QtGui.QIcon(scriptDir + os.path.sep + 'icon.png'))        
         self.FillCNTRTable()
         self.FillViagensTable()
+        self.showMaximized()
         if (self.OpenBooking('') == True):
             self.ShowNovoBooking()
 
