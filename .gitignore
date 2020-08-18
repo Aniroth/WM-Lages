@@ -1,5 +1,10 @@
 __pycache__
 GUI/__pycache__
+GUI/BuscarPedido/__pycache__
+GUI/EditarBooking/__pycache__
+GUI/EditarCNTR/__pycache__
+GUI/EditarViagem/__pycache__
+GUI/MainWindow/__pycache__
 *.spec
 build
 dist
