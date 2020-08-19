@@ -249,7 +249,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         for status in cntrs:
 
-            if (status == ''):
+            if (status == '' or 'Vázio'):
                 isAberto = True
             elif (status == 'Trânsito Fábrica' or status == 'Unitizado'):
                 isUnitizando = True
@@ -257,8 +257,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                 isEnvioPorto = True
             elif (status == 'Finalizado'):
                 finalizadoCount += 1
-        
-        if (finalizadoCount == len(cntrs)):
+
+        if (finalizadoCount == len(self.dataBase.getofe)):
             self.dataBase.UpdateBookingStatus(booking, 'Finalizado')
         elif (isEnvioPorto):
             self.dataBase.UpdateBookingStatus(booking, 'Envio Porto')

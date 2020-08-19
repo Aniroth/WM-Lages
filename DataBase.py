@@ -63,6 +63,9 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
 
     def UpdateBookingStatus(self, booking, status):
 
+        print(booking)
+        print(status)
+
         self.cursor.execute("""
                             UPDATE Bookings 
                             SET status = ?
