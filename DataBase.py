@@ -437,7 +437,11 @@ class DataBaseConnection(metaclass=DataBaseConnectionMeta):
             self.cursor.execute("SELECT motorista FROM _BancoConjunto WHERE CPF = ?",
                                 (str(cpf),))
             result = self.cursor.fetchone()
-            return result[0]
+
+            if (result == None):
+                return None
+            else:
+                return result[0]
     
     def GetCavalo(self, cpf = ''):
         

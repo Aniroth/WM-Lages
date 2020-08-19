@@ -1,6 +1,6 @@
 """PyQT imports"""
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QApplication, QTableWidgetItem, QMessageBox
+from PyQt5.QtWidgets import QApplication, QTableWidgetItem, QMessageBox, QCompleter
 
 """GUI Draw imports"""
 from GUI.MainWindow.DrawMainWindow import Ui_MainWindow
@@ -597,12 +597,29 @@ class EditarViagemDialog(QtWidgets.QDialog, Ui_DIALOG_EditarViagem):
         self.CBX_Destino.addItems(self.dataBase.GetPortos())
         self.CBX_StatusViagem.addItems(self.dataBase.GetStatusViagem())
         self.CBX_TipoViagem.addItems(self.dataBase.GetTipoViagem())
+        model = QtCore.QStringListModel(self.dataBase.GetCPFs())
+        completer = QCompleter()
+        completer.setModel(model)
+        self.TXB_CPF.setCompleter(completer)
     
     def Fechar(self):
         self.hide()
 
     def AutoFillConjunto(self):
         cpf = self.TXB_CPF.text()
+
+        if (self.dataBase.GetMotorista(cpf) == None):
+            
+            ret = QMessageBox.warning(self, 
+                                        'CPF Inválido',
+                                        'O CPF digitado não foi enconrado\n\nPara cadastrar motoristas, edite o arquivo excel Banco Manual',
+                                        QMessageBox.Ok, QMessageBox.Ok)
+
+            if (ret == QMessageBox.Ok):
+                return
+            else:
+                return
+
         self.CBX_Motorista.setCurrentText(self.dataBase.GetMotorista(cpf))
         self.CBX_Cavalo.setCurrentText(self.dataBase.GetCavalo(cpf))
         self.CBX_Carreta.setCurrentText(self.dataBase.GetCarreta(cpf))
@@ -624,6 +641,16 @@ class EditarViagemDialog(QtWidgets.QDialog, Ui_DIALOG_EditarViagem):
                             self.CBX_Carreta_2.currentText(),
                             self.viagem)
         
+        if (self.dataBase.GetMotorista(cpf) == None):
+            
+            ret = QMessageBox.warning(self, 
+                                        'Motorista não cadastrado',
+                                        'O motorista atual não está cadastrado\n\nVocê pode prosseguir mesmo assim, mas é recomendado o cadastro no arquivo Excel Banco Manual',
+                                        QMessageBox.Ok | QMessageBox.Cancel, QMessageBox.Cancel)
+
+            if (ret == QMessageBox.Cancel):
+                return
+
         self.dataBase.SaveViagem(NovaViagem)
         self.parentWindow.FillViagensTable()
         self.parentWindow.FillCNTRTable()
